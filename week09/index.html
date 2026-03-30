@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Week 9: Human-System Dialog & Key UX Laws</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────── */
+    :root { --red: #CC0000; --dark: #0F0F0F; --mid: #555; --lt: #F5F5F5; }
+
+    body { background: #111; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+    .reveal { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides > section {
+      padding: 0; height: 100%; width: 100%;
+      box-sizing: border-box; overflow: hidden;
+    }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal p,
+    .reveal ul, .reveal ol { margin: 0; text-transform: none; }
+
+    /* ── Shared Layout Pieces ─────────────────────────────── */
+    .slide-inner {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      box-sizing: border-box; overflow: hidden;
+      background: #fff;
+    }
+    .slide-inner.dark { background: var(--dark); }
+
+    .header {
+      padding: 28px 56px 0;
+      flex-shrink: 0;
+    }
+    .eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      color: #aaa; text-transform: uppercase; margin-bottom: 6px;
+    }
+    .slide-title-text {
+      font-size: 30px; font-weight: 800; color: #1a1a1a; line-height: 1.15; margin-bottom: 20px;
+    }
+    .rule {
+      height: 2px; width: 36px;
+      background: var(--red); margin-top: 10px;
+    }
+
+    /* ── Title Slide ──────────────────────────────────────── */
+    .title-slide {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 56px 72px;
+    }
+    .title-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      color: var(--red); text-transform: uppercase; margin-bottom: 22px;
+    }
+    .title-h1 {
+      font-size: 68px; font-weight: 900; color: #fff;
+      line-height: 1.0; margin-bottom: 28px;
+    }
+    .title-sub { font-size: 18px; color: #555; font-weight: 300; }
+
+    /* ── Divider Slide ────────────────────────────────────── */
+    .divider-slide {
+      flex: 1; display: flex; align-items: center; padding: 0 72px;
+    }
+    .divider-rule { height: 3px; width: 56px; background: var(--red); margin-bottom: 22px; }
+    .divider-h { font-size: 56px; font-weight: 900; color: #fff; line-height: 1.1; }
+
+    /* ── Three-Row Slide ──────────────────────────────────── */
+    .three-rows {
+      flex: 1; display: flex; flex-direction: column;
+      padding: 16px 56px 28px; min-height: 0;
+    }
+    .row {
+      flex: 1; display: flex; gap: 32px;
+      padding: 14px 0;
+      border-top: 1px solid #e8e8e8;
+    }
+    .row:first-child { border-top: none; }
+    .row-label {
+      width: 160px; flex-shrink: 0; padding-top: 2px;
+      font-size: 15px; font-weight: 700; color: var(--red); line-height: 1.3;
+    }
+    .row-body {
+      flex: 1; font-size: 15px; color: var(--mid); line-height: 1.75;
+    }
+
+    /* ── Four-Col Slide ───────────────────────────────────── */
+    .four-cols {
+      flex: 1; display: flex;
+      padding: 16px 56px 28px; gap: 14px; min-height: 0;
+    }
+    .col-card {
+      flex: 1; background: var(--lt); border-radius: 8px;
+      padding: 18px 16px; border-top: 3px solid var(--red);
+    }
+    .col-heading {
+      font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 10px;
+    }
+    .col-body { font-size: 13.5px; color: var(--mid); line-height: 1.7; }
+
+    /* ── Text + Image Slide ───────────────────────────────── */
+    .text-image {
+      flex: 1; display: flex; min-height: 0;
+    }
+    .ti-left {
+      width: 44%; display: flex; flex-direction: column;
+      padding: 32px 26px 28px 56px; justify-content: center;
+    }
+    .ti-eyebrow {
+      font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+      color: #aaa; text-transform: uppercase; margin-bottom: 8px;
+    }
+    .ti-title {
+      font-size: 26px; font-weight: 800; color: #1a1a1a;
+      line-height: 1.2; margin-bottom: 16px;
+    }
+    .ti-subtitle {
+      font-size: 12px; font-weight: 600; color: var(--red);
+      letter-spacing: 0.04em; margin-bottom: 16px;
+    }
+    .ti-rule { height: 2px; width: 28px; background: var(--red); margin-bottom: 14px; }
+    .ti-body { font-size: 14px; color: var(--mid); line-height: 1.75; }
+    .ti-body p + p { margin-top: 12px; }
+    .ti-right {
+      flex: 1; margin: 18px 18px 18px 0; border-radius: 8px;
+      overflow: hidden; background: var(--lt);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px;
+    }
+    .ti-right img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .ti-placeholder { font-size: 12px; color: #bbb; text-align: center; padding: 0 24px; line-height: 1.5; }
+
+    /* ── Interactive Badge ────────────────────────────────── */
+    .interactive-badge {
+      display: inline-block; font-size: 9px; font-weight: 700;
+      color: var(--red); background: rgba(204,0,0,0.1);
+      padding: 3px 9px; border-radius: 20px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* ── Interactive Demo Shared ──────────────────────────── */
+    .demo-wrap {
+      flex: 1; display: flex; padding: 14px 56px 28px;
+      gap: 32px; min-height: 0;
+    }
+    .demo-left {
+      width: 38%; display: flex; flex-direction: column;
+      gap: 14px; justify-content: center;
+    }
+    .demo-right {
+      flex: 1; background: var(--lt); border-radius: 10px;
+      padding: 20px 22px; display: flex; flex-direction: column;
+    }
+    .demo-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #1a1a1a; margin-bottom: 14px;
+    }
+    .callout {
+      border-left: 3px solid var(--red); padding-left: 12px;
+    }
+    .callout-title { font-size: 11px; font-weight: 700; color: var(--red); margin-bottom: 3px; }
+    .callout-body  { font-size: 13px; color: var(--mid); line-height: 1.62; }
+
+    /* ── Hick's Demo ──────────────────────────────────────── */
+    #hicks-slider-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    #hicks-slider-row label { font-size: 13px; color: var(--mid); flex-shrink: 0; }
+    #hicks-slider { flex: 1; accent-color: var(--red); cursor: pointer; }
+    #hicks-n { font-size: 22px; font-weight: 900; color: #1a1a1a; width: 30px; text-align: right; }
+    #hicks-options {
+      flex: 1; display: flex; flex-wrap: wrap; gap: 6px;
+      align-content: flex-start; overflow: hidden; margin-bottom: 14px;
+    }
+    .hicks-opt {
+      padding: 5px 10px; background: #fff; border: 1px solid #ddd;
+      border-radius: 5px; font-size: 11px; color: var(--mid);
+    }
+    #hicks-result {
+      background: #fff; border-radius: 8px; padding: 12px 16px;
+      border-left: 4px solid var(--red);
+    }
+    #hicks-result .res-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 4px; }
+    #hicks-ms { font-size: 38px; font-weight: 900; color: var(--red); line-height: 1; }
+    #hicks-unit { font-size: 14px; color: #aaa; margin-left: 4px; }
+    #hicks-bar-track { height: 4px; background: #eee; border-radius: 2px; margin: 8px 0 4px; overflow: hidden; }
+    #hicks-bar { height: 100%; background: var(--red); border-radius: 2px; transition: width 0.3s; }
+    #hicks-formula { font-size: 9px; color: #bbb; }
+
+    /* ── Fitts Demo ───────────────────────────────────────── */
+    #fitts-arena {
+      flex: 1; background: var(--lt); border-radius: 10px;
+      position: relative; cursor: crosshair; min-height: 0;
+    }
+    #fitts-hint {
+      position: absolute; bottom: 10px; left: 0; right: 0;
+      text-align: center; font-size: 10px; color: #bbb; pointer-events: none;
+    }
+    #fitts-target {
+      position: absolute; border-radius: 50%;
+      background: var(--red); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 10px; font-weight: 700;
+      box-shadow: 0 2px 14px rgba(204,0,0,0.35);
+      transition: none;
+    }
+    #fitts-results { width: 180px; display: flex; flex-direction: column; gap: 8px; }
+    #fitts-results h4 { font-size: 11px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.06em; }
+    #fitts-empty { font-size: 12px; color: #aaa; line-height: 1.6; }
+    .fitts-result-item {
+      background: var(--lt); border-radius: 6px; padding: 7px 10px;
+    }
+    .fitts-result-item .r-label { font-size: 9.5px; color: #999; }
+    .fitts-result-item .r-ms { font-size: 18px; font-weight: 800; color: #1a1a1a; }
+    .fitts-result-item .r-ms span { font-size: 10px; color: #aaa; font-weight: 400; }
+    #fitts-insight {
+      margin-top: auto; background: #0F0F0F; border-radius: 6px;
+      padding: 10px 12px; color: #fff; font-size: 11px; line-height: 1.55; display: none;
+    }
+    #fitts-insight strong { color: var(--red); }
+
+    /* ── Doherty Demo ─────────────────────────────────────── */
+    #doherty-btns { display: flex; gap: 10px; margin-top: 6px; }
+    .doherty-btn {
+      flex: 1; padding: 12px 10px; border: none; border-radius: 7px;
+      font-family: inherit; font-size: 12px; font-weight: 700;
+      cursor: pointer; line-height: 1.3; color: #fff;
+    }
+    .doherty-btn.fast { background: var(--red); }
+    .doherty-btn.slow { background: #444; }
+    .doherty-btn:disabled { background: #bbb; cursor: not-allowed; }
+    #doherty-panel {
+      flex: 1; border-radius: 12px; background: var(--lt);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      cursor: default; transition: background 0.12s;
+      border: 3px solid transparent;
+    }
+    #doherty-panel.ready { background: var(--red); border-color: var(--red); cursor: pointer; }
+    #doherty-panel-text { text-align: center; }
+    #doherty-waiting-dots { font-size: 30px; letter-spacing: 6px; color: #aaa; }
+    #doherty-now { font-size: 56px; font-weight: 900; color: #fff; line-height: 1; }
+    #doherty-result-ms { font-size: 56px; font-weight: 900; line-height: 1; }
+    #doherty-result-verdict { font-size: 14px; font-weight: 700; margin-top: 10px; }
+    #doherty-retry { font-size: 10px; color: #bbb; margin-top: 8px; }
+
+    /* ── Progressive Disclosure Demo ─────────────────────── */
+    .pd-wrap {
+      flex: 1; display: flex; gap: 28px; padding: 14px 48px 24px; min-height: 0;
+    }
+    .pd-left {
+      width: 28%; display: flex; flex-direction: column; justify-content: center; gap: 14px; flex-shrink: 0;
+    }
+    .pd-insight-label {
+      font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #aaa;
+    }
+    .pd-insight-text {
+      font-size: 13.5px; color: var(--mid); line-height: 1.75; transition: opacity .3s;
+    }
+    .pd-level-track { display: flex; gap: 5px; margin-top: 4px; }
+    .pd-level-pip {
+      height: 4px; flex: 1; border-radius: 2px; background: #e0e0e0; transition: background .35s;
+    }
+    .pd-level-pip.active { background: var(--red); }
+    .pd-level-label { font-size: 12px; font-weight: 800; color: #1a1a1a; margin-top: 5px; }
+    .pd-level-count { font-size: 11px; color: #aaa; margin-top: 1px; }
+    .pd-right { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .pd-settings {
+      flex: 1; background: #fff; border-radius: 12px; border: 1px solid #eee;
+      display: flex; flex-direction: column; overflow: hidden; min-height: 0;
+    }
+    .pd-settings-head {
+      padding: 13px 20px; border-bottom: 1px solid #eee;
+      font-size: 13px; font-weight: 700; color: #1a1a1a; flex-shrink: 0;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .pd-settings-body { flex: 1; overflow-y: auto; }
+    .pd-section-label {
+      font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+      color: #bbb; padding: 12px 20px 4px;
+    }
+    .pd-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 9px 20px; border-bottom: 1px solid #f5f5f5;
+    }
+    .pd-item:last-child { border-bottom: none; }
+    .pd-item-icon { font-size: 15px; width: 22px; text-align: center; flex-shrink: 0; }
+    .pd-item-name { font-size: 12px; font-weight: 600; color: #1a1a1a; flex: 1; }
+    .pd-item-detail { font-size: 11px; color: #aaa; }
+    .pd-item-arrow { font-size: 10px; color: #ccc; margin-left: 6px; }
+    .pd-item.danger .pd-item-name { color: var(--red); }
+    .pd-group {
+      max-height: 0; overflow: hidden;
+      transition: max-height .45s cubic-bezier(.4,0,.2,1);
+    }
+    .pd-group.visible { max-height: 400px; }
+    .pd-settings-foot {
+      padding: 10px 16px; border-top: 1px solid #eee; flex-shrink: 0;
+      display: flex; gap: 8px; background: #fafafa;
+    }
+    .pd-btn {
+      padding: 8px 16px; border-radius: 7px; font-size: 11px; font-weight: 700;
+      cursor: pointer; border: none; font-family: inherit; transition: opacity .2s;
+    }
+    .pd-btn.primary { background: #1a1a1a; color: #fff; }
+    .pd-btn.secondary { background: #eee; color: var(--mid); }
+    .pd-btn:disabled { opacity: 0.3; cursor: default; }
+
+    /* ── Dialog Design Principles Demo ───────────────────── */
+    .ddp-wrap {
+      flex: 1; display: flex; gap: 16px; padding: 14px 48px 24px; min-height: 0;
+    }
+    .ddp-panel {
+      flex: 1; display: flex; flex-direction: column;
+      background: var(--lt); border-radius: 10px; padding: 16px; gap: 10px; min-height: 0;
+    }
+    .ddp-panel-header {
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .ddp-label {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #1a1a1a;
+    }
+    .ddp-toggle-row { display: flex; align-items: center; gap: 6px; }
+    .ddp-bad, .ddp-good { font-size: 9px; font-weight: 700; color: #bbb; text-transform: uppercase; letter-spacing: 0.06em; }
+    .ddp-good { color: var(--red); opacity: 0.4; }
+    .ddp-toggle[data-state="good"] ~ .ddp-good,
+    .ddp-toggle-row:has([data-state="good"]) .ddp-good { opacity: 1; }
+    .ddp-toggle {
+      width: 38px; height: 20px; border-radius: 10px; background: #ddd;
+      border: none; cursor: pointer; position: relative; transition: background 0.25s; padding: 0;
+      flex-shrink: 0;
+    }
+    .ddp-toggle[data-state="good"] { background: var(--red); }
+    .ddp-toggle-knob {
+      width: 16px; height: 16px; border-radius: 50%; background: #fff;
+      position: absolute; top: 2px; left: 2px;
+      transition: left 0.25s; box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .ddp-toggle[data-state="good"] .ddp-toggle-knob { left: 20px; }
+    .ddp-demo-area {
+      flex: 1; background: #fff; border-radius: 8px; padding: 14px;
+      overflow: hidden; display: flex; flex-direction: column;
+      gap: 8px; min-height: 0; border: 1px solid #eee;
+    }
+    .ddp-note {
+      font-size: 11px; color: var(--mid); text-align: center;
+      font-style: italic; flex-shrink: 0; min-height: 14px;
+    }
+    .ddp-sg-header {
+      font-size: 11px; padding: 7px 10px; background: var(--lt);
+      border-radius: 6px; cursor: pointer; font-weight: 600; color: #1a1a1a;
+      border: 1px solid #e8e8e8; user-select: none;
+    }
+    .ddp-sg-header:hover { background: #e8e8e8; }
+    .ddp-sg-items { display: none; flex-direction: column; gap: 3px; padding: 4px 10px; }
+    .ddp-sg-items.open { display: flex; }
+    .ddp-sg-items div { font-size: 10.5px; color: var(--mid); padding: 3px 6px; border-radius: 4px; background: #f9f9f9; }
+
+    /* ── Reveal.js overrides ──────────────────────────────── */
+    .reveal .progress { background: rgba(255,255,255,0.08); }
+    .reveal .progress span { background: var(--red); }
+    .reveal .controls { color: var(--red); }
+    .reveal .slide-number { background: rgba(0,0,0,0.4); color: #888; font-size: 11px; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- 1. TITLE ─────────────────────────────────────────── -->
+    <section>
+      <div class="slide-inner dark">
+        <div class="title-slide">
+          <p class="title-eyebrow">IXD 620 / 320 · Week 9</p>
+          <h1 class="title-h1">Human<br>System Dialog</h1>
+          <p class="title-sub">Human-System Dialog &amp; Key UX Laws</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. INTRODUCTION ──────────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="text-image">
+          <div class="ti-left">
+            <h2 class="ti-title">Introduction</h2>
+            <div class="ti-body">
+              <p>Human-system dialog refers to the full range of interactions between a person and a digital system. Every tap, swipe, voice command, and visual response is part of an ongoing conversation.</p>
+              <p>This week: how dialog is structured, what makes it effective, and the UX laws that shape how users perceive and respond to system behavior.</p>
+            </div>
+          </div>
+          <div class="ti-right">
+            <img src="https://images.unsplash.com/photo-1618788372246-79faff0c3742?w=1280&q=85&auto=format&fit=crop&crop=top" alt="Designer working on wireframes, human-system dialog in practice" style="object-position: center top;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. METHODS OF DIALOGUE ───────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Methods of Dialogue</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">Input Methods</div>
+            <div class="row-body">How users communicate with systems: keyboard, touch, voice, gesture, sensor input. Each mode carries different affordances and constraints for the designer.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Output Methods</div>
+            <div class="row-body">How systems respond: screen visuals, audio feedback, haptic response, ambient displays. Output closes the feedback loop and completes the dialog.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Design Goal</div>
+            <div class="row-body">Minimize friction between intent and action. The best dialog feels like natural conversation, not a command-line exchange.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 4 DESIGN PRINCIPLES ───────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">4 Design Principles</h2>
+        </div>
+        <div class="four-cols">
+          <div class="col-card">
+            <div class="col-heading">Clarity</div>
+            <div class="col-body">Plain language, no jargon, clear visual hierarchy. Every label and instruction should be immediately understandable without effort.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">User Agency</div>
+            <div class="col-body">Give users control. Let them navigate freely, undo actions, adjust settings. Users who feel in control are more confident and less frustrated.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">Consistency</div>
+            <div class="col-body">Predictable patterns throughout the system. When the interface behaves consistently, users build accurate mental models faster.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">Accessibility</div>
+            <div class="col-body">Design for diverse abilities. Consider contrast, font size, touch targets, and screen readers. Good accessibility helps everyone.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DIALOG DESIGN PRINCIPLES ─────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Dialog Design Principles</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">Feedback</div>
+            <div class="row-body">Every action should have a visible response. Users need to know the system heard them: immediately, clearly, and without ambiguity.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Decision Making</div>
+            <div class="row-body">Reduce cognitive load by presenting information progressively. Support decisions rather than overwhelming users with all options at once.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Learnability</div>
+            <div class="row-body">Design so first-time users can succeed without documentation. Patterns and conventions should feel familiar even to new users.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. DEMO DIVIDER ──────────────────────────────────── -->
+    <section>
+      <div class="slide-inner dark">
+        <div class="divider-slide">
+          <div>
+            <div class="divider-rule"></div>
+            <p class="divider-h">Demo</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. DIALOG DESIGN: INTERACTIVE ─────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Dialog Design Principles</h2>
+          <span class="interactive-badge">Interactive</span>
+        </div>
+        <div class="ddp-wrap">
+
+          <!-- FEEDBACK -->
+          <div class="ddp-panel" id="ddp-feedback">
+            <div class="ddp-panel-header">
+              <span class="ddp-label">Feedback</span>
+              <div class="ddp-toggle-row">
+                <span class="ddp-bad">Bad</span>
+                <button class="ddp-toggle" id="ddp-toggle-feedback" data-state="bad" onclick="ddpToggle('feedback')"><span class="ddp-toggle-knob"></span></button>
+                <span class="ddp-good">Good</span>
+              </div>
+            </div>
+            <div class="ddp-demo-area" id="ddp-feedback-demo"></div>
+            <div class="ddp-note" id="ddp-feedback-note"></div>
+          </div>
+
+          <!-- DECISION MAKING -->
+          <div class="ddp-panel" id="ddp-decision">
+            <div class="ddp-panel-header">
+              <span class="ddp-label">Decision Making</span>
+              <div class="ddp-toggle-row">
+                <span class="ddp-bad">Bad</span>
+                <button class="ddp-toggle" id="ddp-toggle-decision" data-state="bad" onclick="ddpToggle('decision')"><span class="ddp-toggle-knob"></span></button>
+                <span class="ddp-good">Good</span>
+              </div>
+            </div>
+            <div class="ddp-demo-area" id="ddp-decision-demo"></div>
+            <div class="ddp-note" id="ddp-decision-note"></div>
+          </div>
+
+          <!-- LEARNABILITY -->
+          <div class="ddp-panel" id="ddp-learn">
+            <div class="ddp-panel-header">
+              <span class="ddp-label">Learnability</span>
+              <div class="ddp-toggle-row">
+                <span class="ddp-bad">Bad</span>
+                <button class="ddp-toggle" id="ddp-toggle-learn" data-state="bad" onclick="ddpToggle('learn')"><span class="ddp-toggle-knob"></span></button>
+                <span class="ddp-good">Good</span>
+              </div>
+            </div>
+            <div class="ddp-demo-area" id="ddp-learn-demo"></div>
+            <div class="ddp-note" id="ddp-learn-note"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. HICK'S LAW: INTERACTIVE ─────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Hick's Law</h2>
+          <span class="interactive-badge">Interactive</span>
+        </div>
+        <div class="demo-wrap">
+          <div class="demo-left">
+            <div class="callout">
+              <div class="callout-title">The Law</div>
+              <div class="callout-body">Decision time grows logarithmically with the number of choices. More options → slower decisions, but not linearly.</div>
+            </div>
+            <div class="callout">
+              <div class="callout-title">Formula</div>
+              <div class="callout-body">RT = b × log₂(n + 1). As choices double, time grows predictably. Use this to design smarter navigation.</div>
+            </div>
+            <div class="callout">
+              <div class="callout-title">Design Rule</div>
+              <div class="callout-body">Limit visible options. Chunk navigation. Progressive disclosure is Hick's Law applied.</div>
+            </div>
+          </div>
+          <div class="demo-right">
+            <div class="demo-label">Interactive Demo: drag the slider</div>
+            <div id="hicks-slider-row">
+              <label for="hicks-slider">Choices:</label>
+              <input id="hicks-slider" type="range" min="1" max="16" value="4">
+              <span id="hicks-n">4</span>
+            </div>
+            <div id="hicks-options"></div>
+            <div id="hicks-result">
+              <div class="res-label">Estimated Decision Time</div>
+              <div>
+                <span id="hicks-ms">295</span><span id="hicks-unit">ms</span>
+              </div>
+              <div id="hicks-bar-track"><div id="hicks-bar" style="width:42%"></div></div>
+              <div id="hicks-formula">RT = 150 × log₂(4 + 1)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. PARADOX OF CHOICE ────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Paradox of Choice</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">The Problem</div>
+            <div class="row-body">More choices don't always lead to better outcomes. An abundance of options causes decision paralysis and post-decision regret, even when users get what they wanted.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">The Research</div>
+            <div class="row-body">Iyengar &amp; Lepper's jam study: 24 choices drew attention but 6 choices drove 10× more purchases. Fewer options, better conversion.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">The Fix</div>
+            <div class="row-body">Curate, don't dump. Help users narrow choices progressively. Use defaults, recommendations, and filtering to reduce the decision burden.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. PARADOX CHART ────────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="text-image">
+          <div class="ti-left">
+            <h2 class="ti-title">Paradox of Choice</h2>
+            <p class="ti-subtitle">The data</p>
+            <div class="ti-body">
+              <p>When users face too many options, satisfaction goes down even when they select what they wanted. The act of choosing itself becomes stressful.</p>
+              <p>Decision time and regret both increase with option count. The data is consistent..</p>
+            </div>
+          </div>
+          <div class="ti-right">
+            <img src="images/paradox-chart.png" alt="Chart: Decision time vs number of choices">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. PROGRESSIVE DISCLOSURE ──────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Progressive Disclosure</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">The Principle</div>
+            <div class="row-body">Show only what the user needs for the current task. Reveal complexity progressively, on demand. Don't front-load everything into the first screen.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Why It Works</div>
+            <div class="row-body">Reduces cognitive load at the point of entry. Keeps the primary path clean. Advanced users can dig deeper; novices aren't overwhelmed.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Where to Apply</div>
+            <div class="row-body">Settings screens, form design, navigation menus, feature discovery. Any interface where a subset of functionality covers most use cases.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. PROGRESSIVE DISCLOSURE: INTERACTIVE ────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Progressive Disclosure</h2>
+          <span class="interactive-badge">Interactive</span>
+        </div>
+        <div class="pd-wrap">
+
+          <!-- LEFT: insight panel -->
+          <div class="pd-left">
+            <div>
+              <div class="pd-insight-label">Disclosure Level</div>
+              <div class="pd-level-track">
+                <div class="pd-level-pip active" id="pd-pip-0"></div>
+                <div class="pd-level-pip" id="pd-pip-1"></div>
+                <div class="pd-level-pip" id="pd-pip-2"></div>
+              </div>
+              <div class="pd-level-label" id="pd-level-label">Basic</div>
+              <div class="pd-level-count" id="pd-level-count">Showing 4 of 12 settings</div>
+            </div>
+            <div>
+              <div class="pd-insight-label" style="margin-bottom:6px;">What's happening</div>
+              <div class="pd-insight-text" id="pd-insight-text">Show only what users need right now. The primary path stays clean, with no overwhelm at the point of entry.</div>
+            </div>
+          </div>
+
+          <!-- RIGHT: settings panel -->
+          <div class="pd-right">
+            <div class="pd-settings">
+              <div class="pd-settings-head">⚙️ &nbsp;App Settings</div>
+              <div class="pd-settings-body">
+
+                <!-- BASIC (always visible) -->
+                <div class="pd-section-label">Account</div>
+                <div class="pd-item">
+                  <div class="pd-item-icon">👤</div>
+                  <div class="pd-item-name">Profile Name</div>
+                  <div class="pd-item-detail">Fred McHale</div>
+                  <div class="pd-item-arrow">›</div>
+                </div>
+                <div class="pd-item">
+                  <div class="pd-item-icon">✉️</div>
+                  <div class="pd-item-name">Email Address</div>
+                  <div class="pd-item-detail">fredmchale@gmail.com</div>
+                  <div class="pd-item-arrow">›</div>
+                </div>
+                <div class="pd-section-label">Preferences</div>
+                <div class="pd-item">
+                  <div class="pd-item-icon">🔔</div>
+                  <div class="pd-item-name">Notifications</div>
+                  <div class="pd-item-detail">On</div>
+                  <div class="pd-item-arrow">›</div>
+                </div>
+                <div class="pd-item">
+                  <div class="pd-item-icon">🎨</div>
+                  <div class="pd-item-name">Theme</div>
+                  <div class="pd-item-detail">Light</div>
+                  <div class="pd-item-arrow">›</div>
+                </div>
+
+                <!-- ADVANCED (revealed at level 1) -->
+                <div class="pd-group" id="pd-group-advanced">
+                  <div class="pd-section-label">Security</div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">🔐</div>
+                    <div class="pd-item-name">Two-Factor Auth</div>
+                    <div class="pd-item-detail">Off</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">🔑</div>
+                    <div class="pd-item-name">Active Sessions</div>
+                    <div class="pd-item-detail">2 devices</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-section-label">Localization</div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">🌐</div>
+                    <div class="pd-item-name">Language</div>
+                    <div class="pd-item-detail">English (US)</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">🕐</div>
+                    <div class="pd-item-name">Time Zone</div>
+                    <div class="pd-item-detail">PST −8</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                </div>
+
+                <!-- ALL (revealed at level 2) -->
+                <div class="pd-group" id="pd-group-all">
+                  <div class="pd-section-label">Developer</div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">⚙️</div>
+                    <div class="pd-item-name">API Access</div>
+                    <div class="pd-item-detail">Disabled</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-item">
+                    <div class="pd-item-icon">📦</div>
+                    <div class="pd-item-name">Export Data</div>
+                    <div class="pd-item-detail">Download archive</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-section-label">Danger Zone</div>
+                  <div class="pd-item danger">
+                    <div class="pd-item-icon">🧪</div>
+                    <div class="pd-item-name">Beta Features</div>
+                    <div class="pd-item-detail">Off</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                  <div class="pd-item danger">
+                    <div class="pd-item-icon">🗑️</div>
+                    <div class="pd-item-name">Delete Account</div>
+                    <div class="pd-item-detail">Permanent</div>
+                    <div class="pd-item-arrow">›</div>
+                  </div>
+                </div>
+
+              </div><!-- /body -->
+              <div class="pd-settings-foot">
+                <button class="pd-btn secondary" id="pd-btn-less" onclick="pdLess()" disabled>Basic</button>
+                <button class="pd-btn primary" id="pd-btn-more" onclick="pdMore()">Show advanced →</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. PROGRESSIVE EXAMPLE ─────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="text-image">
+          <div class="ti-left">
+            <h2 class="ti-title">Progressive Disclosure</h2>
+            <p class="ti-subtitle">Example</p>
+            <div class="ti-body">
+              <p>Notice how the interface reveals information gradually. The primary action is always visible; additional options appear only when the user chooses to explore.</p>
+            </div>
+          </div>
+          <div class="ti-right">
+            <img src="images/progressive-example.png" alt="Progressive disclosure UI example">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. FITTS 4-COL ──────────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Fitts' Law</h2>
+        </div>
+        <div class="four-cols">
+          <div class="col-card">
+            <div class="col-heading">Distance &amp; Size</div>
+            <div class="col-body">Time to acquire a target is a function of distance and size. Far away or small = significantly longer to select accurately.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">Error Risk</div>
+            <div class="col-body">Small targets increase error rates. When users miss, they must recover, adding frustration and time to every interaction.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">Target Size</div>
+            <div class="col-body">Make interactive elements large enough to tap easily. On mobile, targets should be at least 44×44pt. Larger = faster and more accurate.</div>
+          </div>
+          <div class="col-card">
+            <div class="col-heading">Positioning</div>
+            <div class="col-body">Place frequent controls close to where the user's pointer or thumb naturally rests. Distance is a tax: minimize it.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15. FITTS' LAW: INTERACTIVE ────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Fitts' Law: Experience It</h2>
+          <span class="interactive-badge">Interactive</span>
+        </div>
+        <div class="demo-wrap" style="gap:18px;">
+          <div id="fitts-arena">
+            <div id="fitts-hint">Click the red circle. Size and position change each round.</div>
+            <div id="fitts-target"></div>
+          </div>
+          <div id="fitts-results">
+            <h4>Results</h4>
+            <p id="fitts-empty">Click targets to measure your times</p>
+            <div id="fitts-insight"><strong>Notice:</strong> Smaller targets consistently take longer. That's Fitts' Law happening to you right now.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16. THUMB ZONE ───────────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="text-image">
+          <div class="ti-left" style="width: 30%; padding-right: 20px;">
+            <h2 class="ti-title">Accessible Areas</h2>
+            <p class="ti-subtitle">Thumb zone analysis</p>
+            <div class="ti-body">
+              <p>Natural thumb reach creates comfort zones on mobile screens. Bottom-center is easiest. Top corners are hardest.</p>
+              <p>Design primary actions into the thumb-friendly zones. Put destructive actions at the top.</p>
+            </div>
+          </div>
+          <div class="ti-right" style="background: #f5f5f5;">
+            <img src="images/thumb-zone.png" alt="Mobile thumb zone heat map" style="object-fit: contain; padding: 12px;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 17. DARK PATTERNS ───────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">Dark Patterns</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">What They Are</div>
+            <div class="row-body">UI/UX choices deliberately crafted to manipulate users into actions they didn't intend: signing up, overpaying, sharing data. The design is working against the user.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">How They Work</div>
+            <div class="row-body">They exploit the same principles we've been studying. Fitts' Law weaponized: make the "Cancel" target tiny and far away. Hick's Law weaponized: bury the opt-out in 12 confusing options.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Why It Matters</div>
+            <div class="row-body">Recognizing dark patterns is a professional obligation. As designers, you will be asked to implement them. Knowing what they are, and why they erode trust, is how you push back.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 18. DOHERTY THRESHOLD ───────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">The Doherty Threshold</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">The Law</div>
+            <div class="row-body">System response time must be under 400ms to keep users engaged and in flow. Slower responses cause users to disengage from the task and shift attention.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Why It Matters</div>
+            <div class="row-body">When response times exceed 400ms, users perceive the system as slow. Engagement drops, errors increase, and users lose their place in the task flow.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Animations</div>
+            <div class="row-body">Use animations as feedback, not just decoration. A well-timed progress indicator or skeleton screen keeps users oriented during longer operations.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 24. THE 400ms RULE ───────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">The 400ms Rule</h2>
+        </div>
+        <div class="three-rows">
+          <div class="row">
+            <div class="row-label">The Number</div>
+            <div class="row-body">400 milliseconds is the threshold for perceived immediacy. At or below 400ms, responses feel instantaneous. Above it, users feel the wait consciously.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">Real World</div>
+            <div class="row-body">Network latency, rendering time, and JS execution all contribute to total response time. Measure end-to-end, not just server response.</div>
+          </div>
+          <div class="row">
+            <div class="row-label">What To Do</div>
+            <div class="row-body">Optimize critical rendering paths. Use optimistic UI updates. Show loading states immediately. Never leave users with zero feedback, even briefly.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 25. DOHERTY: INTERACTIVE ───────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="header">
+          <h2 class="slide-title-text">The 400ms Rule: Feel It</h2>
+          <span class="interactive-badge">Interactive</span>
+        </div>
+        <div class="demo-wrap">
+          <div class="demo-left">
+            <p style="font-size:14px;color:var(--mid);line-height:1.75;">
+              Response times <strong style="color:#1a1a1a;">under 400ms</strong> feel instantaneous. Above that threshold users feel the wait, and engagement drops and errors increase.
+            </p>
+            <p style="font-size:14px;color:var(--mid);line-height:1.75;margin-top:10px;">
+              Choose a speed, wait for the panel to change, then click as fast as you can.
+            </p>
+            <div id="doherty-btns">
+              <button class="doherty-btn fast" onclick="dohertyRun(true)">Fast response<br><span style="font-weight:400;font-size:10px;">&lt; 400ms</span></button>
+              <button class="doherty-btn slow" onclick="dohertyRun(false)">Slow response<br><span style="font-weight:400;font-size:10px;">&gt; 400ms</span></button>
+            </div>
+          </div>
+          <div id="doherty-panel" onclick="dohertyClick()">
+            <div id="doherty-panel-text">
+              <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;">Choose a speed to begin</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 26. CREATIVE LOADING ─────────────────────────────── -->
+    <section>
+      <div class="slide-inner">
+        <div class="text-image">
+          <div class="ti-left">
+            <h2 class="ti-title">Creative Loading</h2>
+            <p class="ti-subtitle">Making wait time work</p>
+            <div class="ti-body">
+              <p>When you can't meet the 400ms threshold, make the wait meaningful. Creative loading animations keep users engaged, set expectations, and can even delight.</p>
+              <p>Turning a technical constraint into a brand moment.</p>
+            </div>
+          </div>
+          <div class="ti-right">
+            <img src="images/creative-loading.gif" alt="Creative loading animation examples">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 27. HOMEWORK ─────────────────────────────────────── -->
+    <section>
+      <div class="slide-inner dark">
+        <div class="divider-slide">
+          <div>
+            <div class="divider-rule"></div>
+            <p class="divider-h">Homework</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    controls: true,
+    progress: true,
+    slideNumber: true,
+    center: false,
+    width: 1280,
+    height: 720,
+    margin: 0,
+    minScale: 0.2,
+    maxScale: 2.0,
+    transition: 'none',
+    transitionSpeed: 'fast',
+  });
+
+  /* ── Progressive Disclosure Demo ─────────────────────── */
+  (function() {
+    var pdLevel = 0;
+    var insights = [
+      'Show only what users need right now. The primary path stays clean, with no overwhelm at the point of entry.',
+      'Power users asked for more, and now they have it. Everyone else never had to see this.',
+      'Everything exposed, but only users who chose to dig this far ever reach it.'
+    ];
+    var labels  = ['Basic', 'Advanced', 'All Settings'];
+    var counts  = ['Showing 4 of 12 settings', 'Showing 8 of 12 settings', 'Showing all 12 settings'];
+
+    function pdUpdate() {
+      [0,1,2].forEach(function(i) {
+        var pip = document.getElementById('pd-pip-' + i);
+        if (pip) pip.classList.toggle('active', i <= pdLevel);
+      });
+      var ll = document.getElementById('pd-level-label');
+      var lc = document.getElementById('pd-level-count');
+      var it = document.getElementById('pd-insight-text');
+      if (ll) ll.textContent = labels[pdLevel];
+      if (lc) lc.textContent = counts[pdLevel];
+      if (it) it.textContent = insights[pdLevel];
+
+      var ga = document.getElementById('pd-group-advanced');
+      var gb = document.getElementById('pd-group-all');
+      if (ga) ga.classList.toggle('visible', pdLevel >= 1);
+      if (gb) gb.classList.toggle('visible', pdLevel >= 2);
+
+      var btnMore = document.getElementById('pd-btn-more');
+      var btnLess = document.getElementById('pd-btn-less');
+      if (btnMore) {
+        btnMore.disabled = pdLevel >= 2;
+        btnMore.textContent = pdLevel === 0 ? 'Show advanced →' : pdLevel === 1 ? 'Show all settings →' : 'All shown';
+      }
+      if (btnLess) {
+        btnLess.disabled = pdLevel <= 0;
+        btnLess.textContent = pdLevel <= 1 ? 'Basic' : '← Advanced';
+      }
+    }
+
+    window.pdMore = function() { if (pdLevel < 2) { pdLevel++; pdUpdate(); } };
+    window.pdLess = function() { if (pdLevel > 0) { pdLevel--; pdUpdate(); } };
+
+    function pdInit() { pdLevel = 0; pdUpdate(); }
+
+    Reveal.on('slidechanged', function(e) {
+      if (e.currentSlide.querySelector('#pd-group-advanced')) pdInit();
+    });
+    if (document.querySelector('#pd-group-advanced')) pdInit();
+  })();
+
+  /* ── Dialog Design Principles Demo ───────────────────── */
+  (function() {
+    var ddpState = { feedback: 'bad', decision: 'bad', learn: 'bad' };
+
+    var feedbackBadHTML = '<div style="font-size:11px;color:#aaa;margin-bottom:8px;font-weight:700;letter-spacing:.06em;">ORDER CONFIRMATION</div>' +
+      '<div style="font-size:12px;color:var(--mid);margin-bottom:10px;">Review your order before submitting.</div>' +
+      '<div style="background:var(--lt);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--mid);margin-bottom:10px;">' +
+      '<div>Wireless Headphones × 1: $89.00</div>' +
+      '<div style="border-top:1px solid #e0e0e0;margin-top:6px;padding-top:6px;font-weight:700;color:#1a1a1a;">Total: $89.00</div></div>' +
+      '<button id="ddp-sub-bad" style="width:100%;padding:9px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;">Submit Order</button>' +
+      '<div style="font-size:11px;color:transparent;text-align:center;margin-top:6px;">placeholder</div>';
+
+    var feedbackGoodHTML = '<div style="font-size:11px;color:#aaa;margin-bottom:8px;font-weight:700;letter-spacing:.06em;">ORDER CONFIRMATION</div>' +
+      '<div style="font-size:12px;color:var(--mid);margin-bottom:10px;">Review your order before submitting.</div>' +
+      '<div style="background:var(--lt);border-radius:6px;padding:8px 10px;font-size:11px;color:var(--mid);margin-bottom:10px;">' +
+      '<div>Wireless Headphones × 1: $89.00</div>' +
+      '<div style="border-top:1px solid #e0e0e0;margin-top:6px;padding-top:6px;font-weight:700;color:#1a1a1a;">Total: $89.00</div></div>' +
+      '<button id="ddp-sub-good" style="width:100%;padding:9px;background:#1a1a1a;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;">Submit Order</button>' +
+      '<div id="ddp-good-status" style="font-size:11px;color:transparent;text-align:center;margin-top:6px;">placeholder</div>';
+
+    var decisionBadItems = ['Profile name','Email address','Phone number','Password','Two-factor auth','Notifications: email','Notifications: SMS','Notifications: push','Privacy: data sharing','Privacy: ads','Privacy: history','Language','Time zone','Currency','Theme','Font size'];
+
+    var decisionGoodGroups = [
+      { icon: '👤', label: 'Account', items: ['Profile name','Email address','Phone number','Password'] },
+      { icon: '🔔', label: 'Notifications', items: ['Email','SMS','Push'] },
+      { icon: '🔒', label: 'Privacy', items: ['Data sharing','Personalized ads','History'] },
+      { icon: '🎨', label: 'Display', items: ['Language','Time zone','Theme','Font size'] }
+    ];
+
+    var learnIcons = ['⊞','⌘','⋯','◱','⊕'];
+    var learnLabels = [['⊞','Layout'],['⌘','Shortcuts'],['⋯','More'],['◱','Frames'],['⊕','Add']];
+
+    function ddpRender(panel) {
+      var state = ddpState[panel];
+      var area = document.getElementById('ddp-' + panel + '-demo');
+      var note = document.getElementById('ddp-' + panel + '-note');
+      if (!area) return;
+
+      if (panel === 'feedback') {
+        if (state === 'bad') {
+          area.innerHTML = feedbackBadHTML;
+          var btn = document.getElementById('ddp-sub-bad');
+          if (btn) btn.onclick = function() {}; // silent, no feedback
+          note.textContent = 'Click "Submit Order" and nothing happens. Did it work?';
+        } else {
+          area.innerHTML = feedbackGoodHTML;
+          var btn = document.getElementById('ddp-sub-good');
+          var status = document.getElementById('ddp-good-status');
+          if (btn) btn.onclick = function() {
+            if (btn.disabled) return;
+            btn.disabled = true;
+            btn.textContent = '⏳ Processing...';
+            btn.style.background = '#555';
+            status.style.color = 'var(--mid)';
+            status.textContent = 'Submitting your order…';
+            setTimeout(function() {
+              btn.textContent = '✓ Order Placed!';
+              btn.style.background = '#1a8a4a';
+              status.textContent = 'Confirmation sent to your email.';
+              status.style.color = '#1a8a4a';
+            }, 1400);
+          };
+          note.textContent = 'Click "Submit Order" and you always know what\'s happening.';
+        }
+      }
+
+      if (panel === 'decision') {
+        if (state === 'bad') {
+          area.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:8px;flex-shrink:0;">Settings</div>' +
+            '<div style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:4px;">' +
+            decisionBadItems.map(function(s) {
+              return '<div style="font-size:10.5px;padding:4px 8px;background:var(--lt);border-radius:4px;color:var(--mid);flex-shrink:0;">' + s + '</div>';
+            }).join('') + '</div>';
+          note.textContent = '16 settings at once. Where do you even start?';
+        } else {
+          area.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:8px;flex-shrink:0;">Settings</div>' +
+            '<div style="display:flex;flex-direction:column;gap:6px;overflow-y:auto;flex:1;" id="ddp-groups">' +
+            decisionGoodGroups.map(function(g, i) {
+              return '<div class="ddp-sg" id="ddp-sg-' + i + '">' +
+                '<div class="ddp-sg-header" onclick="ddpSgToggle(' + i + ')">' + g.icon + ' ' + g.label + '</div>' +
+                '<div class="ddp-sg-items" id="ddp-sg-items-' + i + '">' +
+                g.items.map(function(it) { return '<div>' + it + '</div>'; }).join('') +
+                '</div></div>';
+            }).join('') + '</div>';
+          note.textContent = 'Four groups. Tap one to expand. Far less overwhelming.';
+        }
+      }
+
+      if (panel === 'learn') {
+        if (state === 'bad') {
+          area.innerHTML = '<div style="font-size:11px;color:#aaa;margin-bottom:10px;font-weight:700;letter-spacing:.06em;flex-shrink:0;">EDITOR TOOLBAR</div>' +
+            '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">' +
+            learnIcons.map(function(ic) {
+              return '<div style="width:42px;height:42px;background:var(--lt);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:1px solid #e0e0e0;">' + ic + '</div>';
+            }).join('') + '</div>' +
+            '<div style="font-size:11px;color:#bbb;text-align:center;margin-top:12px;">Which one saves your work?</div>';
+          note.textContent = 'Icon-only. No labels, no tooltips. Users have to guess.';
+        } else {
+          area.innerHTML = '<div style="font-size:11px;color:#aaa;margin-bottom:10px;font-weight:700;letter-spacing:.06em;flex-shrink:0;">EDITOR TOOLBAR</div>' +
+            '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">' +
+            learnLabels.map(function(pair) {
+              return '<div style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;">' +
+                '<div style="width:42px;height:42px;background:var(--lt);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid #e0e0e0;">' + pair[0] + '</div>' +
+                '<div style="font-size:9px;font-weight:700;color:var(--mid);">' + pair[1] + '</div></div>';
+            }).join('') + '</div>' +
+            '<div style="font-size:11px;color:#1a8a4a;text-align:center;margin-top:12px;">Same icons, now labeled. No guessing required.</div>';
+          note.textContent = 'Labels remove the learning curve entirely.';
+        }
+      }
+    }
+
+    window.ddpToggle = function(panel) {
+      ddpState[panel] = ddpState[panel] === 'bad' ? 'good' : 'bad';
+      var btn = document.getElementById('ddp-toggle-' + panel);
+      if (btn) btn.dataset.state = ddpState[panel];
+      ddpRender(panel);
+    };
+
+    window.ddpSgToggle = function(i) {
+      var items = document.getElementById('ddp-sg-items-' + i);
+      if (items) items.classList.toggle('open');
+    };
+
+    function ddpInit() {
+      ddpState = { feedback: 'bad', decision: 'bad', learn: 'bad' };
+      ['feedback', 'decision', 'learn'].forEach(function(p) {
+        var btn = document.getElementById('ddp-toggle-' + p);
+        if (btn) btn.dataset.state = 'bad';
+        ddpRender(p);
+      });
+    }
+
+    Reveal.on('slidechanged', function(e) {
+      if (e.currentSlide.querySelector('#ddp-feedback')) ddpInit();
+    });
+    if (document.querySelector('#ddp-feedback')) ddpInit();
+  })();
+
+  /* ── Hick's Law Demo ──────────────────────────────────── */
+  (function() {
+    const slider   = document.getElementById('hicks-slider');
+    const nDisplay = document.getElementById('hicks-n');
+    const options  = document.getElementById('hicks-options');
+    const ms       = document.getElementById('hicks-ms');
+    const bar      = document.getElementById('hicks-bar');
+    const formula  = document.getElementById('hicks-formula');
+
+    function update() {
+      const n  = +slider.value;
+      const rt = Math.round(150 * Math.log2(n + 1));
+      const pct = Math.min(100, (rt / 700) * 100);
+
+      nDisplay.textContent = n;
+      ms.textContent       = rt;
+      bar.style.width      = pct + '%';
+      formula.textContent  = 'RT = 150 × log₂(' + n + ' + 1)';
+
+      options.innerHTML = '';
+      for (let i = 1; i <= n; i++) {
+        const d = document.createElement('div');
+        d.className   = 'hicks-opt';
+        d.textContent = 'Option ' + i;
+        options.appendChild(d);
+      }
+    }
+
+    slider.addEventListener('input', update);
+    update();
+  })();
+
+  /* ── Fitts' Law Demo ──────────────────────────────────── */
+  (function() {
+    const arena   = document.getElementById('fitts-arena');
+    const target  = document.getElementById('fitts-target');
+    const empty   = document.getElementById('fitts-empty');
+    const insight = document.getElementById('fitts-insight');
+    const results = [];
+
+    const configs = [
+      { size: 72, label: 'Large, close' },
+      { size: 28, label: 'Small target'  },
+      { size: 60, label: 'Large, far'    },
+      { size: 20, label: 'Tiny target'   },
+      { size: 44, label: 'Medium'        },
+    ];
+
+    let round = 0, startTime = null, currentConfig = null;
+
+    function spawnTarget() {
+      const cfg  = configs[round % configs.length];
+      const rect = arena.getBoundingClientRect();
+      const m    = cfg.size / 2 + 10;
+      const x    = m + Math.random() * (rect.width  - m * 2);
+      const y    = m + Math.random() * (rect.height - m * 2);
+
+      target.style.cssText = [
+        'width:'  + cfg.size + 'px',
+        'height:' + cfg.size + 'px',
+        'left:'   + (x - cfg.size / 2) + 'px',
+        'top:'    + (y - cfg.size / 2) + 'px',
+        'font-size:' + (cfg.size > 35 ? '10px' : '0') + '',
+      ].join(';');
+      target.textContent = cfg.size > 35 ? 'hit' : '';
+
+      currentConfig = cfg;
+      startTime     = Date.now();
+    }
+
+    target.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (!startTime) return;
+
+      const elapsed = Date.now() - startTime;
+      results.unshift({ ms: elapsed, label: currentConfig.label, size: currentConfig.size });
+      if (results.length > 5) results.pop();
+
+      empty.style.display = 'none';
+      renderResults();
+
+      if (results.length >= 3) insight.style.display = 'block';
+
+      round++;
+      setTimeout(spawnTarget, 80);
+    });
+
+    function renderResults() {
+      // remove old result items
+      document.querySelectorAll('.fitts-result-item').forEach(el => el.remove());
+      const container = document.getElementById('fitts-results');
+
+      results.forEach((r, i) => {
+        const color = r.ms < 500 ? '#22c55e' : r.ms < 900 ? '#f59e0b' : '#CC0000';
+        const div   = document.createElement('div');
+        div.className = 'fitts-result-item';
+        div.style.borderLeft = '3px solid ' + color;
+        div.style.opacity    = Math.max(0.35, 1 - i * 0.15);
+        div.innerHTML = '<div class="r-label">' + r.label + ' (' + r.size + 'px)</div>'
+                      + '<div class="r-ms">' + r.ms + '<span>ms</span></div>';
+        container.insertBefore(div, insight);
+      });
+    }
+
+    // Init after slide renders
+    Reveal.on('slidechanged', function(e) {
+      if (e.currentSlide.querySelector('#fitts-arena')) {
+        setTimeout(spawnTarget, 200);
+      }
+    });
+    // Also init if already on this slide
+    setTimeout(function() {
+      if (document.querySelector('.present #fitts-arena')) spawnTarget();
+    }, 300);
+  })();
+
+  /* ── Doherty Demo ─────────────────────────────────────── */
+  var dohertyTimer   = null;
+  var dohertyState   = 'idle';
+  var dohertyClickAt = null;
+
+  function dohertyRun(fast) {
+    if (dohertyTimer) clearTimeout(dohertyTimer);
+    dohertyState = 'waiting';
+    setDohertyPanel('waiting');
+    document.querySelectorAll('.doherty-btn').forEach(b => b.disabled = true);
+
+    var delay = fast
+      ? 80  + Math.random() * 240
+      : 700 + Math.random() * 900;
+
+    dohertyTimer = setTimeout(function() {
+      dohertyState   = 'ready';
+      dohertyClickAt = Date.now();
+      setDohertyPanel('ready');
+    }, delay);
+  }
+
+  function dohertyClick() {
+    if (dohertyState !== 'ready') return;
+    var ms = Date.now() - dohertyClickAt;
+    dohertyState = 'done';
+    setDohertyPanel('done', ms);
+    document.querySelectorAll('.doherty-btn').forEach(b => b.disabled = false);
+  }
+
+  function setDohertyPanel(state, ms) {
+    var panel = document.getElementById('doherty-panel');
+    var text  = document.getElementById('doherty-panel-text');
+
+    panel.className = state === 'ready' ? 'ready' : '';
+
+    if (state === 'idle') {
+      text.innerHTML = '<p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;">Choose a speed to begin</p>';
+    } else if (state === 'waiting') {
+      text.innerHTML = '<div id="doherty-waiting-dots" style="font-size:30px;letter-spacing:6px;color:#aaa;">· · ·</div><p style="font-size:13px;color:#aaa;margin-top:8px;">System processing…</p>';
+    } else if (state === 'ready') {
+      text.innerHTML = '<div style="font-size:56px;font-weight:900;color:#fff;line-height:1;">NOW</div><p style="font-size:14px;color:rgba(255,255,255,0.85);margin-top:6px;">Click anywhere here</p>';
+    } else if (state === 'done') {
+      var fast    = ms < 400;
+      var color   = fast ? '#22c55e' : '#CC0000';
+      var verdict = fast ? '✓ Under 400ms: felt instant' : '✗ Over 400ms: you felt that wait';
+      text.innerHTML = '<div style="font-size:56px;font-weight:900;color:' + color + ';line-height:1;">' + ms + '</div>'
+                     + '<div style="font-size:14px;color:#aaa;margin-top:2px;">ms</div>'
+                     + '<div style="font-size:14px;font-weight:700;color:' + color + ';margin-top:10px;">' + verdict + '</div>'
+                     + '<div style="font-size:11px;color:#bbb;margin-top:8px;">Try the other speed</div>';
+    }
+  }
+</script>
+</body>
+</html>
