@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Perception Revisited: Week 10</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.css">
+
+  <style>
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    .reveal-viewport,
+    .reveal,
+    .reveal .slides,
+    body, html {
+      background: #0a0a0a;
+    }
+
+    .reveal {
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+    }
+
+    /* Kill default theme headings */
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4,
+    .reveal h5, .reveal h6 {
+      font-family: 'Inter', sans-serif;
+      text-transform: none;
+      letter-spacing: normal;
+      text-shadow: none;
+      word-wrap: normal;
+      color: #ffffff;
+    }
+
+    .reveal .slides section {
+      text-align: left;
+      padding: 0;
+      height: 100%;
+      top: 0 !important;
+    }
+
+    /* Progress bar */
+    .reveal .progress {
+      height: 3px;
+      background: #1a1a1a;
+      color: #C84B30;
+    }
+    .reveal .progress span {
+      background: #C84B30;
+      transition: width 400ms ease;
+    }
+
+    /* Slide numbers */
+    .reveal .slide-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+      background: transparent;
+      bottom: 22px;
+      right: 32px;
+      letter-spacing: 0.05em;
+    }
+
+    /* Controls */
+    .reveal .controls .controls-arrow {
+      color: #333;
+    }
+    .reveal .controls .controls-arrow:hover {
+      color: #C84B30;
+    }
+
+    /* ─────────────────────────────────────────
+       SHARED ACCENT
+    ───────────────────────────────────────── */
+    .accent { color: #C84B30; }
+    .muted  { color: #555; }
+
+    /* ─────────────────────────────────────────
+       SLIDE WRAPPERS
+    ───────────────────────────────────────── */
+    .slide {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 7% 8%;
+    }
+
+    /* center content vertically */
+    .slide.center-v { justify-content: center; }
+    /* align to bottom */
+    .slide.bottom-v { justify-content: flex-end; padding-bottom: 14%; }
+    /* normal top */
+    .slide.top-v    { justify-content: flex-start; padding-top: 9%; }
+
+    /* ─────────────────────────────────────────
+       HERO / COVER TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-size: clamp(64px, 9.5vw, 130px);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      text-transform: lowercase;
+      color: #ffffff;
+    }
+
+    .display-sub {
+      font-size: clamp(13px, 1.1vw, 17px);
+      font-weight: 400;
+      color: #444;
+      margin-top: 3em;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION DIVIDER
+    ───────────────────────────────────────── */
+    .section-eyebrow {
+      font-size: clamp(10px, 0.75vw, 13px);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #C84B30;
+      margin-bottom: 1.8em;
+    }
+
+    .section-word {
+      font-size: clamp(72px, 12vw, 150px);
+      font-weight: 900;
+      line-height: 0.86;
+      text-transform: lowercase;
+      letter-spacing: -0.045em;
+      color: #ffffff;
+    }
+
+    /* ─────────────────────────────────────────
+       STATEMENT
+    ───────────────────────────────────────── */
+    .statement {
+      font-size: clamp(28px, 3.6vw, 54px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      max-width: 88%;
+    }
+
+    .statement-note {
+      font-size: clamp(13px, 1.05vw, 16px);
+      font-weight: 400;
+      color: #b0b0b0;
+      margin-top: 2em;
+      max-width: 62%;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTENT HEADER
+    ───────────────────────────────────────── */
+    .eyebrow {
+      font-size: clamp(10px, 0.72vw, 12px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #C84B30;
+      margin-bottom: 0.9em;
+    }
+
+    .heading {
+      font-size: clamp(34px, 4vw, 58px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      margin-bottom: 0.55em;
+    }
+
+    .body-text {
+      font-size: clamp(13px, 1.05vw, 16px);
+      font-weight: 400;
+      color: #c0c0c0;
+      line-height: 1.7;
+      max-width: 74%;
+    }
+
+    /* ─────────────────────────────────────────
+       CARDS
+    ───────────────────────────────────────── */
+    .cards-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 2em;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 2em;
+    }
+
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 2em;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+      padding: clamp(20px, 2vw, 28px) clamp(18px, 1.8vw, 26px);
+    }
+
+    .card.highlighted {
+      border-color: #C84B30;
+    }
+
+    .card-num {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #C84B30;
+      text-transform: uppercase;
+      margin-bottom: 0.9em;
+    }
+
+    .card-title {
+      font-size: clamp(13px, 1.15vw, 17px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 0.55em;
+    }
+
+    .card-body {
+      font-size: clamp(11px, 0.85vw, 13px);
+      font-weight: 400;
+      color: #b0b0b0;
+      line-height: 1.65;
+    }
+
+    /* ─────────────────────────────────────────
+       POINTS LIST
+    ───────────────────────────────────────── */
+    .points {
+      list-style: none;
+      margin-top: 1.6em;
+      margin-bottom: 0;
+      padding: 0;
+    }
+
+    .points li {
+      border-top: 1px solid #1c1c1c;
+      padding: 1em 0;
+      display: flex;
+      gap: 1.4em;
+      align-items: flex-start;
+    }
+
+    .points li:last-child {
+      border-bottom: 1px solid #1c1c1c;
+    }
+
+    .pt-num {
+      font-size: 10px;
+      font-weight: 700;
+      color: #C84B30;
+      flex-shrink: 0;
+      padding-top: 3px;
+      letter-spacing: 0.08em;
+    }
+
+    .pt-body {
+      font-size: clamp(12px, 1vw, 15px);
+      font-weight: 400;
+      color: #c0c0c0;
+      line-height: 1.65;
+    }
+
+    .pt-body strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────
+       CALLOUT BOX
+    ───────────────────────────────────────── */
+    .callout {
+      border-left: 2px solid #C84B30;
+      padding: 1.2em 1.6em;
+      margin-top: 1.8em;
+      background: #0f0f0f;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .callout p {
+      font-size: clamp(12px, 0.95vw, 15px);
+      font-weight: 400;
+      color: #b0b0b0;
+      font-style: italic;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .callout p strong {
+      color: #e0e0e0;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────
+       SPLIT LAYOUT
+    ───────────────────────────────────────── */
+    .split {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+      gap: 6%;
+      padding: 6% 8%;
+    }
+
+    .split-text { flex: 1; }
+
+    .split-visual {
+      flex: 0 0 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ─────────────────────────────────────────
+       NEW BADGE
+    ───────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      background: #C84B30;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 12px;
+      position: relative;
+      top: -4px;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER META
+    ───────────────────────────────────────── */
+    .slide-meta {
+      position: absolute;
+      bottom: 7%;
+      left: 8%;
+      font-size: 11px;
+      font-weight: 500;
+      color: #333;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────
+       FRAGMENT ANIMATION
+    ───────────────────────────────────────── */
+    .reveal .fragment {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .reveal .fragment.visible {
+      opacity: 1;
+    }
+
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+
+    <!-- ══════════════════════════════════════════
+         01 — TITLE
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <div class="display">
+          human<br>
+          perception<br>
+          <span class="accent">revisited.</span>
+        </div>
+        <p class="display-sub">Week 10 · IXD 620 / 320</p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         02 — HOOK
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <div class="statement">
+          We see what we <span class="accent">expect</span> to see.<br>
+          Not what's actually there.
+        </div>
+        <p class="statement-note">
+          Human perception is active, not passive. We interpret, filter, and fill in gaps,
+          often without knowing it. Every interface you design operates inside these constraints.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         03 — RECAP: WHAT IS HUMAN PERCEPTION
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Recap</span>
+        <h2 class="heading">Human Perception</h2>
+        <p class="body-text">
+          The processes through which we interpret sensory information. It's the foundation
+          of how users experience every interface you design.
+        </p>
+        <div class="cards-2" style="margin-top: 2.2em;">
+          <div class="card">
+            <span class="card-num">01</span>
+            <div class="card-title">Perception is Subjective</div>
+            <div class="card-body">
+              Shaped by individual experience, culture, and context.
+              Two users can look at the same screen and interpret it differently.
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-num">02</span>
+            <div class="card-title">Perception is Limited</div>
+            <div class="card-body">
+              Attention, cognitive biases, and environmental distractions
+              all constrain what users actually notice in your interface.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         04 — SECTION BREAK: LIMITATIONS
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide bottom-v">
+        <span class="section-eyebrow">Part One</span>
+        <div class="section-word">
+          four<br>
+          <span class="accent">limitations.</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         05 — THE FOUR LIMITATIONS
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Limitations of Human Perception</span>
+        <h2 class="heading">What limits what users see</h2>
+        <div class="cards-4">
+          <div class="card">
+            <span class="card-num">01</span>
+            <div class="card-title">Change Blindness</div>
+            <div class="card-body">Failing to notice visual changes in the environment.</div>
+          </div>
+          <div class="card">
+            <span class="card-num">02</span>
+            <div class="card-title">Inattentional Blindness</div>
+            <div class="card-body">Missing unexpected objects while focused on a specific task.</div>
+          </div>
+          <div class="card">
+            <span class="card-num">03</span>
+            <div class="card-title">Selective Attention</div>
+            <div class="card-body">Filtering out stimuli that aren't relevant to current focus.</div>
+          </div>
+          <div class="card">
+            <span class="card-num">04</span>
+            <div class="card-title">Banner Blindness</div>
+            <div class="card-body">Unconsciously ignoring information that looks like advertising.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         06 — CHANGE BLINDNESS DEFINITION
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <span class="eyebrow">Limitation 01</span>
+        <div class="statement">
+          Change<br>
+          <span class="accent">Blindness</span>
+        </div>
+        <p class="statement-note">
+          Users fail to notice changes in their visual environment, even significant ones,
+          especially when the change occurs during a scroll, transition, blink, or distraction.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         07 — CHANGE BLINDNESS: DESIGN
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Change Blindness: Design Implications</span>
+        <h2 class="heading">Designing against it</h2>
+        <ul class="points">
+          <li class="fragment">
+            <span class="pt-num">01</span>
+            <span class="pt-body">
+              <strong>Use visual cues to signal changes.</strong>
+              Color, size, motion, and sound direct attention toward updates or state changes
+              users would otherwise miss.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">02</span>
+            <span class="pt-body">
+              <strong>Slow or peripheral changes go unnoticed.</strong>
+              Users rarely catch changes that occur gradually or outside their immediate focus,
+              even significant ones.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">03</span>
+            <span class="pt-body">
+              <strong>Task switches amplify the effect.</strong>
+              Visual disruptions and context switches increase change blindness.
+              Minimize interruptions. Make transitions continuous, not abrupt.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         08 — CHANGE BLINDNESS: EXAMPLE (interactive)
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v" style="padding-top: 6%;">
+        <span class="eyebrow">Change Blindness: Try It</span>
+        <h2 class="heading" style="font-size: clamp(28px, 3.2vw, 46px); margin-bottom: 0.3em;">Something changed. Did you catch it?</h2>
+
+        <div style="display: flex; gap: 3%; align-items: flex-start; margin-top: 1.2em;">
+
+          <!-- LEFT: demo + controls -->
+          <div style="flex: 1;">
+            <p style="font-size: clamp(11px, 0.9vw, 14px); color: #555; margin-bottom: 1em; line-height: 1.6;">
+              Watch the screen. Press <span style="background:#1e1e1e; border:1px solid #333; border-radius:3px; padding:1px 7px; font-weight:600; color:#ccc; font-size:0.9em;">Play</span>. There will be a brief flash, then the interface will look the same. Spot what changed before pressing Reveal.
+            </p>
+
+            <!-- Phone mockup -->
+            <div style="position: relative; display: inline-block;">
+              <!-- Phone shell -->
+              <svg viewBox="0 0 220 400" fill="none" xmlns="http://www.w3.org/2000/svg" width="180px" id="cb-phone">
+                <!-- Phone body -->
+                <rect x="4" y="4" width="212" height="392" rx="28" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+                <rect x="12" y="12" width="196" height="376" rx="22" fill="#111"/>
+                <!-- Notch -->
+                <rect x="76" y="14" width="68" height="16" rx="8" fill="#1a1a1a"/>
+
+                <!-- STATUS BAR -->
+                <text x="24" y="42" fill="#666" font-size="9" font-family="Inter" font-weight="600">9:41</text>
+                <text x="170" y="42" fill="#666" font-size="9" font-family="Inter">●●● ▲</text>
+
+                <!-- NAV BAR (the change is here) -->
+                <rect x="20" y="52" width="180" height="36" rx="6" fill="#181818"/>
+                <text x="36" y="75" fill="#aaa" font-size="11" font-family="Inter" font-weight="600" id="cb-nav-text">← Home</text>
+                <!-- Cart icon + badge -->
+                <rect x="156" y="60" width="28" height="20" rx="4" fill="#222" id="cb-cart-bg"/>
+                <text x="170" y="75" fill="#888" font-size="11" font-family="Inter" text-anchor="middle" id="cb-cart-icon">🛒</text>
+                <!-- Badge (the count changes) -->
+                <circle cx="182" cy="60" r="7" fill="#C84B30" id="cb-badge"/>
+                <text x="182" y="64" fill="#fff" font-size="8" font-family="Inter" font-weight="700" text-anchor="middle" id="cb-badge-num">2</text>
+
+                <!-- CONTENT AREA -->
+                <rect x="20" y="100" width="180" height="100" rx="6" fill="#181818"/>
+                <rect x="28" y="108" width="164" height="56" rx="4" fill="#222"/>
+                <rect x="28" y="172" width="100" height="8" rx="2" fill="#2a2a2a"/>
+                <rect x="28" y="186" width="70" height="6" rx="2" fill="#222"/>
+
+                <rect x="20" y="212" width="86" height="80" rx="6" fill="#181818"/>
+                <rect x="28" y="220" width="70" height="42" rx="3" fill="#222"/>
+                <rect x="28" y="268" width="50" height="6" rx="2" fill="#2a2a2a"/>
+                <rect x="28" y="280" width="38" height="5" rx="2" fill="#222"/>
+
+                <rect x="114" y="212" width="86" height="80" rx="6" fill="#181818"/>
+                <rect x="122" y="220" width="70" height="42" rx="3" fill="#222"/>
+                <rect x="122" y="268" width="50" height="6" rx="2" fill="#2a2a2a"/>
+                <rect x="122" y="280" width="38" height="5" rx="2" fill="#222"/>
+
+                <!-- BOTTOM NAV -->
+                <rect x="20" y="306" width="180" height="50" rx="6" fill="#181818" stroke="#222" stroke-width="1"/>
+                <text x="50"  y="337" fill="#C84B30" font-size="18" text-anchor="middle">⌂</text>
+                <text x="110" y="337" fill="#555"    font-size="18" text-anchor="middle">♡</text>
+                <text x="170" y="337" fill="#555"    font-size="18" text-anchor="middle">☰</text>
+
+                <!-- Flash overlay (hidden by default) -->
+                <rect x="12" y="12" width="196" height="376" rx="22" fill="#ffffff" opacity="0" id="cb-flash"/>
+              </svg>
+            </div>
+
+            <!-- Buttons -->
+            <div style="display:flex; gap:10px; margin-top:1em; margin-left:2px;">
+              <button onclick="cbPlay()" id="cb-play-btn"
+                style="background:#C84B30; color:#fff; border:none; border-radius:5px; padding:8px 20px; font-family:Inter,sans-serif; font-size:12px; font-weight:700; cursor:pointer; letter-spacing:0.05em;">
+                ▶ Play
+              </button>
+              <button onclick="cbReveal()" id="cb-reveal-btn"
+                style="background:#1a1a1a; color:#888; border:1px solid #2a2a2a; border-radius:5px; padding:8px 20px; font-family:Inter,sans-serif; font-size:12px; font-weight:600; cursor:pointer; letter-spacing:0.05em;">
+                Reveal
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT: answer + takeaway -->
+          <div style="flex: 1; padding-top: 0.4em;">
+            <div id="cb-answer" style="opacity:0; transition: opacity 0.4s ease;">
+              <div style="background:#111; border:1px solid #1e1e1e; border-radius:8px; padding:20px 22px; margin-bottom: 1.2em;">
+                <span style="font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#C84B30; display:block; margin-bottom:0.8em;">The Change</span>
+                <p style="font-size:clamp(12px,1vw,15px); color:#bbb; line-height:1.65; margin:0;">
+                  The cart badge went from <strong style="color:#fff;">2</strong> to <strong style="color:#C84B30;">3</strong>. During the flash, a new item was added. Most people miss it even when told to watch. Attention goes to content, not the badge.
+                </p>
+              </div>
+              <div class="callout" style="margin-top:0;">
+                <p>
+                  <strong>Design takeaway:</strong> State changes that happen during a visual interruption (a scroll, a transition, a page flash) are nearly invisible. Animate additions and updates explicitly so users don't need to notice them; make the interface tell them.
+                </p>
+              </div>
+            </div>
+            <div id="cb-prompt" style="opacity:1; transition: opacity 0.3s ease;">
+              <p style="font-size:clamp(12px,1vw,15px); color:#aaa; line-height:1.7; font-style:italic;">
+                Press Play, watch carefully, then press Reveal to see what changed.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        var cbChanged = false;
+        function cbPlay() {
+          var btn = document.getElementById('cb-play-btn');
+          btn.disabled = true;
+          btn.style.opacity = '0.4';
+          // Animate flash
+          var flash = document.getElementById('cb-flash');
+          var t = 0;
+          var steps = [0, 0.2, 0.6, 1, 0.6, 0.2, 0]; // opacity keyframes
+          var delays = [0, 80, 80, 80, 80, 80, 80];
+          function step(i) {
+            if (i >= steps.length) {
+              // Apply change after flash
+              if (!cbChanged) {
+                cbChanged = true;
+                document.getElementById('cb-badge-num').textContent = '3';
+                document.getElementById('cb-badge').setAttribute('r', '8');
+              }
+              btn.disabled = false;
+              btn.style.opacity = '1';
+              return;
+            }
+            flash.setAttribute('opacity', steps[i]);
+            setTimeout(function(){ step(i+1); }, delays[i]);
+          }
+          step(0);
+        }
+        function cbReveal() {
+          document.getElementById('cb-answer').style.opacity = '1';
+          document.getElementById('cb-prompt').style.opacity = '0';
+          // Highlight the badge
+          document.getElementById('cb-badge').setAttribute('fill', '#ff6b4a');
+          document.getElementById('cb-badge-num').setAttribute('fill', '#fff');
+          // Pulse animation via attribute
+          var badge = document.getElementById('cb-badge');
+          badge.style.transition = 'all 0.3s';
+        }
+      </script>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         09 — INATTENTIONAL BLINDNESS
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <span class="eyebrow">Limitation 02</span>
+        <div class="statement">
+          Inattentional<br>
+          <span class="accent">Blindness</span>
+        </div>
+        <p class="statement-note">
+          When focused on a task, users fail to notice unexpected objects or changes,
+          even ones that seem obvious in retrospect. The famous "invisible gorilla" experiment
+          showed that people counting passes in a video missed a gorilla walking through the frame.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         09b — INATTENTIONAL BLINDNESS: EXAMPLE
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v" style="padding-top:5%;">
+        <span class="eyebrow">Inattentional Blindness: Try It</span>
+        <h2 class="heading" style="font-size:clamp(26px,3vw,42px); margin-bottom:0.3em;">
+          Count the error messages as the form fills out.
+        </h2>
+
+        <div style="display:flex; gap:3%; align-items:flex-start; margin-top:1em;">
+
+          <!-- LEFT: form demo -->
+          <div style="flex:0 0 50%;">
+            <p style="font-size:clamp(11px,0.88vw,13px); color:#555; margin-bottom:0.75em; line-height:1.6;">
+              Watch carefully. Count every red error that appears. Press
+              <span style="background:#1e1e1e; border:1px solid #333; border-radius:3px; padding:1px 7px; font-weight:600; color:#ccc;">Play</span> when ready.
+            </p>
+
+            <!-- Form shell -->
+            <div id="ib2-frame" style="position:relative; overflow:hidden; background:#0f0f0f; border:1px solid #1e1e1e; border-radius:10px; padding:16px 18px 14px;">
+
+              <!-- Notification banner — starts hidden above the frame -->
+              <div id="ib2-banner" style="
+                position:absolute; left:0; right:0; top:-56px;
+                background:#2a6496; color:#e8f4fd;
+                padding:10px 16px; display:flex; align-items:center; gap:10px;
+                font-family:Inter,sans-serif; font-size:12px; font-weight:500;
+                transition:top 0.38s cubic-bezier(0.22,1,0.36,1);
+                z-index:10; letter-spacing:0.01em;">
+                <span style="font-size:15px;">🎁</span>
+                <span>You qualify for free shipping, added to your order automatically.</span>
+                <span style="margin-left:auto; opacity:0.5; font-size:16px; cursor:default;">×</span>
+              </div>
+
+              <div style="font-size:10px; font-weight:700; color:#444; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:14px; padding-top:2px;">Create Account</div>
+
+              <!-- Fields -->
+              <div id="ib2-f0" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:5px; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">Full name</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+              </div>
+              <div id="ib2-f1" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:5px; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">Email</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+                <span class="f-err" style="font-size:10px; color:#c95555; display:none; white-space:nowrap;"></span>
+              </div>
+              <div id="ib2-f2" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:5px; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">Password</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+              </div>
+              <div id="ib2-f3" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:5px; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">Confirm</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+                <span class="f-err" style="font-size:10px; color:#c95555; display:none; white-space:nowrap;"></span>
+              </div>
+              <div id="ib2-f4" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:5px; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">Phone</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+              </div>
+              <div id="ib2-f5" style="display:flex; align-items:center; gap:10px; padding:8px 10px; margin-bottom:0; border-radius:5px; background:#161616; border:1px solid #202020; opacity:0; transition:opacity 0.25s ease, border-color 0.3s;">
+                <span style="font-size:10px; font-weight:600; color:#555; text-transform:uppercase; letter-spacing:0.08em; width:74px; flex-shrink:0;">ZIP code</span>
+                <span class="f-val" style="font-size:13px; color:#777; flex:1;"></span>
+                <span class="f-ico" style="font-size:13px; width:14px;"></span>
+                <span class="f-err" style="font-size:10px; color:#c95555; display:none; white-space:nowrap;"></span>
+              </div>
+            </div><!-- /frame -->
+
+            <div style="display:flex; gap:10px; margin-top:0.7em; align-items:center;">
+              <button onclick="ib2Play()" id="ib2-play-btn"
+                style="background:#C84B30; color:#fff; border:none; border-radius:5px; padding:7px 18px; font-family:Inter,sans-serif; font-size:12px; font-weight:700; cursor:pointer; letter-spacing:0.05em;">
+                ▶ Play
+              </button>
+              <button onclick="ib2Reveal()" id="ib2-reveal-btn"
+                style="background:#1a1a1a; color:#888; border:1px solid #2a2a2a; border-radius:5px; padding:7px 18px; font-family:Inter,sans-serif; font-size:12px; font-weight:600; cursor:pointer; letter-spacing:0.05em;">
+                Did you notice anything else?
+              </button>
+              <span id="ib2-done" style="font-size:12px; color:#aaa; font-family:Inter,sans-serif; opacity:0; transition:opacity 0.4s;">Write down your count.</span>
+            </div>
+          </div><!-- /left -->
+
+          <!-- RIGHT: prompt + answer -->
+          <div style="flex:1; padding-top:0.2em;">
+            <div id="ib2-prompt-box">
+              <p style="font-size:clamp(12px,0.95vw,15px); color:#aaa; line-height:1.7; font-style:italic;">
+                Watch the form fill out. Count every red error message that appears. When it's done, write your number down, then press "Did you notice anything else?"
+              </p>
+            </div>
+            <div id="ib2-answer-box" style="opacity:0; transition:opacity 0.4s ease;">
+              <div style="background:#111; border:1px solid #1e1e1e; border-radius:8px; padding:18px 20px; margin-bottom:1em;">
+                <span style="font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#C84B30; display:block; margin-bottom:0.7em;">3 errors, and one more thing</span>
+                <p style="font-size:clamp(12px,1vw,15px); color:#bbb; line-height:1.65; margin:0;">
+                  A "free shipping" notification banner slid in at the top of the form and stayed for over a second. It was large, clearly visible, and directly relevant to the transaction. Most people focused on counting errors don't see it at all.
+                </p>
+              </div>
+              <div class="callout" style="margin-top:0;">
+                <p>
+                  <strong>Design implication:</strong> A user mid-task is effectively blind to UI elements outside their current goal, including promotional banners, onboarding cues, and notifications. Timing matters as much as placement.
+                </p>
+              </div>
+            </div>
+          </div><!-- /right -->
+
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        var FIELDS = [
+          { id:'ib2-f0', val:'Jordan Williams',   ok:true  },
+          { id:'ib2-f1', val:'jordan@mail',        ok:false, err:'Invalid email format'   },
+          { id:'ib2-f2', val:'••••••••',           ok:true  },
+          { id:'ib2-f3', val:'•••••••',            ok:false, err:'Passwords do not match' },
+          { id:'ib2-f4', val:'(415) 555-0142',     ok:true  },
+          { id:'ib2-f5', val:'SFCA9',              ok:false, err:'Must be 5 digits'       },
+        ];
+
+        var STEP = 680;          // ms between each field appearing
+        var BANNER_IN  = 1450;   // ms — banner slides in just after first error lands
+        var BANNER_OUT = 2900;   // ms — banner gone before second error appears
+        var DONE_AT    = STEP * FIELDS.length + 700;
+
+        var _timers = [];
+
+        function clearAll() {
+          _timers.forEach(clearTimeout);
+          _timers = [];
+        }
+
+        function resetForm() {
+          FIELDS.forEach(function(f) {
+            var el = document.getElementById(f.id);
+            if (!el) return;
+            el.style.opacity = '0';
+            el.style.borderColor = '#202020';
+            var lbl = el.querySelector('.f-val');
+            var ico = el.querySelector('.f-ico');
+            var err = el.querySelector('.f-err');
+            if (lbl) lbl.textContent = '';
+            if (ico) { ico.textContent = ''; ico.style.color = ''; }
+            if (err) { err.textContent = ''; err.style.display = 'none'; }
+          });
+        }
+
+        function showBanner()  {
+          var b = document.getElementById('ib2-banner');
+          if (b) b.style.top = '0';
+        }
+        function hideBanner()  {
+          var b = document.getElementById('ib2-banner');
+          if (b) b.style.top = '-56px';
+        }
+
+        function revealField(idx) {
+          var f   = FIELDS[idx];
+          var el  = document.getElementById(f.id);
+          if (!el) return;
+          // Fade in
+          el.style.opacity = '1';
+          // Short pause then show value + status
+          _timers.push(setTimeout(function() {
+            var lbl = el.querySelector('.f-val');
+            var ico = el.querySelector('.f-ico');
+            var err = el.querySelector('.f-err');
+            if (lbl) lbl.textContent = f.val;
+            if (f.ok) {
+              if (ico) { ico.textContent = '✓'; ico.style.color = '#4a9e60'; }
+            } else {
+              el.style.borderColor = '#5a2020';
+              if (ico) { ico.textContent = '✗'; ico.style.color = '#c95555'; }
+              if (err) { err.textContent = f.err; err.style.display = 'block'; }
+            }
+          }, 220));
+        }
+
+        window.ib2Play = function() {
+          clearAll();
+          resetForm();
+          hideBanner();
+
+          var done  = document.getElementById('ib2-done');
+          var ans   = document.getElementById('ib2-answer-box');
+          var prm   = document.getElementById('ib2-prompt-box');
+          var btn   = document.getElementById('ib2-play-btn');
+
+          if (done) done.style.opacity = '0';
+          if (ans)  ans.style.opacity  = '0';
+          if (prm)  prm.style.opacity  = '1';
+          if (btn)  { btn.disabled = true; btn.style.opacity = '0.4'; }
+
+          // Reveal each field on a staggered timer
+          FIELDS.forEach(function(f, i) {
+            _timers.push(setTimeout(function() { revealField(i); }, (i + 1) * STEP));
+          });
+
+          // Banner slides in while student is watching field 2 error resolve
+          _timers.push(setTimeout(showBanner, BANNER_IN));
+          _timers.push(setTimeout(hideBanner, BANNER_OUT));
+
+          // Done state
+          _timers.push(setTimeout(function() {
+            if (btn)  { btn.disabled = false; btn.style.opacity = '1'; }
+            if (done) done.style.opacity = '1';
+          }, DONE_AT));
+        };
+
+        window.ib2Reveal = function() {
+          var ans = document.getElementById('ib2-answer-box');
+          var prm = document.getElementById('ib2-prompt-box');
+          if (ans) ans.style.opacity = '1';
+          if (prm) prm.style.opacity = '0';
+          // Show the banner again so they can see what they missed
+          showBanner();
+          _timers.push(setTimeout(hideBanner, 3500));
+        };
+      })();
+      </script>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         10 — SELECTIVE ATTENTION
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="split">
+        <div class="split-text">
+          <span class="eyebrow">Limitation 03</span>
+          <h2 class="heading">Selective Attention</h2>
+          <p class="body-text">
+            Focusing on specific stimuli while filtering out everything else.
+            Users can only consciously process a small amount of information at once.
+          </p>
+          <ul class="points" style="margin-top: 1.6em;">
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                <strong>Focus is limited.</strong> Prioritize key elements.
+                Minimize visual noise and competing calls to action.
+              </span>
+            </li>
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                <strong>Overload impairs performance.</strong> Too much competing information
+                overwhelms users. Simplify layouts and use visual hierarchy to guide attention
+                to what matters.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="split-visual">
+          <!-- Attention funnel diagram -->
+          <svg viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%" max-width="320px">
+            <text x="140" y="22" text-anchor="middle" fill="#333" font-size="9" font-family="Inter" font-weight="600" letter-spacing="0.1em">ALL AVAILABLE INFORMATION</text>
+            <rect x="15" y="34" width="250" height="36" rx="4" fill="#161616" stroke="#222" stroke-width="1"/>
+            <rect x="30" y="46" width="200" height="10" rx="2" fill="#2a2a2a"/>
+            <rect x="80" y="86" width="120" height="30" rx="4" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="100" y="94" width="80" height="10" rx="2" fill="#222"/>
+            <rect x="110" y="132" width="60" height="28" rx="4" fill="#161616" stroke="#1c1c1c" stroke-width="1"/>
+            <rect x="120" y="140" width="40" height="8" rx="2" fill="#1e1e1e"/>
+            <!-- Funnel sides -->
+            <path d="M 15 70 L 80 116" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <path d="M 265 70 L 200 116" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <path d="M 80 116 L 110 160" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <path d="M 200 116 L 170 160" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <path d="M 110 160 L 130 196" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <path d="M 170 160 L 150 196" stroke="#1e1e1e" stroke-width="1" stroke-dasharray="3,4"/>
+            <!-- Focus target -->
+            <circle cx="140" cy="240" r="36" fill="#C84B30" opacity="0.12" stroke="#C84B30" stroke-width="1" stroke-dasharray="4,3"/>
+            <circle cx="140" cy="240" r="22" fill="#C84B30" opacity="0.2" stroke="#C84B30" stroke-width="1"/>
+            <circle cx="140" cy="240" r="10" fill="#C84B30" opacity="0.9"/>
+            <text x="140" y="286" text-anchor="middle" fill="#555" font-size="9" font-family="Inter" font-weight="600" letter-spacing="0.12em">CONSCIOUS FOCUS</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         11 — SELECTIVE ATTENTION: EXAMPLE
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v" style="padding-top: 5%;">
+        <span class="eyebrow">Selective Attention: Example</span>
+        <h2 class="heading" style="font-size: clamp(28px, 3.2vw, 46px); margin-bottom: 0.4em;">
+          Twitter got it wrong, then <span class="accent">fixed it.</span>
+        </h2>
+        <p class="body-text" style="max-width: 90%; margin-bottom: 1.4em;">
+          Selective attention can only serve one goal at a time. Put two competing paths
+          on the same screen and users freeze, unsure which one is theirs.
+        </p>
+
+        <!-- Before / After images -->
+        <div style="display: flex; gap: 2.5%; align-items: flex-start;">
+
+          <!-- BEFORE -->
+          <div style="flex: 1;">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #555; margin-bottom: 8px;">Before</div>
+            <img src="twitter-main-page.png"
+              alt="Old Twitter page with competing login form and sign-up/log-in buttons"
+              style="width: 100%; border-radius: 7px; border: 1px solid #2a2a2a; display: block;">
+            <p style="font-size: 10px; color: #444; margin-top: 7px; line-height: 1.55; font-style: italic;">
+              Login form at top right <em>and</em> separate sign-up/log-in buttons below. Two paths, zero clarity.
+            </p>
+          </div>
+
+          <!-- Divider arrow -->
+          <div style="flex: 0 0 auto; display: flex; align-items: center; padding-top: 60px;">
+            <span style="font-size: 22px; color: #C84B30; opacity: 0.7;">→</span>
+          </div>
+
+          <!-- AFTER -->
+          <div style="flex: 1;">
+            <div style="font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #C84B30; margin-bottom: 8px;">After</div>
+            <img src="X Web 1.png"
+              alt="Updated Twitter sign-up modal with single focused flow"
+              style="width: 100%; border-radius: 7px; border: 1px solid #2a2a2a; display: block;">
+            <p style="font-size: 10px; color: #444; margin-top: 7px; line-height: 1.55; font-style: italic;">
+              One modal, one task. Sign up is the primary action; login is a secondary link below.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         12 — BANNER BLINDNESS DEFINITION
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <span class="eyebrow">Limitation 04</span>
+        <div class="statement">
+          Banner<br>
+          <span class="accent">Blindness</span>
+        </div>
+        <p class="statement-note">
+          Users consciously or unconsciously ignore information that visually resembles
+          advertising, even when that information is genuinely useful or important.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         13 — BANNER BLINDNESS: PRINCIPLES
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Banner Blindness: Design Implications</span>
+        <h2 class="heading">Three things to know</h2>
+        <ul class="points">
+          <li class="fragment">
+            <span class="pt-num">01</span>
+            <span class="pt-body">
+              <strong>Don't put critical content in ad zones.</strong>
+              Avoid placing important information or CTAs where users expect ads.
+              unless it actually is an ad.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">02</span>
+            <span class="pt-body">
+              <strong>Ad-like visuals trigger the filter.</strong>
+              Flashy colors, animation, and typical ad copy get tuned out.
+              even if the content has nothing to do with advertising.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">03</span>
+            <span class="pt-body">
+              <strong>Relevance cuts through.</strong>
+              Personalized or contextually appropriate content captures attention
+              regardless of format or placement.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         14 — BANNER BLINDNESS: TRY IT
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v" style="padding-top:4%;">
+        <span class="eyebrow">Banner Blindness: Try It</span>
+        <h2 class="heading" style="font-size:clamp(24px,2.8vw,40px); margin-bottom:0.3em;">
+          Read the article. What's the headline about?
+        </h2>
+
+        <div style="display:flex; gap:2.5%; align-items:flex-start; margin-top:0.9em;">
+
+          <!-- LEFT: mock article page -->
+          <div style="flex:0 0 60%;">
+            <p style="font-size:clamp(10px,0.82vw,12px); color:#555; margin-bottom:0.6em; line-height:1.5;">
+              Take 10 seconds to read the article below. Then press <span style="background:#1e1e1e; border:1px solid #333; border-radius:3px; padding:1px 6px; font-weight:600; color:#ccc; font-size:0.9em;">Reveal Ads</span>.
+            </p>
+
+            <!-- Browser chrome -->
+            <div style="background:#1a1a1a; border-radius:8px 8px 0 0; border:1px solid #2a2a2a; border-bottom:none; padding:7px 12px; display:flex; align-items:center; gap:8px;">
+              <span style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;display:inline-block;"></span>
+              <span style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;display:inline-block;"></span>
+              <span style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;display:inline-block;"></span>
+              <div style="flex:1;background:#111;border-radius:4px;padding:3px 10px;font-size:10px;color:#444;font-family:Inter,sans-serif;margin:0 8px;">thedaily.com/economy/remote-work-cities</div>
+            </div>
+
+            <!-- Page content -->
+            <div style="background:#f9f8f6; border:1px solid #2a2a2a; border-top:none; border-radius:0 0 8px 8px; padding:12px 14px; position:relative; font-family:Georgia,serif;">
+
+              <!-- AD 1: Top leaderboard -->
+              <div id="bb-ad1" style="background:#e8e8e8; border:1px solid #d0d0d0; border-radius:3px; padding:7px 12px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; position:relative;">
+                <span style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:0.1em;position:absolute;top:2px;left:6px;">Advertisement</span>
+                <div style="padding-top:6px;">
+                  <span style="font-size:11px;font-family:Inter,sans-serif;font-weight:700;color:#1a5276;">✈ SUMMER SALE: Flights from $89</span>
+                  <span style="font-size:10px;font-family:Inter,sans-serif;color:#666;margin-left:8px;">Book before July 15th</span>
+                </div>
+                <span style="font-size:10px;font-family:Inter,sans-serif;background:#1a5276;color:#fff;padding:4px 10px;border-radius:3px;white-space:nowrap;">Book Now</span>
+                <!-- Reveal overlay -->
+                <div class="bb-reveal-overlay" style="display:none;position:absolute;inset:0;border:2px solid #C84B30;border-radius:3px;background:rgba(200,75,48,0.08);">
+                  <span style="position:absolute;top:-11px;left:8px;background:#C84B30;color:#fff;font-size:9px;font-weight:700;font-family:Inter,sans-serif;padding:1px 7px;border-radius:2px;letter-spacing:0.06em;">AD 1</span>
+                </div>
+              </div>
+
+              <!-- Article layout: main + sidebar -->
+              <div style="display:flex;gap:12px;">
+
+                <!-- Main column -->
+                <div style="flex:1;">
+                  <div style="font-size:8px;color:#999;font-family:Inter,sans-serif;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">Economy · 4 min read</div>
+                  <h3 style="font-size:14px;line-height:1.3;color:#111;margin:0 0 4px;font-weight:700;">Remote Work Is Reshaping City Centers, New Data Shows</h3>
+                  <div style="font-size:9px;color:#999;font-family:Inter,sans-serif;margin-bottom:8px;">By Sarah Chen &nbsp;·&nbsp; April 6, 2026</div>
+                  <p style="font-size:10px;color:#333;line-height:1.6;margin:0 0 8px;">
+                    Office vacancy rates in major US cities hit a 30-year high last quarter, according to a report from the Urban Land Institute, as hybrid work policies continue to pull workers away from downtown cores on Mondays and Fridays.
+                  </p>
+
+                  <!-- AD 2: In-content -->
+                  <div id="bb-ad2" style="background:#eef4fb;border:1px solid #cce0f5;border-radius:3px;padding:6px 10px;margin-bottom:8px;display:flex;align-items:center;gap:10px;position:relative;">
+                    <span style="font-size:8px;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;position:absolute;top:2px;right:6px;font-family:Inter,sans-serif;">Sponsored</span>
+                    <div style="width:32px;height:32px;background:#cce0f5;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;">🏠</div>
+                    <div>
+                      <div style="font-size:10px;font-weight:700;color:#1a5276;font-family:Inter,sans-serif;">Find your next home in minutes</div>
+                      <div style="font-size:9px;color:#666;font-family:Inter,sans-serif;">Listings updated daily · HomeFinder Pro</div>
+                    </div>
+                    <!-- Reveal overlay -->
+                    <div class="bb-reveal-overlay" style="display:none;position:absolute;inset:0;border:2px solid #C84B30;border-radius:3px;background:rgba(200,75,48,0.08);">
+                      <span style="position:absolute;top:-11px;left:8px;background:#C84B30;color:#fff;font-size:9px;font-weight:700;font-family:Inter,sans-serif;padding:1px 7px;border-radius:2px;letter-spacing:0.06em;">AD 2</span>
+                    </div>
+                  </div>
+
+                  <p style="font-size:10px;color:#333;line-height:1.6;margin:0;">
+                    Economists say the shift is permanent. "We're not going back to five days," said Dr. Priya Mehta of Cornell's urban policy lab. Cities that relied on office workers for lunchtime foot traffic are now rethinking their zoning models entirely.
+                  </p>
+                </div>
+
+                <!-- Sidebar -->
+                <div style="flex:0 0 90px;">
+                  <!-- AD 3: Sidebar rectangle -->
+                  <div id="bb-ad3" style="background:#f0f0f0;border:1px solid #ddd;border-radius:3px;padding:8px;text-align:center;position:relative;">
+                    <span style="font-size:7px;color:#bbb;text-transform:uppercase;display:block;letter-spacing:0.1em;font-family:Inter,sans-serif;margin-bottom:4px;">Ad</span>
+                    <div style="width:100%;height:50px;background:#dde8f5;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:5px;">💼</div>
+                    <div style="font-size:9px;font-weight:700;color:#222;font-family:Inter,sans-serif;line-height:1.3;margin-bottom:4px;">MBA Online: Start This Fall</div>
+                    <div style="font-size:8px;color:#888;font-family:Inter,sans-serif;margin-bottom:5px;">Top-ranked programs</div>
+                    <div style="background:#333;color:#fff;font-size:8px;font-family:Inter,sans-serif;padding:3px 6px;border-radius:2px;">Learn More</div>
+                    <!-- Reveal overlay -->
+                    <div class="bb-reveal-overlay" style="display:none;position:absolute;inset:0;border:2px solid #C84B30;border-radius:3px;background:rgba(200,75,48,0.08);">
+                      <span style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#C84B30;color:#fff;font-size:9px;font-weight:700;font-family:Inter,sans-serif;padding:1px 7px;border-radius:2px;white-space:nowrap;letter-spacing:0.06em;">AD 3</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- /page -->
+
+            <div style="margin-top:0.65em;">
+              <button onclick="bbReveal()" id="bb-reveal-btn"
+                style="background:#C84B30;color:#fff;border:none;border-radius:5px;padding:7px 18px;font-family:Inter,sans-serif;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.05em;">
+                Reveal Ads
+              </button>
+              <button onclick="bbReset()" id="bb-reset-btn"
+                style="background:#1a1a1a;color:#666;border:1px solid #2a2a2a;border-radius:5px;padding:7px 14px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:0.05em;margin-left:8px;">
+                Reset
+              </button>
+            </div>
+          </div><!-- /left -->
+
+          <!-- RIGHT: prompt + answer -->
+          <div style="flex:1; padding-top:0.2em;">
+            <div id="bb-prompt-box">
+              <p style="font-size:clamp(12px,0.95vw,15px);color:#444;line-height:1.7;font-style:italic;">
+                Read the article, then press "Reveal Ads." Before you do, ask yourself: how many ads were on the page?
+              </p>
+            </div>
+            <div id="bb-answer-box" style="opacity:0;transition:opacity 0.4s ease;">
+              <div style="background:#111;border:1px solid #1e1e1e;border-radius:8px;padding:18px 20px;margin-bottom:1em;">
+                <span style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#C84B30;display:block;margin-bottom:0.7em;">3 ads, all above the fold</span>
+                <p style="font-size:clamp(12px,1vw,15px);color:#bbb;line-height:1.65;margin:0;">
+                  A leaderboard at the top, a sponsored card mid-article, and a sidebar rectangle. All clearly labeled. Most people reading the headline register zero or one. Their visual system has learned to filter out the zones and patterns that match "ad."
+                </p>
+              </div>
+              <div class="callout" style="margin-top:0;">
+                <p>
+                  <strong>Design implication:</strong> Don't put anything important where ads live: top banners, right rails, in-content cards. Even if it isn't an ad, it will be treated like one.
+                </p>
+              </div>
+            </div>
+          </div><!-- /right -->
+
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        window.bbReveal = function() {
+          document.querySelectorAll('.bb-reveal-overlay').forEach(function(el) {
+            el.style.display = 'block';
+          });
+          document.getElementById('bb-answer-box').style.opacity = '1';
+          document.getElementById('bb-prompt-box').style.opacity = '0';
+        };
+        window.bbReset = function() {
+          document.querySelectorAll('.bb-reveal-overlay').forEach(function(el) {
+            el.style.display = 'none';
+          });
+          document.getElementById('bb-answer-box').style.opacity = '0';
+          document.getElementById('bb-prompt-box').style.opacity = '1';
+        };
+      })();
+      </script>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         14b — BANNER BLINDNESS: EXAMPLE
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Banner Blindness: Example</span>
+        <h2 class="heading">The feed has caught up</h2>
+        <p class="body-text">
+          Users learned to skip Instagram's "Sponsored" label quickly. The format stayed the same,
+          but the signal got tuned out. TikTok's For You Page is the cleaner current example.
+          sponsored content is visually indistinguishable from organic posts.
+        </p>
+        <div class="cards-2" style="margin-top: 1.8em;">
+          <div class="card">
+            <div class="card-title">Instagram Feed</div>
+            <div class="card-body">
+              Users developed banner blindness to the "Sponsored" label over time.
+              Labeled content gets skipped in the first scan pass.
+            </div>
+          </div>
+          <div class="card highlighted">
+            <div class="card-title" style="color: #C84B30;">TikTok For You Page</div>
+            <div class="card-body">
+              No visual distinction between organic and paid content.
+              Users can't filter by format. The most current example of seamless ad integration.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         15 — PROXIMITY TO ADS
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Banner Blindness</span>
+        <h2 class="heading">Proximity to ads is also an issue</h2>
+        <p class="body-text">
+          Content placed near known ad zones gets caught in the same filter.
+          Even if it isn't an ad, its location makes users treat it like one.
+        </p>
+        <div class="callout">
+          <p>
+            <strong>Design implication:</strong> Important content (warnings, recommendations, key actions) should be placed away from traditional ad real estate.
+            Right rail, top banner, and between-content slots all carry heavy filter bias.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         16 — SAME ON MOBILE
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <div class="statement">
+          The same is true<br>
+          on <span class="accent">mobile.</span>
+        </div>
+        <p class="statement-note">
+          Banner blindness is not a desktop phenomenon. Users skip ad-like areas in mobile feeds,
+          ignore notification-style banners, and tune out anything visually formatted like a pop-up.
+          regardless of device.
+        </p>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         17 — SECTION BREAK: SCANNING PATTERNS
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide bottom-v">
+        <span class="section-eyebrow">Part Two</span>
+        <div class="section-word">
+          scanning<br>
+          <span class="accent">patterns.</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         18 — SCANNING PATTERNS INTRO
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Scanning Patterns</span>
+        <h2 class="heading">Users scan. They almost never read.</h2>
+        <p class="body-text">
+          Eye-tracking research shows that users move their eyes in predictable patterns
+          based on content type, layout, and goal. Knowing these patterns
+          helps you place the right information in the right place.
+        </p>
+        <div class="callout">
+          <p>
+            NN/g's 2017 follow-up research documented <strong>over 25 distinct scanning patterns</strong>.
+            The four covered here are the most commonly designed for, but the full picture
+            is more varied. Users with strong task focus often deviate from any single pattern.
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         19 — F-PATTERN
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="split">
+        <div class="split-text">
+          <span class="eyebrow">Pattern 01</span>
+          <h2 class="heading">F-Pattern</h2>
+          <p class="body-text">
+            Users read horizontally across the top, then scan down the left side, making
+            progressively shorter horizontal sweeps.
+          </p>
+          <ul class="points" style="margin-top: 1.5em;">
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Most reliable for <strong>text-heavy content</strong>: search results, article feeds, listings.
+              </span>
+            </li>
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Less universal than originally framed. Users with <strong>strong task focus or
+                high content interest</strong> frequently deviate from it.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="split-visual">
+          <svg viewBox="0 0 260 330" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <rect x="10" y="10" width="240" height="310" rx="6" fill="#111" stroke="#1c1c1c" stroke-width="1"/>
+            <!-- Full-width top scan -->
+            <rect x="26" y="36" width="208" height="11" rx="2" fill="#C84B30" opacity="0.85"/>
+            <!-- Second scan line -->
+            <rect x="26" y="60" width="180" height="8" rx="2" fill="#333"/>
+            <!-- Mid horizontal scan -->
+            <rect x="26" y="80" width="155" height="9" rx="2" fill="#C84B30" opacity="0.5"/>
+            <rect x="26" y="101" width="195" height="8" rx="2" fill="#333"/>
+            <rect x="26" y="117" width="160" height="8" rx="2" fill="#333"/>
+            <!-- Vertical left-side scan (decreasing) -->
+            <rect x="26" y="136" width="32" height="7" rx="1" fill="#C84B30" opacity="0.38"/>
+            <rect x="26" y="152" width="28" height="7" rx="1" fill="#C84B30" opacity="0.3"/>
+            <rect x="26" y="168" width="32" height="7" rx="1" fill="#C84B30" opacity="0.24"/>
+            <rect x="26" y="184" width="26" height="7" rx="1" fill="#C84B30" opacity="0.18"/>
+            <rect x="26" y="200" width="28" height="7" rx="1" fill="#C84B30" opacity="0.13"/>
+            <!-- Faded right content -->
+            <rect x="66" y="136" width="162" height="7" rx="1" fill="#181818"/>
+            <rect x="66" y="152" width="150" height="7" rx="1" fill="#181818"/>
+            <rect x="66" y="168" width="158" height="7" rx="1" fill="#181818"/>
+            <rect x="66" y="184" width="145" height="7" rx="1" fill="#181818"/>
+            <rect x="66" y="200" width="155" height="7" rx="1" fill="#181818"/>
+            <rect x="26" y="220" width="185" height="7" rx="1" fill="#181818"/>
+            <rect x="26" y="236" width="175" height="7" rx="1" fill="#181818"/>
+            <rect x="26" y="252" width="190" height="7" rx="1" fill="#181818"/>
+            <!-- F label watermark -->
+            <text x="218" y="60" text-anchor="middle" fill="#C84B30" font-size="44" font-family="Inter" font-weight="900" opacity="0.12">F</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         20 — Z-PATTERN
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="split">
+        <div class="split-text">
+          <span class="eyebrow">Pattern 02</span>
+          <h2 class="heading">Z-Pattern</h2>
+          <p class="body-text">
+            The eye sweeps horizontally across the top, then diagonally down to the bottom-left,
+            then horizontally across again, tracing a Z shape.
+          </p>
+          <ul class="points" style="margin-top: 1.5em;">
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Common on pages with <strong>limited body text and strong visual hierarchy</strong>:
+                landing pages, hero sections, posters.
+              </span>
+            </li>
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Useful when you want the eye to naturally arrive at a
+                <strong>call to action at the bottom right</strong>.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="split-visual">
+          <svg viewBox="0 0 260 330" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <rect x="10" y="10" width="240" height="310" rx="6" fill="#111" stroke="#1c1c1c" stroke-width="1"/>
+            <!-- Header zone -->
+            <rect x="26" y="30" width="208" height="42" rx="4" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <!-- Logo left -->
+            <rect x="34" y="40" width="50" height="22" rx="3" fill="#1e1e1e"/>
+            <!-- Nav right -->
+            <rect x="156" y="44" width="24" height="6" rx="1" fill="#252525"/>
+            <rect x="188" y="44" width="24" height="6" rx="1" fill="#252525"/>
+            <!-- Z scan path -->
+            <!-- Top sweep left to right -->
+            <path d="M 30 51 L 230 51" stroke="#C84B30" stroke-width="2" stroke-dasharray="0" opacity="0.8"/>
+            <!-- Diagonal down-left -->
+            <path d="M 230 51 L 30 265" stroke="#C84B30" stroke-width="2" stroke-dasharray="5,3" opacity="0.45"/>
+            <!-- Bottom sweep left to right -->
+            <path d="M 30 265 L 230 265" stroke="#C84B30" stroke-width="2" stroke-dasharray="0" opacity="0.8"/>
+            <!-- Content blocks -->
+            <rect x="26" y="88" width="100" height="120" rx="4" fill="#161616" stroke="#1c1c1c" stroke-width="1"/>
+            <rect x="138" y="88" width="100" height="120" rx="4" fill="#161616" stroke="#1c1c1c" stroke-width="1"/>
+            <!-- CTA at bottom right -->
+            <rect x="160" y="248" width="72" height="28" rx="5" fill="#C84B30" opacity="0.85"/>
+            <text x="196" y="267" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter" font-weight="700">Get Started</text>
+            <!-- Scan dot indicators -->
+            <circle cx="30" cy="51" r="5" fill="#C84B30" opacity="0.9"/>
+            <circle cx="230" cy="51" r="5" fill="#C84B30" opacity="0.6"/>
+            <circle cx="30" cy="265" r="5" fill="#C84B30" opacity="0.6"/>
+            <circle cx="230" cy="265" r="5" fill="#C84B30" opacity="0.9"/>
+            <!-- Z label watermark -->
+            <text x="218" y="218" text-anchor="middle" fill="#C84B30" font-size="44" font-family="Inter" font-weight="900" opacity="0.1">Z</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         21 — SPOTTED PATTERN
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="split">
+        <div class="split-text">
+          <span class="eyebrow">Pattern 03</span>
+          <h2 class="heading">Spotted Pattern</h2>
+          <p class="body-text">
+            Users look for specific items or keywords, skipping irrelevant content entirely.
+            Their eye jumps between visual anchors: headings, images, labels, prices.
+          </p>
+          <ul class="points" style="margin-top: 1.5em;">
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Design for this with strong visual hierarchy and clear labeling.
+                <strong>Scale, color, animation, and imagery</strong> all serve as anchors.
+              </span>
+            </li>
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Common in <strong>ecommerce, searchable databases,</strong> and reference sites.
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="split-visual">
+          <svg viewBox="0 0 260 330" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <rect x="10" y="10" width="240" height="310" rx="6" fill="#111" stroke="#1c1c1c" stroke-width="1"/>
+            <!-- List rows -->
+            <rect x="26" y="28" width="208" height="32" rx="3" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="26" y="68" width="208" height="32" rx="3" fill="#0e0e0e"/>
+            <rect x="26" y="108" width="208" height="32" rx="3" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="26" y="148" width="208" height="32" rx="3" fill="#0e0e0e"/>
+            <rect x="26" y="188" width="208" height="32" rx="3" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <rect x="26" y="228" width="208" height="32" rx="3" fill="#0e0e0e"/>
+            <rect x="26" y="268" width="208" height="32" rx="3" fill="#161616" stroke="#1e1e1e" stroke-width="1"/>
+            <!-- Fixation dots on keywords/anchors -->
+            <circle cx="70"  cy="44"  r="11" fill="#C84B30" opacity="0.85"/>
+            <circle cx="100" cy="124" r="9"  fill="#C84B30" opacity="0.7"/>
+            <circle cx="148" cy="164" r="13" fill="#C84B30" opacity="0.9"/>
+            <circle cx="58"  cy="204" r="8"  fill="#C84B30" opacity="0.55"/>
+            <circle cx="188" cy="284" r="10" fill="#C84B30" opacity="0.75"/>
+            <!-- Scan path (scattered) -->
+            <path d="M 70 44 Q 85 84 100 124 Q 124 144 148 164 Q 103 184 58 204 Q 123 244 188 284"
+                  stroke="#C84B30" stroke-width="1.5" stroke-dasharray="5,5" opacity="0.25" fill="none"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         22 — COMMITMENT PATTERN
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="split">
+        <div class="split-text">
+          <span class="eyebrow">Pattern 04</span>
+          <h2 class="heading">Commitment Pattern</h2>
+          <p class="body-text">
+            Users read most or all of the content, every word in every line.
+            This only happens when users are genuinely motivated to absorb the full piece.
+          </p>
+          <ul class="points" style="margin-top: 1.5em;">
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Common on news sites, long-form editorial, magazine features, and technical documentation.
+              </span>
+            </li>
+            <li>
+              <span class="pt-num">→</span>
+              <span class="pt-body">
+                Design for it with <strong>legible typefaces, strong contrast</strong>,
+                and comfortable line length (~60–70 characters).
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="split-visual">
+          <svg viewBox="0 0 260 330" fill="none" xmlns="http://www.w3.org/2000/svg" width="100%">
+            <rect x="10" y="10" width="240" height="310" rx="6" fill="#111" stroke="#1c1c1c" stroke-width="1"/>
+            <!-- Dense uniform text lines - all read equally -->
+            <rect x="26" y="32" width="208" height="8"  rx="1" fill="#C84B30" opacity="0.72"/>
+            <rect x="26" y="48" width="200" height="8"  rx="1" fill="#C84B30" opacity="0.66"/>
+            <rect x="26" y="64" width="205" height="8"  rx="1" fill="#C84B30" opacity="0.70"/>
+            <rect x="26" y="80" width="195" height="8"  rx="1" fill="#C84B30" opacity="0.64"/>
+            <rect x="26" y="96" width="208" height="8"  rx="1" fill="#C84B30" opacity="0.68"/>
+            <rect x="26" y="112" width="198" height="8" rx="1" fill="#C84B30" opacity="0.62"/>
+            <rect x="26" y="128" width="204" height="8" rx="1" fill="#C84B30" opacity="0.66"/>
+            <rect x="26" y="144" width="192" height="8" rx="1" fill="#C84B30" opacity="0.60"/>
+            <rect x="26" y="160" width="208" height="8" rx="1" fill="#C84B30" opacity="0.64"/>
+            <rect x="26" y="176" width="196" height="8" rx="1" fill="#C84B30" opacity="0.58"/>
+            <rect x="26" y="192" width="205" height="8" rx="1" fill="#C84B30" opacity="0.62"/>
+            <rect x="26" y="208" width="190" height="8" rx="1" fill="#C84B30" opacity="0.56"/>
+            <rect x="26" y="224" width="200" height="8" rx="1" fill="#C84B30" opacity="0.60"/>
+            <rect x="26" y="240" width="170" height="8" rx="1" fill="#C84B30" opacity="0.50"/>
+            <rect x="26" y="260" width="208" height="8" rx="1" fill="#C84B30" opacity="0.52"/>
+            <rect x="26" y="276" width="194" height="8" rx="1" fill="#C84B30" opacity="0.46"/>
+            <rect x="26" y="292" width="160" height="8" rx="1" fill="#C84B30" opacity="0.40"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         23 — MOBILE SCANNING
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Scanning Patterns</span>
+        <h2 class="heading">Patterns shift on mobile</h2>
+        <p class="body-text">
+          The F-pattern assumes a wide viewport with long horizontal text lines.
+          On mobile, that rarely applies. The screen is narrow, the scroll is vertical,
+          and the thumb governs what gets attention first.
+        </p>
+        <div class="cards-3" style="margin-top: 2em;">
+          <div class="card">
+            <span class="card-num">01</span>
+            <div class="card-title">Thumb Zone Governs Attention</div>
+            <div class="card-body">
+              What users can comfortably reach shapes where attention naturally falls.
+              Center and lower-center of the screen tend to win.
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-num">02</span>
+            <div class="card-title">Spotted Pattern Dominates</div>
+            <div class="card-body">
+              Swipe-based interfaces (feeds, carousels, TikTok-style layouts) train users
+              to scan for visual anchors rather than read linearly.
+            </div>
+          </div>
+          <div class="card">
+            <span class="card-num">03</span>
+            <div class="card-title">Z-Pattern Is Difficult</div>
+            <div class="card-body">
+              The narrow viewport makes Z-pattern layouts hard to design effectively.
+              Most mobile layouts push toward single-column sequential reading instead.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         24 — AI & PERCEPTION
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v">
+        <span class="eyebrow">Looking Ahead</span>
+        <h2 class="heading">
+          AI is changing how users scan
+          <span class="badge">New</span>
+        </h2>
+        <p class="body-text">
+          Traditional scanning pattern research was conducted on static layouts.
+          AI-integrated interfaces are introducing perceptual dynamics those studies
+          didn't anticipate.
+        </p>
+        <ul class="points" style="margin-top: 1.5em;">
+          <li class="fragment">
+            <span class="pt-num">01</span>
+            <span class="pt-body">
+              <strong>AI summaries change what users skip.</strong>
+              When AI generates a summary at the top, users read it and skip the body.
+              even when the body contains important nuance.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">02</span>
+            <span class="pt-body">
+              <strong>Personalized feeds break layout assumptions.</strong>
+              Ranked and filtered content changes what users expect to see where,
+              invalidating assumptions based on static layout research.
+            </span>
+          </li>
+          <li class="fragment">
+            <span class="pt-num">03</span>
+            <span class="pt-body">
+              <strong>Test, don't assume.</strong>
+              As you design AI-integrated products, verify whether users are actually reading
+              what you expect, or skipping past it entirely.
+            </span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         24b — AI & PERCEPTION: DEMO
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide top-v" style="padding-top:3%;">
+        <span class="eyebrow">AI & Scanning: Try It</span>
+        <h2 class="heading" style="font-size:clamp(22px,2.6vw,38px); margin-bottom:0.25em;">
+          Read the article, then press the button.
+        </h2>
+
+        <div style="display:flex; gap:2.5%; align-items:flex-start; margin-top:0.75em;">
+
+          <!-- LEFT: article -->
+          <div style="flex:0 0 56%;">
+            <div style="background:#f9f8f6; border:1px solid #2a2a2a; border-radius:8px; padding:16px 18px; font-family:Georgia,serif; position:relative;">
+
+              <!-- AI Summary box — hidden by default -->
+              <div id="ai-summary-box" style="display:none; background:#eef6ff; border:1px solid #b8d4ef; border-radius:5px; padding:10px 13px; margin-bottom:14px;">
+                <span style="font-size:9px; background:#1a5276; color:#fff; padding:2px 7px; border-radius:3px; font-family:Inter,sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; display:inline-block; margin-bottom:6px;">✦ AI Summary</span>
+                <p style="font-size:11px; color:#2c4a6e; line-height:1.65; margin:0; font-family:Inter,sans-serif;">
+                  App abandonment is rising. Users leave apps they find confusing or slow. Researchers recommend clearer onboarding and faster load times.
+                </p>
+              </div>
+
+              <div style="font-size:8px; color:#999; font-family:Inter,sans-serif; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:5px;">UX Research · 3 min read</div>
+              <h3 style="font-size:15px; font-weight:700; color:#111; line-height:1.3; margin:0 0 4px;">
+                Mobile App Abandonment Is Rising: Designers May Be the Cause
+              </h3>
+              <div style="font-size:9px; color:#aaa; font-family:Inter,sans-serif; margin-bottom:10px;">By Priya Mehta, UX Research Weekly &nbsp;·&nbsp; April 2026</div>
+
+              <p style="font-size:10.5px; color:#333; line-height:1.7; margin:0 0 8px;">
+                A survey of 4,200 smartphone users found that app abandonment rates have climbed 22% over two years, driven primarily by onboarding friction and unclear navigation.
+              </p>
+              <p style="font-size:10.5px; color:#333; line-height:1.7; margin:0 0 8px;">
+                Overall, 61% of respondents deleted an app within the first week. Poor loading performance was cited most often, followed by confusing setup flows.
+              </p>
+              <p id="ai-key-stat" style="font-size:10.5px; color:#333; line-height:1.7; margin:0; transition:background 0.4s ease, padding 0.4s ease; border-radius:4px;">
+                The effect was sharpest among <strong style="color:#111;">users aged 18–24, where 83% reported abandoning at least one app due to onboarding confusion</strong>, nearly double the 44% rate seen in users over 45.
+              </p>
+            </div>
+
+            <div style="margin-top:0.7em;">
+              <button id="ai-btn" onclick="aiToggle()"
+                style="background:#C84B30; color:#fff; border:none; border-radius:5px; padding:8px 22px; font-family:Inter,sans-serif; font-size:12px; font-weight:700; cursor:pointer; letter-spacing:0.05em;">
+                Add AI Summary
+              </button>
+            </div>
+          </div><!-- /left -->
+
+          <!-- RIGHT: callout -->
+          <div style="flex:1; padding-top:0.2em;">
+            <div id="ai-callout" style="opacity:0; transition:opacity 0.5s ease;">
+              <div style="background:#111; border:1px solid #1e1e1e; border-radius:8px; padding:18px 20px; margin-bottom:1em;">
+                <span style="font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#C84B30; display:block; margin-bottom:0.6em;">The summary skipped this</span>
+                <p style="font-size:clamp(11px,0.95vw,13px); color:#bbb; line-height:1.65; margin:0;">
+                  The 18–24 stat is highlighted in orange. The AI summary isn't wrong. It just decided that detail didn't matter. For a designer building onboarding for a Gen Z product, it's the whole point.
+                </p>
+              </div>
+              <div class="callout" style="margin-top:0;">
+                <p>
+                  <strong>Design implication:</strong> When AI sits between content and users, it controls what they know. Test what your summaries surface and what they bury.
+                </p>
+              </div>
+            </div>
+          </div><!-- /right -->
+
+        </div>
+      </div>
+
+      <script>
+      (function() {
+        var on = false;
+        window.aiToggle = function() {
+          on = !on;
+          var summary  = document.getElementById('ai-summary-box');
+          var stat     = document.getElementById('ai-key-stat');
+          var callout  = document.getElementById('ai-callout');
+          var btn      = document.getElementById('ai-btn');
+          if (on) {
+            summary.style.display = 'block';
+            stat.style.background = 'rgba(200,75,48,0.15)';
+            stat.style.padding    = '6px 8px';
+            callout.style.opacity = '1';
+            btn.textContent       = 'Reset';
+            btn.style.background  = '#1a1a1a';
+            btn.style.border      = '1px solid #2a2a2a';
+            btn.style.color       = '#888';
+          } else {
+            summary.style.display = 'none';
+            stat.style.background = 'transparent';
+            stat.style.padding    = '0';
+            callout.style.opacity = '0';
+            btn.textContent       = 'Add AI Summary';
+            btn.style.background  = '#C84B30';
+            btn.style.border      = 'none';
+            btn.style.color       = '#fff';
+          }
+        };
+      })();
+      </script>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════
+         25 — HOMEWORK
+    ══════════════════════════════════════════ -->
+    <section>
+      <div class="slide center-v">
+        <div class="display">
+          homework.
+        </div>
+        <p class="display-sub">Assignment 10, details in Canvas</p>
+        <div class="slide-meta">Week 10 · IXD 620 / 320 · Human Perception Revisited</div>
+      </div>
+    </section>
+
+
+  </div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.6.1/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash:            true,
+    progress:        true,
+    slideNumber:     'c/t',
+    transition:      'fade',
+    transitionSpeed: 'fast',
+    controls:        true,
+    controlsLayout:  'edges',
+    center:          false,
+    width:           1440,
+    height:          810,
+    margin:          0,
+    minScale:        0.2,
+    maxScale:        2.0,
+    autoPlayMedia:   false,
+  });
+</script>
+</body>
+</html>
