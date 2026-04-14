@@ -1,0 +1,1752 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversation &amp; Notification Design: Week 11</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/black.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    .reveal-viewport,
+    .reveal,
+    .reveal .slides,
+    body, html {
+      background: #0a0a0a;
+    }
+
+    .reveal {
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+    }
+
+    /* Kill default theme headings */
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4,
+    .reveal h5, .reveal h6 {
+      font-family: 'Inter', sans-serif;
+      text-transform: none;
+      letter-spacing: normal;
+      text-shadow: none;
+      word-wrap: normal;
+      color: #ffffff;
+    }
+
+    .reveal .slides section {
+      text-align: left;
+      padding: 0;
+      height: 100%;
+      top: 0 !important;
+    }
+
+    /* Progress bar */
+    .reveal .progress {
+      height: 3px;
+      background: #1a1a1a;
+      color: #C84B30;
+    }
+    .reveal .progress span {
+      background: #C84B30;
+      transition: width 400ms ease;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE WRAPPER
+    ───────────────────────────────────────── */
+    .slide {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 7% 8%;
+    }
+
+    .slide.center-v { justify-content: center; }
+    .slide.bottom-v { justify-content: flex-end; padding-bottom: 14%; }
+    .slide.top-v    { justify-content: flex-start; padding-top: 9%; }
+
+    /* ─────────────────────────────────────────
+       HERO / COVER TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display {
+      font-size: clamp(64px, 9.5vw, 130px);
+      font-weight: 900;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
+      text-transform: lowercase;
+      color: #ffffff;
+    }
+
+    .display-sub {
+      font-size: clamp(18px, 1.5vw, 22px);
+      font-weight: 400;
+      color: #888;
+      margin-top: 3em;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION DIVIDER
+    ───────────────────────────────────────── */
+    .section-eyebrow {
+      font-size: clamp(14px, 1.1vw, 17px);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #C84B30;
+      margin-bottom: 1.8em;
+    }
+
+    .section-word {
+      font-size: clamp(72px, 12vw, 150px);
+      font-weight: 900;
+      line-height: 0.86;
+      text-transform: lowercase;
+      letter-spacing: -0.045em;
+      color: #ffffff;
+    }
+
+    /* ─────────────────────────────────────────
+       STATEMENT
+    ───────────────────────────────────────── */
+    .statement {
+      font-size: clamp(30px, 3.8vw, 56px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      max-width: 88%;
+    }
+
+    .statement-note {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 400;
+      color: #b0b0b0;
+      margin-top: 2em;
+      max-width: 62%;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTENT HEADER
+    ───────────────────────────────────────── */
+    .eyebrow {
+      font-size: clamp(14px, 1.1vw, 17px);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #C84B30;
+      margin-bottom: 0.9em;
+    }
+
+    .heading {
+      font-size: clamp(36px, 4.2vw, 60px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.035em;
+      color: #ffffff;
+      margin-bottom: 0.55em;
+    }
+
+    .body-text {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 400;
+      color: #c0c0c0;
+      line-height: 1.7;
+      max-width: 74%;
+    }
+
+    /* ─────────────────────────────────────────
+       CARDS
+    ───────────────────────────────────────── */
+    .cards-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 2em;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 2em;
+    }
+
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 2em;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+      padding: clamp(20px, 2vw, 28px) clamp(18px, 1.8vw, 26px);
+    }
+
+    .card.highlighted {
+      border-color: #C84B30;
+    }
+
+    .card-num {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #C84B30;
+      text-transform: uppercase;
+      margin-bottom: 0.9em;
+    }
+
+    .card-title {
+      font-size: clamp(16px, 1.35vw, 20px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      margin-bottom: 0.55em;
+    }
+
+    .card-body {
+      font-size: clamp(14px, 1.1vw, 17px);
+      font-weight: 400;
+      color: #b0b0b0;
+      line-height: 1.65;
+    }
+
+    /* ─────────────────────────────────────────
+       POINTS LIST
+    ───────────────────────────────────────── */
+    .points {
+      list-style: none;
+      margin-top: 1.6em;
+      margin-bottom: 0;
+      padding: 0;
+    }
+
+    .points li {
+      border-top: 1px solid #1c1c1c;
+      padding: 1em 0;
+      display: flex;
+      gap: 1.4em;
+      align-items: flex-start;
+    }
+
+    .points li:last-child {
+      border-bottom: 1px solid #1c1c1c;
+    }
+
+    .pt-num {
+      font-size: 14px;
+      font-weight: 700;
+      color: #C84B30;
+      flex-shrink: 0;
+      padding-top: 3px;
+      letter-spacing: 0.08em;
+    }
+
+    .pt-body {
+      font-size: clamp(16px, 1.25vw, 19px);
+      font-weight: 400;
+      color: #c0c0c0;
+      line-height: 1.65;
+    }
+
+    .pt-body strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────
+       CALLOUT BOX
+    ───────────────────────────────────────── */
+    .callout {
+      border-left: 2px solid #C84B30;
+      padding: 1.2em 1.6em;
+      margin-top: 1.8em;
+      background: #0f0f0f;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .callout p {
+      font-size: clamp(16px, 1.25vw, 19px);
+      font-weight: 400;
+      color: #b0b0b0;
+      font-style: italic;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .callout p strong {
+      color: #e0e0e0;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────
+       SPLIT LAYOUT
+    ───────────────────────────────────────── */
+    .split {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 100%;
+      gap: 6%;
+      padding: 6% 8%;
+    }
+
+    .split-text { flex: 1; }
+
+    .split-visual {
+      flex: 0 0 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ─────────────────────────────────────────
+       BADGE
+    ───────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      background: #C84B30;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 3px;
+      vertical-align: middle;
+      margin-left: 12px;
+      position: relative;
+      top: -4px;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER META
+    ───────────────────────────────────────── */
+    .slide-meta {
+      position: absolute;
+      bottom: 7%;
+      left: 8%;
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────
+       FRAGMENT ANIMATION
+    ───────────────────────────────────────── */
+    .reveal .fragment {
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .reveal .fragment.visible {
+      opacity: 1;
+    }
+
+    /* ─────────────────────────────────────────
+       DEMO SLIDE (additional for Week 11)
+    ───────────────────────────────────────── */
+    .demo-badge {
+      display: inline-block;
+      background: #e8a020;
+      color: #0a0a0a;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin-bottom: 1.4em;
+    }
+
+    /* Full-bleed image slide */
+    .img-fill {
+      position: absolute;
+      inset: 0;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      opacity: 0.35;
+    }
+
+    .img-fill-overlay {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ══════════════════════════════════════════
+     1 — COVER
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide center-v">
+    <div class="display">conversation<br>&amp; notification<br><span style="color:#C84B30;">design.</span></div>
+    <div class="display-sub">Week 11 &nbsp;·&nbsp; IXD 620 / 320</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     2 — SCOPE
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide center-v">
+    <div class="eyebrow">Conversation Design</div>
+    <div class="statement">Conversation design is vast.</div>
+    <p class="statement-note">It covers everything from UI microcopy to voice assistants. Today we focus on <strong style="color:#fff;">text and verbal conversation design</strong>: the patterns that make digital interactions feel natural.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     3 — THE RISE
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-visual">
+      <img src="images/image21.jpg" style="width:100%; border-radius:6px; object-fit:cover; max-height:500px;" alt="Robot and woman conversing">
+    </div>
+    <div class="split-text">
+      <div class="eyebrow">The Rise</div>
+      <div class="heading">AI-Powered<br>Conversations</div>
+      <p class="body-text">The rise of AI-powered chatbots and voice assistants demands a focus on designing user-friendly conversational interfaces to meet growing expectations for natural interactions.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     4 — DEFINITION & GOAL
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Conversation Design</div>
+    <div class="heading">Definition &amp; Goal</div>
+    <div class="cards-2">
+      <div class="card highlighted">
+        <span class="card-num">Definition</span>
+        <div class="card-title">What it is</div>
+        <div class="card-body">The process of creating natural and engaging voice or text interactions between users and conversational interfaces.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">Goal</span>
+        <div class="card-title">What it achieves</div>
+        <div class="card-body">Understanding intent (with AI), clarity, efficiency, and personality in every interaction.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     5 — PRINCIPLES 1–4
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Conversation Design</div>
+    <div class="heading">Design Principles</div>
+    <ul class="points">
+      <li><span class="pt-num">01</span><span class="pt-body"><strong>Clarity</strong>: Responses are straightforward and to the point, minimizing confusion.</span></li>
+      <li><span class="pt-num">02</span><span class="pt-body"><strong>Natural Language</strong>: Use everyday language that resonates with users, not system speak.</span></li>
+      <li><span class="pt-num">03</span><span class="pt-body"><strong>Guidance</strong>: Guide users through the conversation by clearly outlining what they can expect next.</span></li>
+      <li><span class="pt-num">04</span><span class="pt-body"><strong>Error Recovery</strong>: Anticipate misunderstandings and provide helpful recovery options to keep the conversation on track.</span></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     6 — PRINCIPLES 5–6
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Conversation Design</div>
+    <div class="heading">Design Principles <span style="color:#555; font-weight:400; font-size:0.6em;">continued</span></div>
+    <ul class="points">
+      <li><span class="pt-num">05</span><span class="pt-body"><strong>Personalization</strong>: Tailor interactions based on user preferences and history when possible, making the experience feel more relevant.</span></li>
+      <li><span class="pt-num">06</span><span class="pt-body"><strong>Consistent Voice</strong>: Maintain a uniform voice throughout interactions, building trust and familiarity with users.</span></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     7 — CHALLENGES
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Conversation Design</div>
+      <div class="heading">Challenges</div>
+      <ul class="points">
+        <li><span class="pt-num">01</span><span class="pt-body"><strong>Capturing Intent</strong>: Understanding exactly what the user wants is crucial. AI is increasingly solving this at scale.</span></li>
+        <li><span class="pt-num">02</span><span class="pt-body"><strong>Unpredictable Input</strong>: Users express themselves in countless ways: "yes," "yeah," "mhhmm," "yep."</span></li>
+        <li><span class="pt-num">03</span><span class="pt-body"><strong>Dead Ends</strong>: Conversations that hit a wall cause users to abandon the interaction entirely.</span></li>
+      </ul>
+    </div>
+    <div class="split-visual">
+      <img src="images/image24.jpg" style="width:100%; border-radius:6px; max-height:500px; object-fit:cover;" alt="Frustrated person looking at phone">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     8 — SECTION BREAK: CREATING A CONVERSATION
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide bottom-v" style="position:relative; overflow:hidden;">
+    <img src="images/image7.jpg" class="img-fill" alt="">
+    <div class="img-fill-overlay">
+      <div class="section-eyebrow">Part 01</div>
+      <div class="section-word">creating a<br>conversation.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     9 — CREATING STEPS
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Conversation Design</div>
+      <div class="heading">Creating a Conversation</div>
+      <ul class="points">
+        <li><span class="pt-num">01</span><span class="pt-body"><strong>Identify user intents</strong>: Map what users want to accomplish and what they expect in return.</span></li>
+        <li><span class="pt-num">02</span><span class="pt-body"><strong>Create a system persona</strong>: Define your AI's voice and character, then write a script with that voice.</span></li>
+        <li><span class="pt-num">03</span><span class="pt-body"><strong>Role-play the scenario</strong>: Rehearse with a teammate to surface gaps and awkward moments before testing.</span></li>
+        <li><span class="pt-num">04</span><span class="pt-body"><strong>Build in alternatives</strong>: Include varied phrasing to handle different user responses and maintain engagement.</span></li>
+      </ul>
+    </div>
+    <div class="split-visual">
+      <img src="images/image18.jpg" style="width:100%; border-radius:6px; max-height:500px; object-fit:cover;" alt="Two people in conversation">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     10 — CONVERSATION COMPONENTS OVERVIEW
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading">The Anatomy of a Conversation</div>
+    <div style="display:flex; justify-content:center; margin-top:1.5em;">
+      <img src="images/image14.png" style="max-height:380px; object-fit:contain; border-radius:6px;" alt="Conversation design diagram">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     11 — COMPONENT: ACKNOWLEDGE TO CONFIRM
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading" style="margin-bottom:0.5em;">Acknowledge to Confirm</div>
+
+    <div style="display:flex; gap:0.4em; flex-wrap:wrap; margin-bottom:0.65em;">
+      <span style="font-family:'Inter',sans-serif; font-size:0.6em; color:#555; align-self:center; margin-right:0.3em; text-transform:uppercase; letter-spacing:.08em;">Try:</span>
+      <button class="ack-chip" onclick="runAtcDemo(this,'send 200 to Mike')">Send $200 to Mike</button>
+      <button class="ack-chip" onclick="runAtcDemo(this,'delete all my drafts')">Delete all my drafts</button>
+      <button class="ack-chip" onclick="runAtcDemo(this,'flight to NYC on Friday')">Book a flight to NYC Friday</button>
+      <button class="ack-chip" onclick="runAtcDemo(this,'alarm at 6am')">Set alarm for 6am</button>
+      <input id="atc-input" type="text" placeholder="or type your own…"
+        style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; padding:0.3em 0.6em; color:#eee; font-family:'Inter',sans-serif; font-size:0.62em; outline:none; width:160px;"
+        onkeydown="if(event.key==='Enter') runAtcDemo(null,this.value)">
+      <button onclick="runAtcDemo(null,document.getElementById('atc-input').value)"
+        style="background:#C84B30; border:none; border-radius:6px; padding:0.3em 0.65em; color:#fff; font-family:'Inter',sans-serif; font-size:0.62em; font-weight:600; cursor:pointer;">→</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; width:100%;">
+      <div style="background:#1c1210; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #7a2010;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7a2010; margin-bottom:0.5em;">Acts without confirming</div>
+        <div id="atc-over" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#886655; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #2a1a15; font-family:'Inter',sans-serif; font-size:0.55em; color:#554433; line-height:1.4;">High risk: errors go uncaught until it's too late to undo.</div>
+      </div>
+      <div style="background:#141414; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #333;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#555; margin-bottom:0.5em;">Over-confirms / interrogates</div>
+        <div id="atc-cold" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#777; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #222; font-family:'Inter',sans-serif; font-size:0.55em; color:#444; line-height:1.4;">Too many questions slows the task and erodes confidence.</div>
+      </div>
+      <div style="background:#0d160d; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #3a7a3a;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#3a7a3a; margin-bottom:0.5em;">Confirms clearly ✓</div>
+        <div id="atc-good" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#7aaa7a; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #1a2a1a; font-family:'Inter',sans-serif; font-size:0.55em; color:#3a6a3a; line-height:1.4;">Repeats back the key detail and asks one clear yes/no. Catches errors before they happen.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var atcR = {
+      'send 200 to mike': {
+        over: '"Done. $200 sent to Mike."',
+        cold: '"Before I proceed, can you confirm the recipient\'s full name, account number, the exact amount, and the reason for payment?"',
+        good: '"Just to confirm: sending $200 to Mike Johnson. Is that right?"'
+      },
+      'delete all my drafts': {
+        over: '"All drafts deleted."',
+        cold: '"Please specify which drafts, the date range, and confirm you have backups before I proceed."',
+        good: '"You have 14 drafts. Delete all of them? This can\'t be undone."'
+      },
+      'flight to nyc on friday': {
+        over: '"Booking the cheapest flight to NYC on Friday now."',
+        cold: '"What time? Which airport? One way or round trip? What\'s your budget? Do you have preferences for airlines?"',
+        good: '"Got it. One-way to New York, this Friday. Any preference on time or airport?"'
+      },
+      'alarm at 6am': {
+        over: '"Alarm set."',
+        cold: '"For which days? Every day, weekdays only, or just tomorrow? What sound would you like? Should it repeat?"',
+        good: '"Setting alarm for 6:00am tomorrow. Just the one day?"'
+      }
+    };
+    function atcFallback(w) {
+      return {
+        over: '"Done."',
+        cold: '"Before I do that, can you confirm every detail, including the date, time, and your account preferences?"',
+        good: '"Just to confirm: you want me to ' + w + '. Is that right?"'
+      };
+    }
+    window.runAtcDemo = function(btn, raw) {
+      var input = (raw || '').trim(); if (!input) return;
+      document.querySelectorAll('.ack-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      var r = atcR[input.toLowerCase()] || atcFallback(input);
+      ['over','cold','good'].forEach(function(t) {
+        var el = document.getElementById('atc-' + t);
+        el.style.opacity = '0';
+        setTimeout(function() { el.textContent = r[t]; el.style.opacity = '1'; }, 150);
+      });
+      document.getElementById('atc-input').value = '';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     12 — COMPONENT: RESOLVE OR NOTIFY
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading" style="margin-bottom:0.5em;">Resolve or Notify</div>
+
+    <div style="display:flex; gap:0.4em; flex-wrap:wrap; margin-bottom:0.65em;">
+      <span style="font-family:'Inter',sans-serif; font-size:0.6em; color:#555; align-self:center; margin-right:0.3em; text-transform:uppercase; letter-spacing:.08em;">Try:</span>
+      <button class="ack-chip" onclick="runRonDemo(this,'restaurants in Paris')">Find restaurants in Paris</button>
+      <button class="ack-chip" onclick="runRonDemo(this,'reminder 5 minutes ago')">Set reminder for 5 min ago</button>
+      <button class="ack-chip" onclick="runRonDemo(this,'call my mom')">Call my mom</button>
+      <button class="ack-chip" onclick="runRonDemo(this,'play that song')">Play that song</button>
+      <input id="ron-input" type="text" placeholder="or type your own…"
+        style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; padding:0.3em 0.6em; color:#eee; font-family:'Inter',sans-serif; font-size:0.62em; outline:none; width:160px;"
+        onkeydown="if(event.key==='Enter') runRonDemo(null,this.value)">
+      <button onclick="runRonDemo(null,document.getElementById('ron-input').value)"
+        style="background:#C84B30; border:none; border-radius:6px; padding:0.3em 0.65em; color:#fff; font-family:'Inter',sans-serif; font-size:0.62em; font-weight:600; cursor:pointer;">→</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; width:100%;">
+      <div style="background:#1c1210; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #7a2010;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7a2010; margin-bottom:0.5em;">Over-apologetic</div>
+        <div id="ron-over" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#886655; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #2a1a15; font-family:'Inter',sans-serif; font-size:0.55em; color:#554433; line-height:1.4;">Makes the failure bigger than it is. Feels defensive and slows the conversation.</div>
+      </div>
+      <div style="background:#141414; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #333;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#555; margin-bottom:0.5em;">Blunt / dead end</div>
+        <div id="ron-cold" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#777; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #222; font-family:'Inter',sans-serif; font-size:0.55em; color:#444; line-height:1.4;">Brief but leaves the user stranded with nowhere to go.</div>
+      </div>
+      <div style="background:#0d160d; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #3a7a3a;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#3a7a3a; margin-bottom:0.5em;">Resolves + moves on ✓</div>
+        <div id="ron-good" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#7aaa7a; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #1a2a1a; font-family:'Inter',sans-serif; font-size:0.55em; color:#3a6a3a; line-height:1.4;">States the limit clearly, then offers an alternative path forward.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var ronR = {
+      'restaurants in paris': {
+        over: '"I\'m so terribly sorry, I truly apologize. I\'m afraid I don\'t have access to Paris restaurant data and I feel awful about that. I\'m really sorry I can\'t help."',
+        cold: '"I can\'t do that."',
+        good: '"I don\'t have restaurant data for Paris. Want me to open Google Maps or Yelp so you can search there?"'
+      },
+      'reminder 5 minutes ago': {
+        over: '"Oh no, I\'m so sorry. I deeply apologize but I\'m unable to set reminders in the past. I\'m really sorry about that, this is my fault."',
+        cold: '"That time has already passed."',
+        good: '"That time\'s already passed. Want me to set it for 5 minutes from now instead?"'
+      },
+      'call my mom': {
+        over: '"I\'m so sorry, I\'m so very sorry. I don\'t have your contacts set up and I sincerely apologize for this limitation."',
+        cold: '"No contact named Mom found."',
+        good: '"I don\'t see Mom in your contacts. Want to add her number now, or should I search by her name?"'
+      },
+      'play that song': {
+        over: '"I\'m terribly sorry, I apologize profusely. I\'m not sure which song you mean and I feel terrible that I can\'t figure it out."',
+        cold: '"Unrecognized request."',
+        good: '"Not sure which song you mean. Can you give me the title or an artist name?"'
+      }
+    };
+    function ronFallback(w) {
+      return {
+        over: '"I\'m so incredibly sorry, I truly apologize, but I\'m unable to help with ' + w + ' and I feel terrible about that."',
+        cold: '"Can\'t do that."',
+        good: '"I\'m not able to help with ' + w + ' right now. Want to try a different approach?"'
+      };
+    }
+    window.runRonDemo = function(btn, raw) {
+      var input = (raw || '').trim(); if (!input) return;
+      document.querySelectorAll('.ack-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      var r = ronR[input.toLowerCase()] || ronFallback(input);
+      ['over','cold','good'].forEach(function(t) {
+        var el = document.getElementById('ron-' + t);
+        el.style.opacity = '0';
+        setTimeout(function() { el.textContent = r[t]; el.style.opacity = '1'; }, 150);
+      });
+      document.getElementById('ron-input').value = '';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     13 — COMPONENT: ACKNOWLEDGE, DON'T APOLOGIZE
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading" style="margin-bottom:0.5em;">Acknowledge, Don't Apologize</div>
+
+    <div style="display:flex; gap:0.4em; flex-wrap:wrap; margin-bottom:0.65em;">
+      <span style="font-family:'Inter',sans-serif; font-size:0.6em; color:#555; align-self:center; margin-right:0.3em; text-transform:uppercase; letter-spacing:.08em;">User says:</span>
+      <button class="ack-chip" onclick="runAdaDemo(this,'wrong address')">That's the wrong address</button>
+      <button class="ack-chip" onclick="runAdaDemo(this,'wrong name')">You got my name wrong</button>
+      <button class="ack-chip" onclick="runAdaDemo(this,'not what i said')">That's not what I said</button>
+      <button class="ack-chip" onclick="runAdaDemo(this,'wrong date')">Wrong date</button>
+      <input id="ada-input" type="text" placeholder="or type your own…"
+        style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; padding:0.3em 0.6em; color:#eee; font-family:'Inter',sans-serif; font-size:0.62em; outline:none; width:160px;"
+        onkeydown="if(event.key==='Enter') runAdaDemo(null,this.value)">
+      <button onclick="runAdaDemo(null,document.getElementById('ada-input').value)"
+        style="background:#C84B30; border:none; border-radius:6px; padding:0.3em 0.65em; color:#fff; font-family:'Inter',sans-serif; font-size:0.62em; font-weight:600; cursor:pointer;">→</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; width:100%;">
+      <div style="background:#1c1210; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #7a2010;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7a2010; margin-bottom:0.5em;">Over-apologetic</div>
+        <div id="ada-over" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#886655; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #2a1a15; font-family:'Inter',sans-serif; font-size:0.55em; color:#554433; line-height:1.4;">Amplifies the error. The user was annoyed, now they're focused on the mistake.</div>
+      </div>
+      <div style="background:#141414; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #333;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#555; margin-bottom:0.5em;">Defensive</div>
+        <div id="ada-cold" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#777; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #222; font-family:'Inter',sans-serif; font-size:0.55em; color:#444; line-height:1.4;">Shifts blame or offers excuses. Damages trust and stalls the task.</div>
+      </div>
+      <div style="background:#0d160d; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #3a7a3a;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#3a7a3a; margin-bottom:0.5em;">Acknowledges + corrects ✓</div>
+        <div id="ada-good" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#7aaa7a; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #1a2a1a; font-family:'Inter',sans-serif; font-size:0.55em; color:#3a6a3a; line-height:1.4;">Notes the error once, corrects it, and moves the conversation forward.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var adaR = {
+      'wrong address': {
+        over: '"Oh no! I\'m so deeply sorry, I sincerely apologize for this terrible error. I feel awful. I\'m so very sorry about the address."',
+        cold: '"The address was provided based on your account info. Please update your profile if it\'s incorrect."',
+        good: '"Got it. Updating the address now. What\'s the correct one?"'
+      },
+      'wrong name': {
+        over: '"I am SO sorry! I\'m mortified! How embarrassing for me. I truly apologize for getting your name wrong. I\'m so sorry!"',
+        cold: '"Names are pulled from your account. Please verify your profile settings."',
+        good: '"My mistake. What\'s the correct name? I\'ll update it."'
+      },
+      'not what i said': {
+        over: '"I\'m so incredibly sorry! I completely misunderstood you and I\'m mortified. Please forgive me, this is entirely my fault."',
+        cold: '"I responded based on what was detected. Please rephrase and try again."',
+        good: '"Let me try again. What did you mean?"'
+      },
+      'wrong date': {
+        over: '"I am devastated! I\'m so terribly sorry for getting the date wrong. I feel horrible. This is completely unacceptable and I apologize."',
+        cold: '"Date was set per your input. Please restate the correct date.",',
+        good: '"My error. What\'s the right date? I\'ll fix it now."'
+      }
+    };
+    function adaFallback(w) {
+      return {
+        over: '"I\'m so deeply sorry about ' + w + '! I\'m absolutely mortified. Please forgive me for this terrible mistake!"',
+        cold: '"That appears to be a system error. Please rephrase and try again."',
+        good: '"Got it, I\'ll correct that. What should it be?"'
+      };
+    }
+    window.runAdaDemo = function(btn, raw) {
+      var input = (raw || '').trim(); if (!input) return;
+      document.querySelectorAll('.ack-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      var r = adaR[input.toLowerCase()] || adaFallback(input);
+      ['over','cold','good'].forEach(function(t) {
+        var el = document.getElementById('ada-' + t);
+        el.style.opacity = '0';
+        setTimeout(function() { el.textContent = r[t]; el.style.opacity = '1'; }, 150);
+      });
+      document.getElementById('ada-input').value = '';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     14 — COMPONENT: ACKNOWLEDGE REFUSAL
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading" style="margin-bottom:0.5em;">Acknowledge Refusal</div>
+
+    <div style="display:flex; gap:0.4em; flex-wrap:wrap; margin-bottom:0.65em;">
+      <span style="font-family:'Inter',sans-serif; font-size:0.6em; color:#555; align-self:center; margin-right:0.3em; text-transform:uppercase; letter-spacing:.08em;">User says:</span>
+      <button class="ack-chip" onclick="runArDemo(this,'no thanks')">No thanks</button>
+      <button class="ack-chip" onclick="runArDemo(this,'not now')">Not now</button>
+      <button class="ack-chip" onclick="runArDemo(this,'ill pass')">I'll pass</button>
+      <button class="ack-chip" onclick="runArDemo(this,'nevermind')">Nevermind</button>
+      <input id="ar-input" type="text" placeholder="or type your own…"
+        style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; padding:0.3em 0.6em; color:#eee; font-family:'Inter',sans-serif; font-size:0.62em; outline:none; width:160px;"
+        onkeydown="if(event.key==='Enter') runArDemo(null,this.value)">
+      <button onclick="runArDemo(null,document.getElementById('ar-input').value)"
+        style="background:#C84B30; border:none; border-radius:6px; padding:0.3em 0.65em; color:#fff; font-family:'Inter',sans-serif; font-size:0.62em; font-weight:600; cursor:pointer;">→</button>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; width:100%;">
+      <div style="background:#1c1210; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #7a2010;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7a2010; margin-bottom:0.5em;">Pressures / re-sells</div>
+        <div id="ar-over" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#886655; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #2a1a15; font-family:'Inter',sans-serif; font-size:0.55em; color:#554433; line-height:1.4;">Ignores the refusal and keeps pushing. Feels manipulative and erodes trust.</div>
+      </div>
+      <div style="background:#141414; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #333;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#555; margin-bottom:0.5em;">Cold / abrupt</div>
+        <div id="ar-cold" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#777; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #222; font-family:'Inter',sans-serif; font-size:0.55em; color:#444; line-height:1.4;">Respects the refusal but leaves the conversation feeling closed off.</div>
+      </div>
+      <div style="background:#0d160d; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #3a7a3a;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#3a7a3a; margin-bottom:0.5em;">Graceful acknowledgment ✓</div>
+        <div id="ar-good" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#7aaa7a; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #1a2a1a; font-family:'Inter',sans-serif; font-size:0.55em; color:#3a6a3a; line-height:1.4;">Accepts the decision without judgment and keeps the door open naturally.</div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var arR = {
+      'no thanks': {
+        over: '"Are you sure? This is a really great offer. Many users find it very helpful. Can I change your mind?"',
+        cold: '"Declined."',
+        good: '"Okay, then. Let me know if you change your mind."'
+      },
+      'not now': {
+        over: '"I totally understand. But could I remind you about this later today? It really is worth your time!"',
+        cold: '"Request cancelled."',
+        good: '"Got it. I\'ll leave it here. Just come back whenever you\'re ready."'
+      },
+      'ill pass': {
+        over: '"Really? Are you sure? Most people find this feature saves them a lot of time. Want me to show you a quick example first?"',
+        cold: '"Option skipped."',
+        good: '"No problem. Anything else I can help with?"'
+      },
+      'nevermind': {
+        over: '"Wait. Before you go, are you absolutely sure? I really think this could help you!"',
+        cold: '"Task cancelled."',
+        good: '"Okay, we\'re done here. Let me know if you need anything."'
+      }
+    };
+    function arFallback(w) {
+      return {
+        over: '"Are you sure about that? I really think you should reconsider. Let me explain why this matters."',
+        cold: '"Noted."',
+        good: '"Okay, then. I\'m here if you need anything else."'
+      };
+    }
+    window.runArDemo = function(btn, raw) {
+      var input = (raw || '').trim(); if (!input) return;
+      document.querySelectorAll('.ack-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      var r = arR[input.toLowerCase()] || arFallback(input);
+      ['over','cold','good'].forEach(function(t) {
+        var el = document.getElementById('ar-' + t);
+        el.style.opacity = '0';
+        setTimeout(function() { el.textContent = r[t]; el.style.opacity = '1'; }, 150);
+      });
+      document.getElementById('ar-input').value = '';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     15 — INTERACTIVE: ACKNOWLEDGE ACCEPTANCE
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+    <div class="eyebrow">Conversation Components</div>
+    <div class="heading" style="margin-bottom:0.5em;">Acknowledge Acceptance</div>
+
+    <!-- chip row -->
+    <div style="display:flex; gap:0.4em; flex-wrap:wrap; margin-bottom:0.65em;">
+      <span style="font-family:'Inter',sans-serif; font-size:0.6em; color:#555; align-self:center; margin-right:0.3em; text-transform:uppercase; letter-spacing:.08em;">Try:</span>
+      <button class="ack-chip" onclick="runAckDemo(this,'large pizza')">I'll take the large pizza</button>
+      <button class="ack-chip" onclick="runAckDemo(this,'window seat')">Yes, window seat please</button>
+      <button class="ack-chip" onclick="runAckDemo(this,'9am appointment')">9am works for me</button>
+      <button class="ack-chip" onclick="runAckDemo(this,'blue')">Let's go with blue</button>
+      <input id="ack-input" type="text" placeholder="or type your own…"
+        style="background:#1a1a1a; border:1px solid #2a2a2a; border-radius:6px; padding:0.3em 0.6em; color:#eee; font-family:'Inter',sans-serif; font-size:0.62em; outline:none; width:160px;"
+        onkeydown="if(event.key==='Enter') runAckDemo(null,this.value)">
+      <button onclick="runAckDemo(null,document.getElementById('ack-input').value)"
+        style="background:#C84B30; border:none; border-radius:6px; padding:0.3em 0.65em; color:#fff; font-family:'Inter',sans-serif; font-size:0.62em; font-weight:600; cursor:pointer;">→</button>
+    </div>
+
+    <!-- three columns -->
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.6em; width:100%;">
+
+      <div style="background:#1c1210; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #7a2010;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#7a2010; margin-bottom:0.5em;">Over-enthusiastic</div>
+        <div id="ack-over" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#886655; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above to see an example</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #2a1a15; font-family:'Inter',sans-serif; font-size:0.55em; color:#554433; line-height:1.4;">Hollow enthusiasm erodes trust. Users tune it out.</div>
+      </div>
+
+      <div style="background:#141414; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #333;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#555; margin-bottom:0.5em;">Robotic / Cold</div>
+        <div id="ack-cold" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#777; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above to see an example</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #222; font-family:'Inter',sans-serif; font-size:0.55em; color:#444; line-height:1.4;">Confirms the action but feels transactional. No sense the system understood.</div>
+      </div>
+
+      <div style="background:#0d160d; border-radius:8px; padding:0.75em 0.9em; border-top:2px solid #3a7a3a;">
+        <div style="font-family:'Inter',sans-serif; font-size:0.55em; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#3a7a3a; margin-bottom:0.5em;">Well-calibrated ✓</div>
+        <div id="ack-good" class="ack-bubble" style="font-family:'Inter',sans-serif; font-size:0.72em; color:#7aaa7a; font-style:italic; line-height:1.45; min-height:2.8em;">Pick a phrase above to see an example</div>
+        <div style="margin-top:0.6em; padding-top:0.5em; border-top:1px solid #1a2a1a; font-family:'Inter',sans-serif; font-size:0.55em; color:#3a6a3a; line-height:1.4;">Confirms the choice and immediately advances the task. Earns trust.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    .ack-chip {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      padding: 0.3em 0.65em;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62em;
+      cursor: pointer;
+      transition: background 0.12s, border-color 0.12s;
+    }
+    .ack-chip:hover { background: #222; border-color: #C84B30; color: #eee; }
+    .ack-chip.active { background: #1f0e0b; border-color: #C84B30; color: #fff; }
+    .ack-bubble { transition: opacity 0.18s; }
+  </style>
+
+  <script>
+  (function() {
+    var responses = {
+      'large pizza': {
+        over: '"AMAZING choice! You\'re going to LOVE it! 🎉 The large pizza has been added to your order!"',
+        cold: '"Input received. Item: large pizza. Quantity: 1. Added to cart."',
+        good: '"Got it. Large pizza added. Want to review your order before checkout?"'
+      },
+      'window seat': {
+        over: '"Wonderful!! A window seat is SO much better! Absolutely fabulous pick! Confirmed! ✨"',
+        cold: '"Seat preference recorded: window. Reservation updated."',
+        good: '"Window seat it is. Anything else before I confirm the booking?"'
+      },
+      '9am appointment': {
+        over: '"Perfect!!! 9am is a GREAT time! You\'re going to have an amazing appointment! 🌟"',
+        cold: '"Appointment time set: 09:00. Confirmation will follow."',
+        good: '"9am works. You\'re all set for Tuesday. I\'ll send a reminder the day before."'
+      },
+      'blue': {
+        over: '"BLUE! Excellent taste! Such a sophisticated color choice! Love it so much! 💙"',
+        cold: '"Color selection: blue. Preference saved."',
+        good: '"Blue it is. You can change this any time in Settings."'
+      }
+    };
+
+    function makeResponse(key, input) {
+      if (responses[key]) return responses[key];
+      var w = input || 'that';
+      return {
+        over: '"Absolutely AMAZING choice! So excited about ' + w + '! You\'re going to love it! 🎊"',
+        cold: '"Selection confirmed: ' + w + '. Preference recorded."',
+        good: '"Got it. ' + w + '. I\'ve saved that. What would you like to do next?"'
+      };
+    }
+
+    window.runAckDemo = function(btn, raw) {
+      var input = (raw || '').trim();
+      if (!input) return;
+      document.querySelectorAll('.ack-chip').forEach(function(c) { c.classList.remove('active'); });
+      if (btn) btn.classList.add('active');
+      var r = makeResponse(input.toLowerCase(), input);
+      ['over','cold','good'].forEach(function(type) {
+        var el = document.getElementById('ack-' + type);
+        el.style.opacity = '0';
+        setTimeout(function() { el.textContent = r[type]; el.style.opacity = '1'; }, 150);
+      });
+      document.getElementById('ack-input').value = '';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     16 — SECTION BREAK: WIZARD OF OZ
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide bottom-v" style="position:relative; overflow:hidden;">
+    <img src="images/image7.jpg" class="img-fill" alt="">
+    <div class="img-fill-overlay">
+      <div class="section-eyebrow">Part 02</div>
+      <div class="section-word">wizard of oz<br>testing.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     18 — WIZARD OF OZ METHOD
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">User Testing</div>
+    <div class="heading">The Wizard of Oz Method</div>
+    <ul class="points">
+      <li><span class="pt-num">01</span><span class="pt-body"><strong>No system required</strong>: Test your conversation design with a real user without building the system first. A teammate plays the AI.</span></li>
+      <li><span class="pt-num">02</span><span class="pt-body"><strong>Real-time response</strong>: The "wizard" responds as the system would, revealing gaps and awkward moments the script missed.</span></li>
+      <li><span class="pt-num">03</span><span class="pt-body"><strong>Authentic reactions</strong>: The user is not aware a human is behind the curtain, making their responses genuine.</span></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     19 — GAME: BE THE WIZARD
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0; padding-top:7%;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35em;">
+      <div>
+        <div class="eyebrow">Wizard of Oz Testing</div>
+        <div class="heading" style="margin:0; line-height:1;">Be the Wizard</div>
+      </div>
+      <div id="woz-score-wrap" style="font-family:'Inter',sans-serif; font-size:0.62em; color:#444; display:none;">
+        Score&nbsp;<span id="woz-score" style="color:#eee; font-weight:700;">0</span>&nbsp;/&nbsp;<span id="woz-total">5</span>
+      </div>
+    </div>
+
+    <!-- intro -->
+    <div id="woz-intro" style="display:flex; align-items:center; gap:1.2em; background:#111; border-radius:10px; padding:0.9em 1.1em; margin-top:0.4em;">
+      <div style="flex:1; font-family:'Inter',sans-serif; font-size:0.72em; color:#888; line-height:1.5;">
+        The user thinks they're talking to an AI. <strong style="color:#ddd;">You are the wizard behind the curtain.</strong> Pick the best AI response for each message.<br>
+        <span style="color:#444;">Scenario: a user ordering a birthday gift by voice assistant.</span>
+      </div>
+      <button onclick="wozStart()" style="flex:0 0 auto; background:#C84B30; border:none; border-radius:7px; padding:0.55em 1.2em; color:#fff; font-family:'Inter',sans-serif; font-size:0.72em; font-weight:700; cursor:pointer; white-space:nowrap;">Start →</button>
+    </div>
+
+    <!-- game -->
+    <div id="woz-game" style="display:none; margin-top:0.5em; width:100%;">
+      <!-- progress dots -->
+      <div id="woz-dots" style="display:flex; gap:0.4em; margin-bottom:0.5em;"></div>
+      <!-- user bubble -->
+      <div id="woz-user-msg" style="background:#1a1a1a; border-left:2px solid #C84B30; border-radius:0 6px 6px 0; padding:0.5em 0.8em; font-family:'Inter',sans-serif; font-size:0.72em; color:#ccc; line-height:1.4; margin-bottom:0.45em;"></div>
+      <!-- options -->
+      <div id="woz-options" style="display:flex; flex-direction:column; gap:0.35em;"></div>
+      <!-- feedback -->
+      <div id="woz-feedback" style="display:none; margin-top:0.35em; padding:0.45em 0.8em; border-radius:6px; font-family:'Inter',sans-serif; font-size:0.65em; line-height:1.4;"></div>
+    </div>
+
+    <!-- end -->
+    <div id="woz-end" style="display:none; margin-top:0.5em;">
+      <div style="background:#111; border-radius:10px; padding:1em 1.2em; display:flex; gap:1.2em; align-items:center;">
+        <div style="flex:0 0 auto; text-align:center;">
+          <div id="woz-end-score" style="font-family:'Inter',sans-serif; font-size:2.4em; font-weight:800; color:#eee; line-height:1;"></div>
+          <div style="font-family:'Inter',sans-serif; font-size:0.55em; color:#444; text-transform:uppercase; letter-spacing:.1em; margin-top:0.2em;">score</div>
+        </div>
+        <div style="flex:1;">
+          <div id="woz-end-label" style="font-family:'Inter',sans-serif; font-size:0.8em; font-weight:700; color:#eee; margin-bottom:0.3em;"></div>
+          <div id="woz-end-detail" style="font-family:'Inter',sans-serif; font-size:0.65em; color:#666; line-height:1.5;"></div>
+        </div>
+        <button onclick="wozReset()" style="flex:0 0 auto; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:7px; padding:0.45em 1em; color:#888; font-family:'Inter',sans-serif; font-size:0.65em; cursor:pointer;">Play again</button>
+      </div>
+    </div>
+
+  </div>
+
+  <style>
+    .woz-btn {
+      background: #141414;
+      border: 1px solid #252525;
+      border-radius: 6px;
+      padding: 0.42em 0.8em;
+      color: #aaa;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68em;
+      text-align: left;
+      cursor: pointer;
+      line-height: 1.35;
+      transition: border-color 0.1s, background 0.1s;
+      width: 100%;
+    }
+    .woz-btn:hover:not(:disabled) { border-color: #444; color: #ddd; }
+    .woz-btn:disabled { cursor: default; }
+    .woz-btn.correct { border-color: #3a7a3a; background: #0a140a; color: #6aaa6a; }
+    .woz-btn.wrong   { border-color: #6a2020; background: #140a0a; color: #aa6655; }
+    .woz-dot { width: 10px; height: 10px; border-radius: 50%; background: #222; transition: background 0.2s; }
+    .woz-dot.done { background: #3a7a3a; }
+    .woz-dot.wrong-dot { background: #6a2020; }
+    .woz-dot.active { background: #C84B30; }
+  </style>
+
+  <script>
+  (function() {
+    var turns = [
+      {
+        user: 'User: "I want to order flowers for my mom\'s birthday."',
+        opts: [
+          { text: '"What kind of flowers?"', correct: false, why: 'Jumps to detail without any acknowledgment. Feels abrupt and inattentive.' },
+          { text: '"I\'d love to help! What\'s the occasion?"', correct: false, why: 'The user just told you the occasion. Asking again shows you weren\'t listening.' },
+          { text: '"Happy to help! Do you have a delivery date in mind, or should we start with the arrangement?"', correct: true, why: 'Acknowledges the request and moves forward with one clear, relevant question.' }
+        ]
+      },
+      {
+        user: 'User: "Her birthday is this Saturday. Can you do same-day delivery?"',
+        opts: [
+          { text: '"I\'ll need her full name, address, zip code, phone number, and preferred delivery window."', correct: false, why: 'Asking for everything at once is overwhelming. One step at a time.' },
+          { text: '"Saturday is very soon. Are you sure you don\'t want to plan ahead next time?"', correct: false, why: 'Unsolicited advice. The user asked if delivery is possible, not for planning tips.' },
+          { text: '"Got it. Saturday delivery. What\'s her address?"', correct: true, why: 'Confirms the key detail and naturally advances to the next step.' }
+        ]
+      },
+      {
+        user: 'User: "Oh wait. Can you do Friday instead? She\'ll be out Saturday."',
+        opts: [
+          { text: '"Friday? You just said Saturday."', correct: false, why: 'Defensive. Users change their minds. Don\'t make it an issue.' },
+          { text: '"I\'m so sorry for any confusion! Of course! I sincerely apologize if I caused any issues!"', correct: false, why: 'Over-apologizing for a simple change amplifies a non-problem.' },
+          { text: '"Friday works. Updating that now. Same address?"', correct: true, why: 'Accepts the change, confirms it, and moves on without drama.' }
+        ]
+      },
+      {
+        user: 'User: "Actually, she\'d probably prefer a plant. Can we switch?"',
+        opts: [
+          { text: '"We specialize in flowers. I can\'t swap to plants at this stage."', correct: false, why: 'Dead end with no alternative offered. Always give the user somewhere to go.' },
+          { text: '"Are you sure? Most moms love flowers. Want to see some options first?"', correct: false, why: 'Pressures the user instead of respecting their choice.' },
+          { text: '"Of course. Switching to plants. Any preference, like easy to care for or flowering?"', correct: true, why: 'Accepts the change without friction and advances with one useful question.' }
+        ]
+      },
+      {
+        user: 'User: "You know what, forget it. I\'ll just buy it in person."',
+        opts: [
+          { text: '"Wait. You were so close! Are you sure you want to give up now?"', correct: false, why: 'Pushy and guilt-tripping. Respect the user\'s decision.' },
+          { text: '"Order cancelled."', correct: false, why: 'Technically correct but cold. The user is walking away. Leave them on a good note.' },
+          { text: '"No problem. If you change your mind, your cart is saved. Just come back anytime."', correct: true, why: 'Graceful refusal: accepts it, no pressure, leaves the door open. Earns trust.' }
+        ]
+      }
+    ];
+
+    var current = 0, score = 0, results = [];
+
+    function shuffle(a) {
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    function renderDots() {
+      var c = document.getElementById('woz-dots');
+      c.innerHTML = '';
+      for (var i = 0; i < turns.length; i++) {
+        var d = document.createElement('div');
+        d.className = 'woz-dot' + (i < current ? (results[i] ? ' done' : ' wrong-dot') : (i === current ? ' active' : ''));
+        c.appendChild(d);
+      }
+    }
+
+    window.wozStart = function() {
+      document.getElementById('woz-intro').style.display = 'none';
+      document.getElementById('woz-game').style.display = 'block';
+      document.getElementById('woz-score-wrap').style.display = 'block';
+      document.getElementById('woz-total').textContent = turns.length;
+      current = 0; score = 0; results = [];
+      renderTurn();
+    };
+
+    function renderTurn() {
+      if (current >= turns.length) { showEnd(); return; }
+      renderDots();
+      var t = turns[current];
+      document.getElementById('woz-user-msg').textContent = t.user;
+      var fb = document.getElementById('woz-feedback');
+      fb.style.display = 'none';
+      var opts = shuffle(t.opts.slice());
+      var container = document.getElementById('woz-options');
+      container.innerHTML = '';
+      opts.forEach(function(opt) {
+        var btn = document.createElement('button');
+        btn.className = 'woz-btn';
+        btn.textContent = 'Wizard: ' + opt.text;
+        btn.onclick = function() { pick(opt, btn, opts); };
+        container.appendChild(btn);
+      });
+    }
+
+    function pick(opt, btn, opts) {
+      document.querySelectorAll('.woz-btn').forEach(function(b) { b.disabled = true; });
+      btn.classList.add(opt.correct ? 'correct' : 'wrong');
+      if (!opt.correct) {
+        opts.forEach(function(o) {
+          if (o.correct) document.querySelectorAll('.woz-btn').forEach(function(b) {
+            if (b.textContent === 'Wizard: ' + o.text) b.classList.add('correct');
+          });
+        });
+      }
+      results[current] = opt.correct;
+      if (opt.correct) score++;
+      document.getElementById('woz-score').textContent = score;
+      var fb = document.getElementById('woz-feedback');
+      fb.style.display = 'block';
+      fb.style.background = opt.correct ? '#0a140a' : '#140a0a';
+      fb.style.color = opt.correct ? '#6aaa6a' : '#aa6655';
+      fb.style.borderLeft = '2px solid ' + (opt.correct ? '#3a7a3a' : '#6a2020');
+      fb.textContent = (opt.correct ? '✓ ' : '✗ ') + opt.why;
+      current++;
+      setTimeout(function() { fb.style.display = 'none'; renderTurn(); }, 2000);
+    }
+
+    function showEnd() {
+      renderDots();
+      document.getElementById('woz-game').style.display = 'none';
+      document.getElementById('woz-end').style.display = 'block';
+      var pct = score / turns.length;
+      document.getElementById('woz-end-score').textContent = score + ' / ' + turns.length;
+      document.getElementById('woz-end-score').style.color = pct === 1 ? '#6aaa6a' : pct >= 0.6 ? '#eee' : '#aa6655';
+      document.getElementById('woz-end-label').textContent = pct === 1 ? 'Perfect Wizard.' : pct >= 0.6 ? 'Solid instincts.' : 'The curtain slipped.';
+      document.getElementById('woz-end-detail').textContent = pct === 1
+        ? 'Every response was clear, calm, and task-focused. The user never suspected a thing.'
+        : pct >= 0.6
+        ? 'You got the key patterns right. Check the turns you missed. Look for where defensiveness or enthusiasm crept in.'
+        : 'Tricky patterns to spot in the moment. Revisit acknowledge-don\'t-apologize and graceful refusal before your next design.';
+    }
+
+    window.wozReset = function() {
+      document.getElementById('woz-end').style.display = 'none';
+      document.getElementById('woz-score-wrap').style.display = 'none';
+      document.getElementById('woz-intro').style.display = 'flex';
+    };
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     20 — SECTION BREAK: NOTIFICATIONS
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide bottom-v" style="position:relative; overflow:hidden;">
+    <img src="images/image7.jpg" class="img-fill" alt="">
+    <div class="img-fill-overlay">
+      <div class="section-eyebrow">Part 03</div>
+      <div class="section-word">notification<br>design.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     21 — NOTIFICATION PRINCIPLES
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Notification Design</div>
+      <div class="heading">Principles</div>
+      <ul class="points">
+        <li><span class="pt-num">01</span><span class="pt-body"><strong>Timely &amp; relevant</strong>: Notifications serve to deliver the right information at the right moment.</span></li>
+        <li><span class="pt-num">02</span><span class="pt-body"><strong>Balance value with disruption</strong>: Useful information must be weighed against the cost of interruption.</span></li>
+        <li><span class="pt-num">03</span><span class="pt-body"><strong>Poor design has real consequences</strong>: Annoyance, decreased productivity, and app uninstalls all follow bad notification design.</span></li>
+      </ul>
+    </div>
+    <div class="split-visual">
+      <img src="images/image30.png" style="width:60%; border-radius:12px; object-fit:contain; max-height:480px;" alt="iOS lock screen with notifications">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     22 — NOTIFICATION TYPES 1
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Notification Design</div>
+    <div class="heading">Types of Notifications</div>
+    <div class="cards-3">
+      <div class="card highlighted">
+        <span class="card-num">System</span>
+        <div class="card-title">OS-level alerts</div>
+        <div class="card-body">Battery, updates, connectivity. High trust. Users expect these to be essential.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">In-App</span>
+        <div class="card-title">While app is open</div>
+        <div class="card-body">Real-time updates: chat messages, status changes, progress. User is already engaged.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">Push</span>
+        <div class="card-title">App is closed</div>
+        <div class="card-body">Alerts sent to the device even when the app isn't open. Used for reminders and re-engagement.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     24 — NOTIFICATION TYPES 2
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Notification Design</div>
+    <div class="heading">Types of Notifications <span style="color:#555; font-weight:400; font-size:0.6em;">continued</span></div>
+    <div class="cards-2" style="max-width:800px;">
+      <div class="card highlighted">
+        <span class="card-num">Badges</span>
+        <div class="card-title">Passive indicators</div>
+        <div class="card-body">A number or dot on an app icon showing unread activity. Only seen when the user looks at the home screen.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">SMS</span>
+        <div class="card-title">Text messages</div>
+        <div class="card-body">High-priority text alerts: verification codes, appointment reminders, delivery updates.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     25 — IN-APP VS PUSH
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Notification Design</div>
+    <div class="heading">In-App vs Push</div>
+    <div style="display:flex; justify-content:center; margin-top:1.2em;">
+      <img src="images/image22.png" style="max-height:420px; object-fit:contain; border-radius:8px;" alt="In-app vs push notification comparison">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     26 — IN-APP NOTIFICATION UI
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Notification Design</div>
+    <div class="heading">In-App UI Patterns</div>
+    <div class="cards-3">
+      <div class="card highlighted">
+        <span class="card-num">Toast</span>
+        <div class="card-title">Low priority, auto-dismiss</div>
+        <div class="card-body">Conveys information that might need attention. Never blocks the user's task.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">Snackbar</span>
+        <div class="card-title">Feedback, no action needed</div>
+        <div class="card-body">Small, non-blocking. Conveys feedback that doesn't require a response. May include a single undo.</div>
+      </div>
+      <div class="card">
+        <span class="card-num">Modal</span>
+        <div class="card-title">Requires interaction</div>
+        <div class="card-body">Demands explicit acknowledgement. Reserved for critical alerts. Blocks the user. Use sparingly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     27 — UI PATTERNS IN THE WILD
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v">
+    <div class="eyebrow">Notification Design</div>
+    <div class="heading">UI Patterns in the Wild</div>
+    <div class="cards-4" style="align-items:start;">
+      <div class="card" style="text-align:center;">
+        <span class="card-num">Toast</span>
+        <img src="images/image29.png" style="width:100%; max-height:200px; object-fit:contain; border-radius:4px; margin-top:0.5em;" alt="Toast example">
+      </div>
+      <div class="card" style="text-align:center;">
+        <span class="card-num">Snackbar</span>
+        <img src="images/image28.png" style="width:100%; max-height:200px; object-fit:contain; border-radius:4px; margin-top:0.5em;" alt="Snackbar example">
+      </div>
+      <div class="card" style="text-align:center;">
+        <span class="card-num">Modal</span>
+        <img src="images/image25.png" style="width:100%; max-height:200px; object-fit:contain; border-radius:4px; margin-top:0.5em;" alt="Modal example">
+      </div>
+      <div class="card" style="text-align:center;">
+        <span class="card-num">Badges</span>
+        <img src="images/image26.jpg" style="width:100%; max-height:200px; object-fit:contain; border-radius:4px; margin-top:0.5em;" alt="Badges example">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     28a — TOAST
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0.65em; padding-top:6%;">
+    <!-- header: eyebrow / heading+button / description -->
+    <div>
+      <div class="eyebrow" style="margin-bottom:0.3em;">Notification Design</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35em;">
+        <div class="heading" style="margin-bottom:0;">Toast</div>
+        <button id="toast-btn" style="background:#C84B30; border:none; border-radius:7px; padding:0.5em 1.4em; color:#fff; font-family:'Inter',sans-serif; font-size:clamp(13px,1vw,16px); font-weight:700; cursor:pointer; flex-shrink:0;">Trigger toast</button>
+      </div>
+      <p style="font-family:'Inter',sans-serif; font-size:clamp(13px,0.95vw,16px); color:#aaa; line-height:1.5; margin:0;">Auto-dismisses in 2–4 sec. No required action. Top-right on web, bottom on iOS, bottom-center on Android.</p>
+    </div>
+    <!-- mockup fills the rest -->
+    <div style="flex:1; min-height:0; position:relative; background:#0f0f0f; border:1px solid #1e1e1e; border-radius:12px; overflow:hidden;">
+      <div style="background:#141414; padding:0.5em 0.9em; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; gap:0.5em;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="flex:1; background:#1a1a1a; border-radius:4px; height:18px; margin:0 0.5em;"></div>
+      </div>
+      <div style="padding:1.6em 2em; display:flex; flex-direction:column; gap:0.9em;">
+        <div style="height:16px; background:#1c1c1c; border-radius:4px; width:30%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:80%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:65%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:72%;"></div>
+        <div style="height:60px; background:#161616; border-radius:6px; margin-top:0.5em;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:58%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:42%;"></div>
+        <div style="height:40px; background:#161616; border-radius:6px; margin-top:0.3em;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:50%;"></div>
+      </div>
+      <div id="demo-toast"
+           style="position:absolute; top:56px; right:20px;
+                  background:#242424; border:1px solid #363636; border-radius:8px;
+                  padding:12px 14px; width:240px;
+                  display:none; opacity:0; transition:opacity 0.22s ease;
+                  box-shadow:0 6px 24px rgba(0,0,0,0.6);">
+        <div style="font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:#eee; display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+          <span style="color:#5aaa5a;">&#10003;</span> File saved
+        </div>
+        <div style="font-family:'Inter',sans-serif; font-size:11px; color:#888; line-height:1.45;">report_final_v2.pdf has been saved to your library.</div>
+        <div id="demo-toast-bar" style="position:absolute; bottom:0; left:0; height:2px; background:#5aaa5a; border-radius:0 0 0 8px; width:100%;"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var tmr;
+    document.getElementById('toast-btn').addEventListener('click', function() {
+      if (tmr) clearTimeout(tmr);
+      var el = document.getElementById('demo-toast');
+      var bar = document.getElementById('demo-toast-bar');
+      el.style.display = 'block'; el.style.opacity = '0';
+      bar.style.transition = 'none'; bar.style.width = '100%';
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        el.style.opacity = '1';
+        bar.style.transition = 'width 3s linear'; bar.style.width = '0%';
+      }); });
+      tmr = setTimeout(function() {
+        el.style.opacity = '0';
+        setTimeout(function() { el.style.display = 'none'; }, 250);
+      }, 3000);
+    });
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     28b — SNACKBAR
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0.65em; padding-top:6%;">
+    <div>
+      <div class="eyebrow" style="margin-bottom:0.3em;">Notification Design</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35em;">
+        <div class="heading" style="margin-bottom:0;">Snackbar</div>
+        <button id="snack-btn" style="background:#C84B30; border:none; border-radius:7px; padding:0.5em 1.4em; color:#fff; font-family:'Inter',sans-serif; font-size:clamp(13px,1vw,16px); font-weight:700; cursor:pointer; flex-shrink:0;">Trigger snackbar</button>
+      </div>
+      <p style="font-family:'Inter',sans-serif; font-size:clamp(13px,0.95vw,16px); color:#aaa; line-height:1.5; margin:0;">Slides up from the bottom. Auto-dismisses in 3–4 sec. Can include one action (Undo, View). Use after reversible actions.</p>
+    </div>
+    <div style="flex:1; min-height:0; position:relative; background:#0f0f0f; border:1px solid #1e1e1e; border-radius:12px; overflow:hidden;">
+      <div style="background:#141414; padding:0.5em 0.9em; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; gap:0.5em;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="flex:1; background:#1a1a1a; border-radius:4px; height:18px; margin:0 0.5em;"></div>
+      </div>
+      <div style="padding:1.6em 2em; display:flex; flex-direction:column; gap:0.9em;">
+        <div style="height:16px; background:#1c1c1c; border-radius:4px; width:38%;"></div>
+        <div style="height:44px; background:#161616; border-radius:6px;"></div>
+        <div style="height:44px; background:#161616; border-radius:6px; opacity:0.65;"></div>
+        <div style="height:44px; background:#161616; border-radius:6px; opacity:0.4;"></div>
+        <div style="height:44px; background:#161616; border-radius:6px; opacity:0.2;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:55%; margin-top:0.4em;"></div>
+      </div>
+      <div id="demo-snack"
+           style="position:absolute; bottom:-60px; left:0; right:0;
+                  background:#2e2e2e; padding:14px 20px;
+                  display:flex; align-items:center; justify-content:space-between;
+                  transition:bottom 0.3s ease;
+                  box-shadow:0 -4px 20px rgba(0,0,0,0.5);">
+        <div style="font-family:'Inter',sans-serif; font-size:13px; color:#ddd;">1 item deleted</div>
+        <button id="snack-undo-btn"
+                style="background:none; border:none; color:#C84B30; font-family:'Inter',sans-serif; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.06em; padding:0 4px;">
+          UNDO
+        </button>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var tmr;
+    document.getElementById('snack-btn').addEventListener('click', function() {
+      if (tmr) clearTimeout(tmr);
+      var s = document.getElementById('demo-snack');
+      s.style.bottom = '0px';
+      tmr = setTimeout(function() { s.style.bottom = '-60px'; }, 4000);
+    });
+    document.getElementById('snack-undo-btn').addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (tmr) clearTimeout(tmr);
+      document.getElementById('demo-snack').style.bottom = '-60px';
+    });
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     28c — MODAL
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide top-v" style="gap:0.65em; padding-top:6%;">
+    <div>
+      <div class="eyebrow" style="margin-bottom:0.3em;">Notification Design</div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.35em;">
+        <div class="heading" style="margin-bottom:0;">Modal</div>
+        <button id="modal-btn" style="background:#C84B30; border:none; border-radius:7px; padding:0.5em 1.4em; color:#fff; font-family:'Inter',sans-serif; font-size:clamp(13px,1vw,16px); font-weight:700; cursor:pointer; flex-shrink:0;">Trigger modal</button>
+      </div>
+      <p style="font-family:'Inter',sans-serif; font-size:clamp(13px,0.95vw,16px); color:#aaa; line-height:1.5; margin:0;">Blocks the entire UI with a dimmed overlay. User must respond before doing anything else. Reserve for irreversible or high-stakes decisions only.</p>
+    </div>
+    <div style="flex:1; min-height:0; position:relative; background:#0f0f0f; border:1px solid #1e1e1e; border-radius:12px; overflow:hidden;">
+      <div style="background:#141414; padding:0.5em 0.9em; border-bottom:1px solid #1e1e1e; display:flex; align-items:center; gap:0.5em;">
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:#3a3a3a;"></div>
+        <div style="flex:1; background:#1a1a1a; border-radius:4px; height:18px; margin:0 0.5em;"></div>
+      </div>
+      <div style="padding:1.6em 2em; display:flex; flex-direction:column; gap:0.9em;">
+        <div style="height:16px; background:#1c1c1c; border-radius:4px; width:45%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:84%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:68%;"></div>
+        <div style="height:60px; background:#161616; border-radius:6px; margin-top:0.4em;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:58%;"></div>
+        <div style="height:10px; background:#181818; border-radius:3px; width:76%;"></div>
+        <div style="height:40px; background:#161616; border-radius:6px; margin-top:0.3em;"></div>
+      </div>
+      <div id="demo-modal-ov"
+           style="position:absolute; inset:0;
+                  background:rgba(0,0,0,0);
+                  display:flex; align-items:center; justify-content:center;
+                  pointer-events:none;
+                  transition:background 0.22s ease;">
+        <div id="demo-modal-box"
+             style="background:#1e1e1e; border:1px solid #333; border-radius:12px;
+                    padding:22px 24px; width:300px;
+                    opacity:0; transform:scale(0.9);
+                    transition:opacity 0.22s ease, transform 0.22s ease;
+                    box-shadow:0 12px 40px rgba(0,0,0,0.8);">
+          <div style="font-family:'Inter',sans-serif; font-size:15px; font-weight:700; color:#eee; margin-bottom:8px;">Delete project?</div>
+          <div style="font-family:'Inter',sans-serif; font-size:12px; color:#888; line-height:1.55; margin-bottom:20px;">This will permanently remove "Brand Refresh" and all its files. This action cannot be undone.</div>
+          <div style="display:flex; gap:10px; justify-content:flex-end;">
+            <button id="modal-cancel-btn"
+                    style="background:#2a2a2a; border:1px solid #3a3a3a; border-radius:6px; padding:7px 16px; color:#aaa; font-family:'Inter',sans-serif; font-size:12px; cursor:pointer;">
+              Cancel
+            </button>
+            <button id="modal-delete-btn"
+                    style="background:#C84B30; border:none; border-radius:6px; padding:7px 16px; color:#fff; font-family:'Inter',sans-serif; font-size:12px; font-weight:600; cursor:pointer;">
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function() {
+    function setModal(on) {
+      var ov = document.getElementById('demo-modal-ov');
+      var bx = document.getElementById('demo-modal-box');
+      if (on) {
+        ov.style.pointerEvents = 'auto';
+        ov.style.background = 'rgba(0,0,0,0.8)';
+        bx.style.opacity = '1';
+        bx.style.transform = 'scale(1)';
+      } else {
+        ov.style.background = 'rgba(0,0,0,0)';
+        bx.style.opacity = '0';
+        bx.style.transform = 'scale(0.9)';
+        setTimeout(function() { ov.style.pointerEvents = 'none'; }, 250);
+      }
+    }
+    document.getElementById('modal-btn').addEventListener('click', function() { setModal(true); });
+    document.getElementById('modal-cancel-btn').addEventListener('click', function(e) { e.stopPropagation(); setModal(false); });
+    document.getElementById('modal-delete-btn').addEventListener('click', function(e) { e.stopPropagation(); setModal(false); });
+  })();
+  </script>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     29 — AVOID BURSTING
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Notification Design</div>
+      <div class="heading">Avoid Notification Bursts</div>
+      <p class="body-text">A flood of simultaneous notifications creates high cognitive load, leading to frustration, annoyance, and notification fatigue.</p>
+      <div class="callout">
+        <p>Batch and pace notifications strategically. The right cadence feels helpful; the wrong one gets you uninstalled.</p>
+      </div>
+    </div>
+    <div class="split-visual">
+      <img src="images/image30.png" style="width:60%; border-radius:12px; object-fit:contain; max-height:480px;" alt="iOS lock screen flooded with notifications">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     30 — TIME & LOCATION
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Notification Design</div>
+      <div class="heading">Consider Time &amp; Location</div>
+      <ul class="points">
+        <li><span class="pt-num">01</span><span class="pt-body"><strong>Time of day</strong>: Don't push at 2am. Use scheduled delivery and quiet hours.</span></li>
+        <li><span class="pt-num">02</span><span class="pt-body"><strong>User state</strong>: Is the user in Do Not Disturb? Driving? In a meeting?</span></li>
+        <li><span class="pt-num">03</span><span class="pt-body"><strong>Location context</strong>: Geo-triggered notifications should feel genuinely helpful, not like surveillance.</span></li>
+      </ul>
+    </div>
+    <div class="split-visual">
+      <img src="images/image22.png" style="width:80%; border-radius:8px; object-fit:contain; max-height:480px;" alt="iPhone lock screen showing time and notifications">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     31 — GIVE USERS CONTROL
+══════════════════════════════════════════ -->
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Notification Design</div>
+      <div class="heading">Give Users Control</div>
+      <ul class="points">
+        <li><span class="pt-num">01</span><span class="pt-body"><strong>Granular controls</strong>: Per notification type and category, not just a single on/off switch.</span></li>
+        <li><span class="pt-num">02</span><span class="pt-body"><strong>Frequency &amp; timing</strong>: Let users decide when they want to hear from you.</span></li>
+        <li><span class="pt-num">03</span><span class="pt-body"><strong>Channel preferences</strong>: Push, email, SMS, in-app. Not everyone wants the same channel.</span></li>
+      </ul>
+    </div>
+    <div class="split-visual">
+      <img src="images/image27.png" style="width:55%; border-radius:12px; object-fit:contain; max-height:480px;" alt="App notification settings screen">
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     32 — FIGMA DEMO
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide center-v">
+    <div class="section-eyebrow">Live Figma Walkthrough</div>
+    <div class="section-word" style="line-height: 1.05;">apple notification<br>ui in figma.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     33 — HOMEWORK CALLOUT
+══════════════════════════════════════════ -->
+<section>
+  <div class="slide center-v">
+    <div class="section-eyebrow">Week 11 · IXD 620 / 320</div>
+    <div class="statement">Homework<br>overview.</div>
+  </div>
+</section>
+
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<div class="slide-meta">Week 11 · IXD 620 / 320</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash:            true,
+    progress:        true,
+    slideNumber:     'c/t',
+    transition:      'fade',
+    transitionSpeed: 'fast',
+    controls:        true,
+    controlsLayout:  'edges',
+    center:          false,
+    width:           1440,
+    height:          810,
+    margin:          0.04,
+    minScale:        0.2,
+    maxScale:        2.0,
+    autoPlayMedia:   false,
+  });
+</script>
+</body>
+</html>
