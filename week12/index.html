@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Week 12: Goal Gradient + UX Metrics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Fonts: PP Neue Machina (local, licensed). Drop the `fonts/Neue Machina/`
+     folder from the Agentic UX deck next to this file. -->
+
+<script type="application/json" id="speaker-notes">
+[
+  "Welcome to Week 12. Today has two beats. First, a behavioral principle called the goal gradient effect, and how a real product uses it. Second, the metrics we use to tell whether any of this is actually working. The thread between them: the goal gradient is about how people move toward a finish line. UX metrics are how we see that movement.",
+
+  "By the end of today you should be able to do two things. Name the goal gradient effect and spot it in the wild. And pick a UX metric that actually answers a design question, not a number that just looks good in a deck.",
+
+  "Start with a question. Why do marathon runners speed up in the last mile? Their legs are more tired, not less. But the finish line is visible. Something about proximity to the goal produces a burst of effort. This is the goal gradient effect. And it shows up far outside running.",
+
+  "Here's the principle, stated plainly. Motivation rises as the finish line gets closer. Kivetz, Urminsky and Zheng showed it in 2006 with a coffee-card study. Customers bought coffee faster as they approached the free reward. The effect goes back further, to Clark Hull running rats toward food boxes in 1932, but the Kivetz study is the one that put it on the consumer-behavior map. Clean, replicated, and as designers we can engineer for it.",
+
+  "Let's ground this in a product. Duolingo. Probably the most-cited goal gradient case study in modern UX. I want to walk through how Duolingo uses it. Three beats: situation, decision, effect.",
+
+  "Situation. A learner opens the app between classes. They have a long-term goal of learning a language, which is the kind of finish line you can never actually see. The question Duolingo is answering: how do you keep someone motivated when the real goal is years away?",
+
+  "Decision. Duolingo makes progress visible at three different scales, all at once, on the home screen. The daily XP goal that closes in a single session. The streak count that closes nightly. The weekly league position that closes in seven days. Three goal gradients stacked so there's always a near finish line somewhere on screen.",
+
+  "Effect. Because there's always a goal the user is close to, there's always a reason to tap one more lesson. When the league reset is still days away, the daily XP bar is nearly full. When today's lesson is just starting, the streak is one day from its next milestone badge. The long-term goal of fluency, which is far and abstract, never has to do the motivational work alone.",
+
+  "So how do you actually design for goal gradient. Three moves. Make the goal specific and measurable. Show progress visually, a bar, a ring, a filled shape. And break the journey into near milestones and recognise each one, however small. If any of these is missing, the effect weakens.",
+
+  "Quick in-class beat. Look at your phone. Open any app you use daily. Find one goal gradient. It might be a streak, a ring, a progress bar, a level, a points count. Then ask: is the nearest milestone close or far? If it's far, what could the designer have done to put a closer one in front of you? Three minutes. Turn to the person next to you.",
+
+  "Shift to part two. If the goal gradient is how we motivate people toward a finish line, UX metrics are how we see whether they're getting there. The question moves from what to design to how to know if the design is working.",
+
+  "A UX metric is a quantitative signal about the user's experience. Not a business metric like revenue or monthly actives, though those matter. UX metrics sit closer to the interaction. Can the user complete the task. How often do they make a mistake. How long does it take. How do they feel afterwards. Would they recommend it to a friend.",
+
+  "Five you'll see over and over. Task success rate, did they finish. Error rate, how often did they slip. Time on task, how long did it take. Satisfaction, how did it feel. Net Promoter Score, would they tell someone else. Each answers a different question. The trick is picking the right one for the question you actually have, not picking NPS because it's easy to explain to executives.",
+
+  "The five are general. They travel across products. But for a specific pattern like goal gradient, you usually have to build the metric yourself. Three examples, applied to Duolingo. Milestone completion: what percent of opens end with the daily XP bar full. Time between wins: if the streak is motivating, the gap between sessions shrinks as the next milestone gets closer. And the cleanest one, the delta without the signal: hide the progress bar for a test cell and measure the difference in completion rate. That's the pattern actually doing work. The point: start from the behavior your design is trying to move, then build the number that tells you whether it's moving. This is what the homework is asking you to do.",
+
+  "The reminder I want you to carry out of this room. If you can't say, in one sentence, what question a metric answers, it's the wrong metric. Not a weaker metric. The wrong one. Start from the question. Then pick.",
+
+  "Here's the fork that matters more than any individual metric. Vanity metrics look impressive and change nothing about your design. Page views. Signups on their own. Daily actives as a standalone number. Actionable metrics tell you where to change something. If task success rate drops after a new flow ships, you know which screen to open. If page views drop, you don't. Ship actionable. Report vanity only when you have to.",
+
+  "One more thing. A single reading of a metric tells you almost nothing. The value is in the trend. Task success rate at 82 percent is not good or bad in isolation. Task success rate going from 82 to 74 after a redesign is a problem you can act on. Track over time. That's the discipline.",
+
+  "In-class exercise. Your team just shipped a redesigned checkout flow for a small e-commerce app. Pick the two UX metrics you would instrument first, and tell me why those two and not the others. Five minutes. Work in pairs. We'll share out.",
+
+  "One more thing before the homework. These metrics are not only important for your design work, they go in your portfolio and your resume. 'I redesigned checkout' is a description. 'I redesigned checkout, task success went from 74 to 88 percent' is a case. Hiring managers, especially for senior roles, are looking for impact. Numbers tell them you shipped something that actually moved the thing. Every project in your portfolio, attach a metric. If you don't have one, go back and measure. That's what gets interviews.",
+
+  "Homework for Week 13. Pick a product you use. Document one goal gradient pattern it uses. Include screenshots and a short Situation / Decision / Effect write-up, the same three-move case study structure. Then propose two UX metrics you would track to tell whether that pattern is working, and explain why those two. One page, any format, due before class next week. Full brief goes up on Canvas tonight."
+]
+</script>
+
+<style>
+  /* ── PP Neue Machina (licensed, local). Drop fonts/ folder alongside. ── */
+  @font-face { font-family: 'PP Neue Machina Plain'; src: url('fonts/Neue%20Machina/PPNeueMachina-PlainLight.woff2') format('woff2'); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'PP Neue Machina Plain'; src: url('fonts/Neue%20Machina/PPNeueMachina-PlainRegular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'PP Neue Machina Plain'; src: url('fonts/Neue%20Machina/PPNeueMachina-PlainMedium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+
+  :root {
+    --paper: #E9ECEF;
+    --ink: #0C0D0F;
+    --ink-2: #1A1C1F;
+    --ink-3: #6A6E73;
+    --ink-4: #9BA0A5;
+    --rule: #D4D8DC;
+    --accent: #D7FF1F;
+    --serif: 'PP Neue Machina Plain', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'PP Neue Machina Plain', 'Helvetica Neue', Arial, sans-serif;
+    --pad-x: 100px;
+    --pad-y: 90px;
+    --indent: 0px;
+  }
+
+  html, body { margin: 0; padding: 0; background: var(--paper); color: var(--ink); transition: background 180ms ease; }
+  body { font-family: var(--serif); }
+  deck-stage { background: var(--paper); transition: background 180ms ease; }
+
+  section.slide {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    position: relative;
+    padding: var(--pad-y) var(--pad-x);
+    padding-left: calc(var(--pad-x) + var(--indent));
+    padding-right: calc(var(--pad-x) + var(--indent));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  section.slide.ink { background: var(--ink); color: var(--paper); --ink-3: #999999; --rule: #262626; }
+
+  body.dark-slide, body.dark-slide deck-stage { background: var(--ink); }
+
+  /* Unifying mark: short lime accent bar top-left of every slide. */
+  section.slide::before {
+    content: "";
+    position: absolute;
+    top: 90px;
+    left: 100px;
+    width: 64px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  h1, h2, h3, p { margin: 0; font-weight: 400; }
+
+  /* All display text: Machina Plain Light. */
+  .s-title h1, .s-opener h2, .s-defn h2, .s-question h2, .s-three .item,
+  .s-div h2, .s-body h2, .s-quote blockquote, .s-split .h2, .s-split .col h3,
+  .s-loop h2, .s-loop .step, .s-close h2, .s-thanks h2, .display,
+  .s-grid h2, .s-grid .cell h3 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-style: normal;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+
+  /* Supporting copy: subdued. */
+  .s-title .subtitle, .s-opener .sub, .s-shot .caption, .s-defn .desc,
+  .s-div .desc, .s-body .bullets p, .s-split .col p, .s-three .intro,
+  .s-quote .tag, .s-grid .cell p, .s-grid .intro {
+    font-family: var(--mono);
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: -0.005em;
+    color: var(--ink-3);
+  }
+
+  /* Accent: neon-lime highlighter behind em words. Solid fill for full
+     coverage of the glyph. Display line-heights below are set to 1.05+
+     to give the highlight room to paint on a wrapped line without
+     reaching into the descenders of the line above. */
+  em {
+    font-style: normal;
+    background: var(--accent);
+    color: var(--ink);
+    padding: 0 0.14em;
+    margin: 0 -0.04em;
+    border-radius: 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  section.slide.ink em { color: var(--ink); }
+
+  /* Dark-slide colour overrides. */
+  section.slide.ink h1, section.slide.ink h2, section.slide.ink h3,
+  section.slide.ink blockquote, section.slide.ink .item, section.slide.ink .step,
+  section.slide.ink .display { color: var(--paper); }
+  section.slide.ink .subtitle, section.slide.ink .sub, section.slide.ink .caption,
+  section.slide.ink .desc, section.slide.ink .bullets p, section.slide.ink .col p,
+  section.slide.ink .intro, section.slide.ink .tag, section.slide.ink .cell p { color: var(--ink-4); }
+
+  /* ── Slide layouts ─────────────────────────────────────────────────── */
+  .s-title { justify-content: center; }
+  .s-title h1 { font-size: 200px; line-height: 1.1; max-width: none; }
+  .s-title .subtitle { margin-top: 40px; font-size: 28px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  .s-opener { justify-content: center; }
+  .s-opener h2 { font-size: 170px; line-height: 1.1; max-width: 1680px; }
+  .s-opener .sub { margin-top: 40px; font-size: 42px; line-height: 1.25; }
+
+  .s-defn { justify-content: center; gap: 0; }
+  .s-defn h2 { font-size: 130px; line-height: 1.1; max-width: 1680px; }
+  .s-defn .desc { margin-top: 40px; font-size: 36px; line-height: 1.3; max-width: 1400px; }
+
+  .s-question { justify-content: center; }
+  .s-question h2 { font-size: 140px; line-height: 1.1; max-width: 1680px; }
+
+  .s-three { justify-content: center; gap: 80px; }
+  .s-three .intro { font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .s-three .list { display: flex; flex-direction: column; gap: 24px; }
+  .s-three .item { font-size: 130px; line-height: 1.1; display: flex; align-items: baseline; gap: 64px; }
+  .s-three .item .n {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 130px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--ink-4);
+    min-width: 0;
+  }
+
+  .s-div { justify-content: center; gap: 40px; }
+  .s-div h2 { font-size: 170px; line-height: 1.1; max-width: 1680px; }
+  .s-div .desc { font-size: 36px; line-height: 1.3; max-width: 1400px; margin-top: 0; }
+
+  .s-body { justify-content: center; gap: 40px; }
+  .s-body h2 { font-size: 110px; line-height: 1.1; max-width: 1680px; }
+  .s-body .bullets { display: flex; flex-direction: column; gap: 24px; max-width: 1500px; }
+  .s-body .bullets p {
+    font-size: 34px;
+    line-height: 1.3;
+    padding-left: 70px;
+    position: relative;
+  }
+  .s-body .bullets p::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.32em;
+    width: 28px;
+    height: 28px;
+    background-color: var(--ink);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'><path d='M46.67,18.67a9.34,9.34,0,0,1-9.34-9.34,9.33,9.33,0,1,0-18.66,0,9.34,9.34,0,0,1-9.34,9.34,9.33,9.33,0,0,0,0,18.66,9.34,9.34,0,0,1,9.34,9.34,9.33,9.33,0,0,0,18.66,0,9.34,9.34,0,0,1,9.34-9.34,9.33,9.33,0,0,0,0-18.66ZM28,37.33A9.33,9.33,0,1,1,37.33,28,9.33,9.33,0,0,1,28,37.33Z'/></svg>") center / contain no-repeat;
+            mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 56'><path d='M46.67,18.67a9.34,9.34,0,0,1-9.34-9.34,9.33,9.33,0,1,0-18.66,0,9.34,9.34,0,0,1-9.34,9.34,9.33,9.33,0,0,0,0,18.66,9.34,9.34,0,0,1,9.34,9.34,9.33,9.33,0,0,0,18.66,0,9.34,9.34,0,0,1,9.34-9.34,9.33,9.33,0,0,0,0-18.66ZM28,37.33A9.33,9.33,0,1,1,37.33,28,9.33,9.33,0,0,1,28,37.33Z'/></svg>") center / contain no-repeat;
+  }
+  section.slide.ink .s-body .bullets p::before,
+  section.slide.ink .bullets p::before { background-color: var(--paper); }
+
+  .s-quote { justify-content: center; }
+  .s-quote blockquote { margin: 0; font-size: 130px; line-height: 1.02; max-width: 1680px; }
+
+  .s-split { justify-content: center; }
+  .s-split .h2 { font-size: 84px; line-height: 1.08; margin-bottom: 96px; max-width: 1680px; }
+  .s-split .grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 120px; row-gap: 32px; position: relative; }
+  .s-split .grid > .col + .col { padding-left: 60px; border-left: 1px solid var(--rule); }
+  section.slide.ink .s-split .grid > .col + .col { border-left-color: #262626; }
+  .s-split .col .tag { font-size: 24px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); margin-bottom: 28px; }
+  .s-split .col h3 { font-size: 68px; line-height: 1.05; margin-bottom: 32px; }
+  .s-split .col p { font-size: 30px; line-height: 1.3; }
+
+  .s-loop { justify-content: center; gap: 96px; }
+  .s-loop h2 { font-size: 90px; line-height: 1.08; max-width: 1680px; }
+  .s-loop .steps { display: flex; align-items: baseline; gap: 48px; flex-wrap: wrap; }
+  .s-loop .step { font-size: 100px; line-height: 1.1; }
+  .s-loop .arrow {
+    font-size: 70px;
+    color: var(--ink);
+    background: var(--accent);
+    padding: 0 0.18em;
+    border-radius: 2px;
+    font-weight: 300;
+    line-height: 0.9;
+  }
+
+  .s-close { justify-content: center; }
+  .s-close h2 { font-size: 120px; line-height: 1.02; max-width: 1680px; }
+
+  .s-thanks { justify-content: center; align-items: flex-start; }
+  .s-thanks h2 { font-size: 240px; line-height: 1.1; }
+
+  .s-shot { padding: 130px calc(var(--pad-x) + var(--indent)) 130px; justify-content: center; gap: 40px; }
+  .s-shot .frame {
+    flex: 1;
+    border: 1px solid var(--rule);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    position: relative;
+  }
+  .s-shot .frame .hint {
+    font-family: var(--mono);
+    font-size: 26px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  .s-shot .caption { font-size: 34px; line-height: 1.25; color: var(--ink-3); font-family: var(--mono); }
+  .s-shot .shots {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    width: 100%;
+    min-height: 0;
+  }
+  .s-shot .shot {
+    flex: 0 1 auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+  .s-shot .shot img {
+    height: 100%;
+    max-height: 820px;
+    width: auto;
+    max-width: 100%;
+    display: block;
+    border-radius: 44px;
+    box-shadow: 0 24px 60px rgba(12, 13, 15, 0.14);
+    object-fit: contain;
+  }
+
+  /* ── 2x2 metric grid (custom for this deck) ──────────────────────── */
+  .s-grid { justify-content: center; gap: 64px; }
+  .s-grid h2 { font-size: 90px; line-height: 1.05; max-width: 1680px; }
+  .s-grid .intro { font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .s-grid .cells {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 56px;
+    row-gap: 48px;
+  }
+  .s-grid .cell {
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .s-grid .cell .tag {
+    font-family: var(--mono);
+    font-size: 20px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  .s-grid .cell h3 { font-size: 48px; line-height: 1; letter-spacing: -0.025em; }
+  .s-grid .cell h3 em { font-style: normal; }
+  .s-grid .cell p { font-size: 24px; line-height: 1.35; }
+  section.slide.ink .s-grid .cell { border-top-color: #262626; }
+
+  /* ── Learning objectives (numbered list) ─────────────────────────── */
+  .s-objectives { justify-content: center; gap: 56px; }
+  .s-objectives .intro { font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); font-family: var(--mono); }
+  .s-objectives h2 { font-size: 96px; line-height: 1.05; max-width: 1680px; }
+  .s-objectives .obj-list { display: flex; flex-direction: column; gap: 28px; max-width: 1600px; }
+  .s-objectives .obj {
+    display: flex;
+    gap: 40px;
+    align-items: baseline;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .s-objectives .obj em { font-style: normal; }
+  .s-objectives .obj .n {
+    font-size: 44px;
+    color: var(--ink-4);
+    min-width: 60px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Case study three-move block ─────────────────────────────────── */
+  .s-case { justify-content: center; gap: 56px; }
+  .s-case .intro { font-size: 22px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); font-family: var(--mono); }
+  .s-case h2 { font-size: 96px; line-height: 1.05; max-width: 1680px; }
+  .s-case .moves { display: flex; gap: 72px; }
+  .s-case .move { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+  .s-case .move .tag { font-family: var(--mono); font-size: 22px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-4); }
+  .s-case .move .h { font-size: 56px; line-height: 1.05; letter-spacing: -0.025em; font-weight: 300; }
+  .s-case .move .h em { font-style: normal; }
+  .s-case .move p { font-family: var(--mono); font-size: 26px; line-height: 1.35; color: var(--ink-3); }
+
+  /* ── Exercise / Homework callout ─────────────────────────────────── */
+  .s-task { justify-content: center; gap: 48px; }
+  .s-task .eyebrow { font-family: var(--mono); font-size: 28px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); }
+  .s-task h2 { font-size: 96px; line-height: 1.05; max-width: 1680px; }
+  .s-task .body p {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    max-width: 1500px;
+    color: var(--ink);
+  }
+  .s-task .body p em { font-style: normal; }
+  .s-task .meta {
+    margin-top: 24px;
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-4);
+  }
+  section.slide.ink .s-task .body p { color: var(--paper); }
+
+  /* Prevent unwanted overflow everywhere. */
+  section.slide h1, section.slide h2, section.slide h3,
+  section.slide blockquote, section.slide p, section.slide .item, section.slide .step {
+    word-break: normal;
+    overflow-wrap: break-word;
+    hyphens: none;
+  }
+
+  /* Slide-activation entrance. */
+  section.slide[data-deck-active] {
+    animation: slide-enter 480ms cubic-bezier(.2, .7, .2, 1) both;
+  }
+  @keyframes slide-enter {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Deck progress bar. */
+  .deck-progress {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 4px;
+    background: transparent;
+    z-index: 2147483100;
+    pointer-events: none;
+  }
+  .deck-progress-fill {
+    height: 100%;
+    width: calc(var(--deck-progress, 0) * 100%);
+    background: var(--accent);
+    transition: width 420ms cubic-bezier(.4, 0, .2, 1);
+  }
+</style>
+
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 Title -->
+  <section class="slide s-title" data-label="Title">
+    <h1>Goal gradient + <em>UX metrics.</em></h1>
+    <div class="subtitle">IXD 620 / 320 · Week 12</div>
+  </section>
+
+  <!-- 02 Learning objectives -->
+  <section class="slide s-objectives" data-label="What you'll leave with">
+    <p class="intro">What you'll leave with today</p>
+    <h2>Two things by the end of this class.</h2>
+    <div class="obj-list">
+      <div class="obj"><span class="n">01</span><span>Name the <em>goal gradient</em> effect and spot it in the wild.</span></div>
+      <div class="obj"><span class="n">02</span><span>Pick a UX metric that <em>answers a question,</em> not one that just looks good.</span></div>
+    </div>
+  </section>
+
+  <!-- 03 Hook / opener -->
+  <section class="slide s-opener" data-label="Hook">
+    <h2>Why do marathon runners <em>speed up</em> in the last mile?</h2>
+    <p class="sub">Their legs are more tired, not less. But the finish line is visible.</p>
+  </section>
+
+  <!-- 04 Definition of Goal Gradient -->
+  <section class="slide s-defn" data-label="Goal gradient, defined">
+    <h2>Motivation rises as the <em>finish line</em> gets closer.</h2>
+    <p class="desc">Kivetz, Urminsky and Zheng, 2006. Customers bought coffee faster as they approached the free reward. Clean, replicated, engineerable.</p>
+  </section>
+
+  <!-- 05 Case study intro / screenshot -->
+  <section class="slide s-shot" data-label="Duolingo case study">
+    <div class="shots">
+      <div class="shot"><img src="Duolingo%20iOS%2074.png" alt="Duolingo home screen showing daily XP goal"></div>
+      <div class="shot"><img src="Duolingo%20iOS%20107.png" alt="Duolingo showing the streak count"></div>
+      <div class="shot"><img src="Duolingo%20iOS%20133.png" alt="Duolingo weekly league leaderboard"></div>
+    </div>
+  </section>
+
+  <!-- Duolingo: Situation -->
+  <section class="slide s-body" data-label="Duolingo · Situation">
+    <h2>Situation. A learner, between classes, with a goal that's <em>years away.</em></h2>
+    <div class="bullets">
+      <p>Fluency in a new language is a finish line you can never actually see.</p>
+      <p>Duolingo's question: how do you keep someone motivated when the real goal is that far out?</p>
+    </div>
+  </section>
+
+  <!-- 08 Duolingo: Decision -->
+  <section class="slide s-body" data-label="Duolingo · Decision">
+    <h2>Decision. Make progress visible at <em>three scales,</em> at once.</h2>
+    <div class="bullets">
+      <p>Daily XP. Today's goal. Closes in one session.</p>
+      <p>Streak. Consecutive days. Closes nightly.</p>
+      <p>League. Weekly ranking against other learners. Closes in seven days.</p>
+    </div>
+  </section>
+
+  <!-- 09 Duolingo: Effect (pull quote style) -->
+  <section class="slide s-quote ink" data-label="Duolingo · Effect">
+    <blockquote>There's always a goal you are <em>close to.</em></blockquote>
+  </section>
+
+  <!-- 10 Application principles -->
+  <section class="slide s-body" data-label="Designing for goal gradient">
+    <h2>How to design for it. <em>Three</em> moves.</h2>
+    <div class="bullets">
+      <p>Make the goal specific and measurable.</p>
+      <p>Show progress visually. A bar, a ring, a filled shape.</p>
+      <p>Break the journey into near milestones, and recognise each one.</p>
+    </div>
+  </section>
+
+  <!-- 11 Exercise 1: goal gradient spotting -->
+  <section class="slide s-task" data-label="Exercise · Spot one">
+    <div class="eyebrow">Exercise · 3 minutes · pairs</div>
+    <h2>Spot one. <em>On your phone.</em></h2>
+    <div class="body">
+      <p>Open any app you use daily. Find one goal gradient: a streak, a ring, a bar, a level, a points count. Is the nearest milestone <em>close</em> or <em>far?</em> If it's far, what could the designer have done differently?</p>
+      <p class="meta">Turn to your neighbour. We'll hear two.</p>
+    </div>
+  </section>
+
+  <!-- 12 Part 2 divider -->
+  <section class="slide s-div" data-label="Part 02 · UX Metrics">
+    <h2>Part two. <em>Measuring</em> the work.</h2>
+    <p class="desc">If the goal gradient is how we move people toward a finish line, UX metrics are how we see whether they're getting there.</p>
+  </section>
+
+  <!-- 13 UX Metrics defined -->
+  <section class="slide s-defn" data-label="UX metrics, defined">
+    <h2>A <em>quantitative signal</em> about the user's experience.</h2>
+    <p class="desc">Not revenue. Not monthly actives. Metrics that sit close to the interaction itself. What happens in the moment of use.</p>
+  </section>
+
+  <!-- 14 Five metrics grid -->
+  <section class="slide s-grid" data-label="The five you'll see">
+    <p class="intro">Five you'll see over and over</p>
+    <h2>Each one answers a <em>different</em> question.</h2>
+    <div class="cells">
+      <div class="cell">
+        <div class="tag">01 · Task success</div>
+        <h3>Did they finish?</h3>
+        <p>Percent of users who complete the task. The baseline question of usability.</p>
+      </div>
+      <div class="cell">
+        <div class="tag">02 · Error rate</div>
+        <h3>How often did they slip?</h3>
+        <p>Mistakes per task. High error rates point to a usability defect.</p>
+      </div>
+      <div class="cell">
+        <div class="tag">03 · Time on task</div>
+        <h3>How long did it take?</h3>
+        <p>Shorter is usually better. Longer is friction worth investigating.</p>
+      </div>
+      <div class="cell">
+        <div class="tag">04 · Satisfaction</div>
+        <h3>How did it feel?</h3>
+        <p>Collected via survey. Subjective, but often the earliest warning sign.</p>
+      </div>
+      <div class="cell">
+        <div class="tag">05 · NPS</div>
+        <h3>Would they tell a friend?</h3>
+        <p>One question, eleven-point scale. Loved and loathed in equal measure.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom metrics: built for the pattern -->
+  <section class="slide s-grid" data-label="Custom metrics">
+    <p class="intro">Custom metrics</p>
+    <h2>The five are general. Your pattern is <em>specific.</em></h2>
+    <div class="cells">
+      <div class="cell">
+        <div class="tag">01 · Milestone completion</div>
+        <h3>Did they close the <em>near</em> goal?</h3>
+        <p>For Duolingo: what percent of opens end with today's XP bar full?</p>
+      </div>
+      <div class="cell">
+        <div class="tag">02 · Time between wins</div>
+        <h3>How fast do they return?</h3>
+        <p>If the streak is doing work, the gap between sessions shrinks as the next milestone gets closer.</p>
+      </div>
+      <div class="cell">
+        <div class="tag">03 · Delta without the signal</div>
+        <h3>Does the pattern <em>actually</em> move them?</h3>
+        <p>Hide the progress bar in a test cell. The difference in completion rate is the metric.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pick for the question (pulled out of the grid) -->
+  <section class="slide s-defn" data-label="Pick for the question">
+    <h2>If you can't say what question the metric <em>answers,</em> it's the wrong metric.</h2>
+  </section>
+
+  <!-- 15 Vanity vs actionable -->
+  <section class="slide s-split" data-label="Vanity vs actionable">
+    <div class="h2">Don't use <em>vanity metrics.</em></div>
+    <div class="grid">
+      <div class="col">
+        <div class="tag">Vanity</div>
+        <h3>Looks impressive.</h3>
+        <p>Page views. Signups on their own. Followers. Moves up and to the right. Tells you nothing about what to change next.</p>
+      </div>
+      <div class="col">
+        <div class="tag">Actionable</div>
+        <h3>Tells you <em>where to look.</em></h3>
+        <p>Task success rate, error rate, funnel drop-off. When the number moves, you know which screen or flow to open.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 Track over time quote -->
+  <section class="slide s-quote" data-label="Track over time">
+    <blockquote>A single reading tells you nothing. The value is in the <em>trend.</em></blockquote>
+  </section>
+
+  <!-- 17 In-class exercise 2 -->
+  <section class="slide s-task" data-label="Exercise · Pick two">
+    <div class="eyebrow">Exercise · 5 minutes · pairs</div>
+    <h2>Pick <em>two.</em></h2>
+    <div class="body">
+      <p>Your team just shipped a redesigned checkout flow for a small e-commerce app. Choose the two UX metrics you would instrument first, and be ready to say why <em>those two,</em> not the others.</p>
+      <p class="meta">Work in pairs. We'll share out.</p>
+    </div>
+  </section>
+
+  <!-- Portfolio impact: metrics are career leverage -->
+  <section class="slide s-body" data-label="Portfolio impact">
+    <h2>Also: they go in your <em>portfolio.</em></h2>
+    <div class="bullets">
+      <p>In your work. Metrics tell you if the design is moving the right thing.</p>
+      <p>In your portfolio and resume. Metrics tell a hiring manager you had <em>impact.</em></p>
+      <p>"Redesigned checkout" is a description. "Redesigned checkout, task success went from 74 to 88 percent" is a case.</p>
+    </div>
+  </section>
+
+  <!-- Homework -->
+  <section class="slide s-opener ink" data-label="Homework overview">
+    <h2>Homework <em>overview.</em></h2>
+  </section>
+
+</deck-stage>
+
+<div class="deck-progress" aria-hidden="true"><div class="deck-progress-fill"></div></div>
+
+<script>
+  // Per-slide side effects: flip body.dark-slide for .ink slides,
+  // and update the bottom progress bar.
+  (function () {
+    function sync(slide, detail) {
+      const isDark = !!(slide && slide.classList && slide.classList.contains('ink'));
+      document.body.classList.toggle('dark-slide', isDark);
+      if (detail && typeof detail.total === 'number' && detail.total > 0) {
+        const pct = Math.min(1, Math.max(0, (detail.index + 1) / detail.total));
+        document.documentElement.style.setProperty('--deck-progress', pct);
+      }
+    }
+    document.addEventListener('slidechange', function (e) {
+      if (e && e.detail) sync(e.detail.slide || null, e.detail);
+    }, true);
+    setTimeout(function () {
+      const active = document.querySelector('section.slide[data-deck-active]');
+      const all = document.querySelectorAll('deck-stage > section.slide');
+      const index = Array.prototype.indexOf.call(all, active);
+      sync(active, { index: Math.max(0, index), total: all.length });
+    }, 0);
+  })();
+</script>
+
+<script src="deck-stage.js"></script>
+
+</body>
+</html>
