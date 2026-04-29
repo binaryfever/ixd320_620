@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Finding Home — UX Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=Space+Mono&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css"/>
+
+<style>
+:root {
+  --black:  #080808;
+  --white:  #FAFAFA;
+  --gray:   #F2F0EE;
+  --gray2:  #E0DDDA;
+  --blue:   #0047FF;
+  --pink:   #FF1F6A;
+  --yellow: #FFE500;
+  --green:  #00C896;
+  --ink:    #1A1A1A;
+  --muted:  #888;
+}
+
+/* ── Base ── */
+.reveal-viewport  { background: var(--black); }
+.reveal           { font-family:'DM Sans',sans-serif; font-size:16px; color:var(--ink); text-align:left; }
+.reveal .slides   { text-align:left; }
+.reveal .slides section { height:100%; text-align:left; }
+.reveal section   { padding:0 !important; }
+.reveal h1,.reveal h2,.reveal h3,.reveal h4 { text-transform:none; text-align:left; }
+.reveal p         { text-align:left; }
+.reveal .progress { color:var(--blue); height:3px; }
+.reveal .controls { color:var(--blue); }
+.reveal .slide-number { font-family:'Space Mono',monospace; background:transparent; color:var(--muted); font-size:0.65rem; }
+
+/* ── Layout ── */
+.s { width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; box-sizing:border-box; position:relative; overflow:hidden; }
+.pad    { padding:3.5rem 5rem; }
+.pad-sm { padding:2.5rem 4rem; }
+.bg-black  { background:var(--black); }
+.bg-white  { background:var(--white); }
+.bg-gray   { background:var(--gray);  }
+.bg-blue   { background:var(--blue);  }
+.bg-pink   { background:var(--pink);  }
+.bg-yellow { background:var(--yellow);}
+.split    { display:grid; grid-template-columns:1fr 1fr;    height:100%; }
+.split-62 { display:grid; grid-template-columns:62fr 38fr; height:100%; }
+.split-38 { display:grid; grid-template-columns:38fr 62fr; height:100%; }
+.col      { display:flex; flex-direction:column; justify-content:center; align-items:stretch; }
+.two-col  { display:grid; grid-template-columns:1fr 1fr;   gap:2.5rem; align-items:start; }
+.three-col{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+
+/* ── Typography ── */
+.bebas   { font-family:'Bebas Neue',sans-serif; line-height:0.92; }
+.t-super   { font-family:'Bebas Neue',sans-serif; font-size:9rem;   line-height:0.88; letter-spacing:0.01em; }
+.t-display { font-family:'Bebas Neue',sans-serif; font-size:6.5rem; line-height:0.9;  letter-spacing:0.01em; }
+.t-hero    { font-family:'Bebas Neue',sans-serif; font-size:5rem;   line-height:0.92; }
+.t-h1      { font-family:'Space Grotesk',sans-serif; font-size:2.6rem; font-weight:700; line-height:1.1;  letter-spacing:-0.03em; }
+.t-h2      { font-family:'Space Grotesk',sans-serif; font-size:1.8rem; font-weight:700; line-height:1.15; letter-spacing:-0.025em; }
+.t-h3      { font-family:'Space Grotesk',sans-serif; font-size:1.2rem; font-weight:600; line-height:1.2; }
+.t-body    { font-size:1rem;   line-height:1.65; max-width:600px; }
+.t-small   { font-size:0.82rem; color:var(--muted); line-height:1.5; }
+.t-label   { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; }
+.t-quote   { font-family:'DM Sans',sans-serif; font-style:italic; font-size:1.3rem; line-height:1.55; }
+.t-stat    { font-family:'Bebas Neue',sans-serif; font-size:5.5rem; line-height:0.85; }
+.c-white  { color:var(--white)  !important; }
+.c-black  { color:var(--black)  !important; }
+.c-blue   { color:var(--blue)   !important; }
+.c-pink   { color:var(--pink)   !important; }
+.c-yellow { color:var(--yellow) !important; }
+.c-green  { color:var(--green)  !important; }
+.c-muted  { color:var(--muted)  !important; }
+
+/* ── Image placeholders ── */
+.img-ph {
+  background: #161616;
+  border: 2px dashed rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.img-ph-light {
+  background: #E4E0DA;
+  border: 2px dashed rgba(0,0,0,0.15);
+}
+.img-ph-inner { text-align: center; z-index: 1; position: relative; }
+.img-ph .img-ph-inner * { color: rgba(255,255,255,0.35); }
+.img-ph-light .img-ph-inner * { color: rgba(0,0,0,0.3); }
+.img-ph-icon  { font-size: 2.2rem; display: block; margin-bottom: 0.6rem; }
+.img-ph-label { font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; display:block; }
+.img-ph-note  { font-size:0.75rem; margin-top:0.4rem; display:block; font-family:'DM Sans',sans-serif; opacity:0.7; }
+
+/* ── Browser mockup (slide 02) ── */
+.browser {
+  background: #1E1E1E; border-radius: 8px;
+  overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+  width: 100%;
+}
+.browser-top { background: #2A2A2A; padding: 8px 10px 0; }
+.browser-dots { display:flex; gap:5px; margin-bottom:8px; }
+.browser-dots span { width:10px; height:10px; border-radius:50%; }
+.browser-dots span:nth-child(1) { background:#FF5F57; }
+.browser-dots span:nth-child(2) { background:#FEBC2E; }
+.browser-dots span:nth-child(3) { background:#28C840; }
+.browser-tab-row { display:flex; gap:1px; overflow:hidden; }
+.btab {
+  flex-shrink:0; height:24px; min-width:72px; max-width:90px;
+  background: #3A3A3A; border-radius:4px 4px 0 0;
+  padding: 0 8px; font-size:7px; font-family:'DM Sans',sans-serif;
+  color:rgba(255,255,255,0.45); display:flex; align-items:center;
+  white-space:nowrap; overflow:hidden;
+}
+.btab.on { background:#1E1E1E; color:rgba(255,255,255,0.85); }
+.browser-bar { background:#1E1E1E; padding:6px 10px 8px; }
+.browser-addr {
+  background:#333; border-radius:4px; padding:4px 10px;
+  font-size:8px; font-family:'Space Mono',monospace; color:rgba(255,255,255,0.35);
+}
+.browser-body { background:#F5F3F0; min-height:140px; padding:14px; }
+
+/* ── Components ── */
+.q-block { border-left:4px solid currentColor; padding:0.2rem 0 0.2rem 1.4rem; }
+.q-block cite { display:block; margin-top:0.5rem; font-size:0.75rem; font-style:normal; opacity:0.6; letter-spacing:0.05em; }
+.tag { display:inline-block; border:1px solid currentColor; padding:0.2rem 0.65rem; font-family:'Space Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; opacity:0.5; margin:0.15rem; }
+.btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.85rem 2rem; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.95rem; text-decoration:none; border-radius:0; cursor:pointer; align-self:flex-start; }
+.btn-blue          { background:var(--blue);   color:var(--white); }
+.btn-yellow        { background:var(--yellow); color:var(--black); }
+.btn-outline-white { background:transparent;   color:var(--white); border:2px solid rgba(255,255,255,0.4); }
+.btn-outline-black { background:transparent;   color:var(--black); border:2px solid var(--black); }
+.steps { list-style:none; padding:0; margin:0; }
+.steps li { display:flex; gap:0.8rem; align-items:flex-start; margin-bottom:0.9rem; font-size:0.9rem; line-height:1.5; }
+.sn      { min-width:22px; height:22px; background:var(--blue); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-family:'Space Mono',monospace; font-weight:bold; flex-shrink:0; margin-top:2px; }
+.sn-pink { background:var(--pink); }
+.ic        { background:white; border-top:4px solid var(--blue); padding:1.2rem; }
+.ic-pink   { border-color:var(--pink); }
+.ic-green  { border-color:var(--green); }
+.ic h4 { font-family:'Space Grotesk',sans-serif; font-size:0.9rem; font-weight:700; margin:0 0 0.4rem; }
+.ic p  { font-size:0.78rem; color:var(--muted); margin:0; line-height:1.5; }
+
+/* ── Journey map ── */
+.journey { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
+.j { background:var(--white); padding:0.75rem 0.7rem; font-size:0.72rem; line-height:1.4; color:#333; }
+.j-stage { font-family:'Space Mono',monospace; font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue); margin-bottom:0.3rem; }
+.j-pain  { margin-top:0.4rem; padding-top:0.4rem; border-top:1px solid var(--gray2); color:var(--pink); font-size:0.67rem; }
+.j-feel  { font-style:italic; color:var(--muted); font-size:0.67rem; margin-top:0.2rem; }
+.emo     { height:4px; margin-top:1rem; background:linear-gradient(to right,var(--green),var(--yellow),var(--pink),var(--pink),var(--blue)); border-radius:2px; }
+.emo-labels { display:flex; justify-content:space-between; font-size:0.6rem; color:var(--muted); margin-top:0.3rem; font-family:'Space Mono',monospace; }
+
+/* ── Impact ── */
+.im { padding:2rem 2.5rem; border-top:3px solid; }
+.im-num  { font-family:'Bebas Neue',sans-serif; font-size:5rem; line-height:0.85; }
+.im-desc { font-size:0.78rem; margin-top:0.4rem; opacity:0.6; line-height:1.45; }
+.learn   { display:flex; gap:1rem; margin-bottom:1rem; }
+.learn-icon { font-size:1.1rem; flex-shrink:0; margin-top:3px; }
+.learn h4 { font-family:'Space Grotesk',sans-serif; font-size:0.9rem; font-weight:700; margin:0 0 0.2rem; }
+.learn p  { font-size:0.78rem; color:var(--muted); margin:0; line-height:1.5; }
+
+/* ── Phone frames ── */
+.phone { width:220px; flex-shrink:0; background:#111; border-radius:40px; border:9px solid #1C1C1C; box-shadow:0 0 0 1px #2A2A2A, 0 32px 64px rgba(0,0,0,0.5); overflow:hidden; position:relative; }
+.phone-sm { width:180px; }
+.phone-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:78px; height:20px; background:#111; border-radius:0 0 14px 14px; z-index:10; }
+.phone-inner { background:#fff; display:flex; flex-direction:column; height:100%; }
+.app-bar { height:36px; background:#fff; display:flex; align-items:flex-end; justify-content:space-between; padding:0 14px 4px; flex-shrink:0; font-size:9px; font-weight:700; font-family:'DM Sans',sans-serif; color:#111; }
+.app-nav { padding:7px 12px 8px; border-bottom:1px solid #EEE; display:flex; align-items:center; justify-content:space-between; background:#fff; flex-shrink:0; }
+.app-nav-title { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; color:#080808; }
+.app-body { flex:1; background:#F5F3F0; overflow:hidden; padding:10px; }
+.p-card { background:#fff; border-radius:8px; margin-bottom:8px; overflow:hidden; }
+.p-img  { height:76px; display:flex; align-items:flex-end; padding:5px 7px; }
+.p-img-badge { background:#fff; color:#080808; font-size:6px; font-weight:800; font-family:'Space Grotesk',sans-serif; padding:2px 5px; border-radius:1px; text-transform:uppercase; letter-spacing:0.08em; }
+.p-info { padding:7px 8px; }
+.p-price { font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; color:#080808; }
+.p-addr  { font-size:8px; color:#888; margin-top:1px; }
+.p-tags  { display:flex; gap:3px; margin-top:4px; }
+.p-tag   { background:#F0EDE8; font-size:6px; color:#555; padding:1px 4px; font-family:'Space Mono',monospace; border-radius:1px; }
+.s-tabs { display:flex; background:#fff; border-bottom:1px solid #EEE; flex-shrink:0; }
+.s-tab  { flex:1; padding:7px 3px; font-size:8px; font-weight:600; font-family:'Space Grotesk',sans-serif; text-align:center; color:#888; border-bottom:2px solid transparent; }
+.s-tab.on { color:var(--blue); border-color:var(--blue); }
+.s-card  { background:#fff; border-radius:5px; border:1px solid #EEE; padding:7px; margin-bottom:5px; }
+.s-meta  { font-family:'Space Mono',monospace; font-size:6px; letter-spacing:0.1em; color:#888; }
+.s-body  { font-size:8px; color:#333; line-height:1.45; margin:3px 0; }
+.s-badge { background:#F0EDE8; font-size:6px; color:#555; padding:1px 4px; display:inline-block; font-family:'Space Mono',monospace; border-radius:1px; }
+.tour-bar  { background:var(--pink); padding:6px 12px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+.tour-rec  { font-size:8px; color:#fff; font-weight:700; font-family:'Space Grotesk',sans-serif; }
+.tour-time { font-size:8px; color:rgba(255,255,255,0.7); font-family:'Space Mono',monospace; }
+.tour-note { background:#FFFEF9; border:1px solid #EAE4D8; border-radius:4px; padding:6px; margin-bottom:5px; }
+.tour-note-lbl { font-size:6px; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:0.1em; color:#888; }
+.tour-note-txt { font-size:8px; color:#222; line-height:1.4; margin-top:2px; }
+.emoji-row { display:flex; gap:3px; margin-bottom:5px; }
+.emoji-btn { flex:1; background:#F5F3F0; border-radius:3px; padding:4px 2px; text-align:center; font-size:12px; }
+.emoji-btn.sel { background:#FDECEA; outline:1.5px solid var(--pink); }
+.cmp-row  { display:flex; gap:5px; margin-bottom:6px; }
+.cmp-img  { width:38px; height:38px; border-radius:4px; flex-shrink:0; }
+.cmp-name { font-family:'Space Grotesk',sans-serif; font-size:8px; font-weight:700; color:#080808; }
+.cmp-addr { font-size:6px; color:#888; margin-top:1px; }
+.cmp-dots { display:flex; gap:2px; margin-top:3px; }
+.d { width:5px; height:5px; border-radius:50%; }
+.d-b { background:var(--blue); } .d-p { background:var(--pink); } .d-g { background:var(--green); } .d-e { background:#E0DDDA; }
+.ready-overlay { position:absolute; bottom:0; left:0; right:0; background:#fff; border-radius:12px 12px 0 0; padding:12px 10px; border-top:3px solid var(--green); box-shadow:0 -8px 20px rgba(0,0,0,0.12); }
+.ready-icon  { text-align:center; font-size:18px; margin-bottom:4px; }
+.ready-title { font-family:'Space Grotesk',sans-serif; font-size:10px; font-weight:700; text-align:center; color:#080808; }
+.ready-body  { font-size:7px; color:#555; text-align:center; line-height:1.5; margin:3px 0 6px; }
+.ready-cta   { background:var(--green); color:#fff; border-radius:3px; padding:6px; font-size:8px; font-weight:700; font-family:'Space Grotesk',sans-serif; text-align:center; }
+.search-bar { background:#EEE; border-radius:6px; padding:6px 9px; font-size:8px; color:#888; display:flex; align-items:center; gap:4px; margin-bottom:7px; }
+.hood-row   { display:flex; gap:3px; margin-bottom:7px; overflow:hidden; }
+.hood-chip  { background:#F5F3F0; border:1px solid #DDD; border-radius:10px; padding:2px 7px; font-size:6px; font-family:'Space Grotesk',sans-serif; font-weight:700; color:#444; white-space:nowrap; }
+.hood-chip.on { background:var(--blue); border-color:var(--blue); color:#fff; }
+.tab-bar  { display:flex; background:#fff; border-top:1px solid #EEE; padding:5px 0 3px; flex-shrink:0; }
+.tb-item  { flex:1; text-align:center; font-size:7px; font-family:'Space Grotesk',sans-serif; font-weight:600; color:#888; }
+.tb-item.on { color:var(--blue); }
+
+/* ── Filter phone (old version) ── */
+.filter-row { display:flex; flex-direction:column; gap:0; }
+.filter-item { padding:5px 10px; border-bottom:1px solid #EEE; }
+.filter-label { font-family:'Space Mono',monospace; font-size:6px; color:#888; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:3px; }
+.filter-slider { height:3px; background:#EEE; border-radius:2px; position:relative; margin:3px 0 2px; }
+.filter-thumb  { position:absolute; top:-4px; width:10px; height:10px; background:var(--blue); border-radius:50%; }
+.filter-vals   { display:flex; justify-content:space-between; font-size:6px; color:#888; font-family:'Space Mono',monospace; }
+.filter-segs   { display:flex; gap:2px; }
+.filter-seg    { flex:1; background:#F0EDE8; border-radius:2px; padding:3px 2px; text-align:center; font-size:6px; font-family:'Space Grotesk',sans-serif; color:#555; }
+.filter-seg.on { background:var(--blue); color:white; }
+.filter-tags-row { display:flex; gap:2px; flex-wrap:wrap; }
+.filter-tag    { background:#F0EDE8; border-radius:10px; padding:2px 5px; font-size:6px; color:#555; }
+.filter-tag.on { background:var(--blue); color:white; }
+.filter-apply  { background:var(--blue); color:white; margin:8px 10px 6px; border-radius:4px; padding:7px; font-size:8px; font-weight:700; font-family:'Space Grotesk',sans-serif; text-align:center; }
+.filter-count  { font-size:6px; font-family:'Space Mono',monospace; text-align:center; color:rgba(255,255,255,0.7); margin-top:1px; }
+</style>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ════════════════════════════════════
+  01 · TITLE
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black" style="padding:0;">
+  <div class="split">
+    <div class="col pad" style="background:var(--black);position:relative;border-right:4px solid var(--blue);">
+      <div style="position:absolute;bottom:-1rem;left:3.5rem;opacity:0.04;font-family:'Bebas Neue',sans-serif;font-size:20rem;line-height:1;color:#fff;letter-spacing:-0.04em;pointer-events:none;">FH</div>
+      <div style="position:relative;z-index:1;">
+        <div class="t-label c-blue" style="margin-bottom:1.2rem;">UX Case Study</div>
+        <div class="t-super c-white" style="margin-bottom:0;">FINDING</div>
+        <div class="t-super c-yellow" style="margin-bottom:1.5rem;">HOME.</div>
+        <div style="width:100%;height:2px;background:rgba(255,255,255,0.1);margin-bottom:1.5rem;"></div>
+        <p style="font-size:1rem;color:rgba(255,255,255,0.5);max-width:420px;line-height:1.65;margin-bottom:2rem;">Redesigning apartment search for young adults navigating an overwhelming, high-stakes, deeply lonely decision.</p>
+        <div style="display:flex;gap:3rem;">
+          <div><div class="t-label c-blue" style="margin-bottom:0.2rem;">Role</div><div style="font-size:0.82rem;color:rgba(255,255,255,0.6);">Lead UX Designer</div></div>
+          <div><div class="t-label c-blue" style="margin-bottom:0.2rem;">Team</div><div style="font-size:0.82rem;color:rgba(255,255,255,0.6);">4 people</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="col" style="background:var(--blue);align-items:center;justify-content:center;position:relative;">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:280px;height:280px;background:#fff;border-radius:50%;opacity:0.06;"></div>
+      <div class="phone" style="position:relative;z-index:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="app-bar"><span>9:41</span><span>▪▪▪ ⬤</span></div>
+          <div class="app-nav"><div class="app-nav-title">Finding Home</div><div>🔔</div></div>
+          <div class="app-body">
+            <div style="font-size:9px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:#080808;margin-bottom:6px;">Good evening, Maya 👋</div>
+            <div class="search-bar">🔍&nbsp; Search area or address</div>
+            <div class="hood-row"><div class="hood-chip on">Brooklyn</div><div class="hood-chip">Williamsburg</div><div class="hood-chip">DUMBO</div></div>
+            <div class="p-card">
+              <div class="p-img" style="background:linear-gradient(135deg,#9B8B7A,#6A5A4A);"><div class="p-img-badge">Resident Stories ✦</div></div>
+              <div class="p-info"><div class="p-price">$1,750 <span style="font-size:8px;font-weight:400;color:#888;">/mo</span></div><div class="p-addr">14E Linden Ave, Brooklyn · 2F</div><div class="p-tags"><div class="p-tag">1 BED</div><div class="p-tag">PETS OK</div></div></div>
+            </div>
+            <div class="p-card">
+              <div class="p-img" style="background:linear-gradient(135deg,#A08878,#705848);"><div class="p-img-badge">3 Stories</div></div>
+              <div class="p-info"><div class="p-price">$1,820 <span style="font-size:8px;font-weight:400;color:#888;">/mo</span></div><div class="p-addr">220 Myrtle St, Brooklyn · 4B</div></div>
+            </div>
+          </div>
+          <div class="tab-bar"><div class="tb-item on">🏠</div><div class="tb-item">💾</div><div class="tb-item">📍</div><div class="tb-item">👤</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  02 · WHERE THIS STARTED
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black" style="padding:0;">
+  <div style="display:grid;grid-template-columns:60fr 40fr;height:100%;">
+
+    <!-- Left: image placeholder -->
+    <div style="position:relative;overflow:hidden;">
+      <div class="img-ph" style="height:100%;">
+        <div style="position:absolute;bottom:-0.15em;left:-0.02em;font-family:'Bebas Neue',sans-serif;font-size:20rem;color:rgba(255,255,255,0.04);line-height:0.85;letter-spacing:-0.04em;pointer-events:none;">12:47</div>
+        <div class="img-ph-inner">
+          <span class="img-ph-icon">📸</span>
+          <span class="img-ph-label">Emotional Impact</span>
+          <span class="img-ph-note">Person alone at laptop · midnight · exhausted · phone unread</span>
+        </div>
+      </div>
+      <!-- Pink edge -->
+      <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:var(--pink);"></div>
+    </div>
+
+    <!-- Right: text -->
+    <div class="col pad" style="background:var(--black);">
+      <div class="t-label c-pink" style="margin-bottom:1rem;">Where this started</div>
+      <h2 class="t-h2 c-white" style="margin-bottom:1.5rem;">12:47 AM.<br>16 tabs.<br>No answer.</h2>
+      <p style="font-size:0.92rem;color:rgba(255,255,255,0.5);line-height:1.65;margin-bottom:1.5rem;max-width:100%;">Maya. 24. First job. New city. Three weeks before she starts. Everyone is trying to sell her something.</p>
+      <div class="q-block" style="border-color:var(--pink);">
+        <div class="t-quote c-white" style="font-size:1.1rem;">"I feel like I'm making a $20,000 decision based on nothing."</div>
+        <cite class="c-muted">— Research participant, age 24</cite>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  03 · THE SCALE
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black pad">
+  <div class="t-label c-blue" style="margin-bottom:1.5rem;">She's not alone</div>
+  <h2 class="t-h2 c-white" style="margin-bottom:3rem;">This is happening to everyone.</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(255,255,255,0.1);">
+    <div style="padding:2rem 2rem 2rem 0;border-right:1px solid rgba(255,255,255,0.1);">
+      <div class="t-stat c-blue">68<span style="font-size:2.5rem;">%</span></div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:0.6rem;line-height:1.5;">of renters say apartment hunting is more stressful than starting a new job</div>
+    </div>
+    <div style="padding:2rem;border-right:1px solid rgba(255,255,255,0.1);">
+      <div class="t-stat c-pink">4.2</div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:0.6rem;line-height:1.5;">average apps used per search — none solving the full journey</div>
+    </div>
+    <div style="padding:2rem 0 2rem 2rem;">
+      <div class="t-stat c-yellow">31<span style="font-size:2.5rem;"> days</span></div>
+      <div style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-top:0.6rem;line-height:1.5;">average search — double what renters report as comfortable</div>
+    </div>
+  </div>
+  <p style="font-size:0.95rem;color:rgba(255,255,255,0.35);margin-top:2rem;border-top:1px solid rgba(255,255,255,0.07);padding-top:1.5rem;">Tools show listings. Nothing helps you <span class="c-white">decide.</span></p>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  04 · THE BROKEN EXPERIENCE
+════════════════════════════════════ -->
+<section>
+<div class="s bg-gray pad-sm">
+  <div class="t-label c-pink" style="margin-bottom:0.5rem;">What apartment hunting actually looks like</div>
+  <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;margin:0 0 1rem;letter-spacing:-0.02em;">Five stages. Every one of them broken.</h2>
+  <div class="journey">
+    <div class="j"><div class="j-stage">Trigger</div>Job offer. 3 weeks. New city. No connections.<div class="j-feel">"Excited but immediately scared."</div><div class="j-pain">✗ Starts Googling with no anchor</div></div>
+    <div class="j"><div class="j-stage">Browse</div>Opens Zillow, Apartments.com, Facebook, Craigslist.<div class="j-feel">"Too many. Can't compare."</div><div class="j-pain">✗ Saves 40. Forgets why</div></div>
+    <div class="j"><div class="j-stage">Research</div>Reddit deep-dives. Street View. Coffee shop counting.<div class="j-feel">"Hours in. I know nothing more."</div><div class="j-pain">✗ Eight tabs. No truth</div></div>
+    <div class="j"><div class="j-stage">Visit</div>Books 4 tours. Cancels 2. Rushed by landlord.<div class="j-feel">"Can't think while watched."</div><div class="j-pain">✗ No notes. Memories blur</div></div>
+    <div class="j"><div class="j-stage">Decide</div>Deadline forces a choice. Not the favourite.<div class="j-feel">"I hope I made the right call."</div><div class="j-pain">✗ Regret even for good choices</div></div>
+  </div>
+  <div class="emo"></div>
+  <div class="emo-labels"><span>Hopeful</span><span>Overwhelmed</span><span>Frustrated</span><span>Desperate</span><span>Relieved (uncertain)</span></div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  05 · WHO WE DESIGNED FOR
+════════════════════════════════════ -->
+<section>
+<div class="s" style="padding:0;background:var(--white);">
+  <div class="split-38">
+    <div class="col pad" style="background:var(--black);">
+      <div style="width:52px;height:52px;background:var(--pink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem;">🧑</div>
+      <div class="bebas c-white" style="font-size:2.2rem;line-height:1;margin-bottom:0.2rem;">MAYA CHEN</div>
+      <div class="t-label" style="color:rgba(255,255,255,0.4);margin-bottom:1.5rem;">24 · PM · Relocating</div>
+      <div style="width:100%;height:1px;background:rgba(255,255,255,0.1);margin-bottom:1.2rem;"></div>
+      <div class="t-label c-pink" style="margin-bottom:0.5rem;">Goals</div>
+      <ul style="list-style:none;padding:0;margin:0 0 1.2rem;font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.8;">
+        <li>→ Find a place that feels safe and like "her"</li>
+        <li>→ Understand the area before committing</li>
+        <li>→ Decide before overwhelm wins</li>
+      </ul>
+      <div class="t-label c-pink" style="margin-bottom:0.5rem;">Frustrations</div>
+      <ul style="list-style:none;padding:0;margin:0;font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.8;">
+        <li>→ Can't tell what photos are hiding</li>
+        <li>→ No one to ask who isn't selling something</li>
+        <li>→ Every app restarts her from zero</li>
+      </ul>
+    </div>
+    <div class="col pad">
+      <div class="t-label c-pink" style="margin-bottom:0.6rem;">The person at the centre of everything</div>
+      <div style="width:40px;height:4px;background:var(--pink);margin-bottom:1.5rem;"></div>
+      <p class="t-body" style="margin-bottom:1.5rem;">Maya wasn't invented. She's a composite of 24 research participants — young adults making a high-stakes decision in a system designed to move inventory, not help them <em style="color:var(--pink);">feel confident.</em></p>
+      <div style="display:grid;gap:0.8rem;width:100%;">
+        <div style="padding:1rem 1.2rem;border-left:4px solid var(--blue);">
+          <div class="t-h3" style="margin-bottom:0.2rem;">What she says she wants</div>
+          <p style="font-size:0.8rem;color:var(--muted);margin:0;">"Better search filters. More listings."</p>
+        </div>
+        <div style="padding:1rem 1.2rem;border-left:4px solid var(--pink);">
+          <div class="t-h3" style="margin-bottom:0.2rem;">What she actually needs</div>
+          <p style="font-size:0.8rem;color:var(--muted);margin:0;">Confidence. A signal that says <em style="font-style:italic;">this one is right for you.</em></p>
+        </div>
+        <div style="padding:1rem 1.2rem;border-left:4px solid var(--green);">
+          <div class="t-h3" style="margin-bottom:0.2rem;">The gap we had to close</div>
+          <p style="font-size:0.8rem;color:var(--muted);margin:0;">More information was making her <em style="font-style:italic;">more</em> anxious, not less.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  06 · WHAT WE HEARD
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black pad">
+  <div class="t-label" style="color:rgba(255,255,255,0.35);margin-bottom:1.5rem;">In their own words</div>
+  <div style="display:grid;gap:1.5rem;max-width:860px;">
+    <div class="q-block" style="border-color:var(--blue);">
+      <div class="t-quote c-white">"I visited a place I loved. Then I saw one Reddit comment about rats. I didn't take it. Six months later I still wonder if I made the right call."</div>
+      <cite class="c-muted">— Marcus, 26, software engineer</cite>
+    </div>
+    <div style="width:100%;height:1px;background:rgba(255,255,255,0.07);"></div>
+    <div class="q-block" style="border-color:var(--pink);">
+      <div class="t-quote c-white">"I wish someone who had <em style="color:var(--pink);">already done this</em> could walk me through it. Not a landlord. Not an algorithm. A person."</div>
+      <cite class="c-muted">— Leila, 23, designer</cite>
+    </div>
+    <div style="width:100%;height:1px;background:rgba(255,255,255,0.07);"></div>
+    <div class="q-block" style="border-color:var(--yellow);">
+      <div class="t-quote c-white">"I did 11 viewings in 2 days. I cried in my car between the 7th and 8th. My partner thought I was being dramatic."</div>
+      <cite class="c-muted">— James, 29, teacher</cite>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  07 · THREE PATTERNS
+════════════════════════════════════ -->
+<section>
+<div class="s bg-gray pad">
+  <div class="t-label c-pink" style="margin-bottom:0.6rem;">Three things that kept coming up</div>
+  <div style="width:40px;height:4px;background:var(--pink);margin-bottom:1.2rem;"></div>
+  <h2 class="t-h2" style="margin-bottom:2rem;">No matter who we talked to.</h2>
+  <div class="three-col">
+    <div class="ic"><h4>Trust is broken.</h4><p>Every platform has an incentive to mislead — photos, descriptions, reviews — all curated for the landlord, not the renter.</p></div>
+    <div class="ic ic-pink"><h4>It's a feeling, not a transaction.</h4><p>People need to know: <em style="font-style:italic;color:var(--pink);">who lives here? will I fit?</em> No app was answering that.</p></div>
+    <div class="ic ic-green"><h4>Time doesn't help. It hurts.</h4><p>Longer searches don't yield better decisions. Open-ended searching actively makes people choose worse options.</p></div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  08 · THE TURN
+  Show: split — image placeholder (aha moment)
+  + the insight as a statement, not an essay.
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black" style="padding:0;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;height:100%;">
+
+    <!-- Left: big quote -->
+    <div class="col pad" style="background:var(--black);border-right:4px solid var(--yellow);">
+      <div class="t-label c-yellow" style="margin-bottom:1.5rem;">The turn</div>
+      <div style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:1.9rem;color:white;line-height:1.3;letter-spacing:-0.01em;">
+        They're not looking for more listings.
+      </div>
+      <div style="width:50px;height:3px;background:var(--yellow);margin:1.5rem 0;"></div>
+      <div style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:1.9rem;color:var(--yellow);line-height:1.3;letter-spacing:-0.01em;">
+        They're looking for permission to stop searching.
+      </div>
+      <p style="font-size:0.88rem;color:rgba(255,255,255,0.4);margin-top:1.5rem;line-height:1.65;">The problem was never discoverability. It was the <span class="c-white">confidence to commit.</span></p>
+    </div>
+
+    <!-- Right: image placeholder -->
+    <div class="img-ph" style="height:100%;">
+      <div class="img-ph-inner">
+        <span class="img-ph-icon">📸</span>
+        <span class="img-ph-label">Emotional Impact</span>
+        <span class="img-ph-note">Researcher at a wall of sticky notes<br>The moment the pattern becomes clear</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  09 · A MOMENT OF HONESTY
+════════════════════════════════════ -->
+<section>
+<div class="s bg-gray pad">
+  <div class="t-label c-pink" style="margin-bottom:0.6rem;">A moment of honesty</div>
+  <div style="width:40px;height:4px;background:var(--pink);margin-bottom:1.2rem;"></div>
+  <h2 class="t-h2" style="margin-bottom:1.5rem;">We built the wrong thing first.</h2>
+  <div class="two-col" style="align-items:start;width:100%;">
+    <div style="background:white;border-top:4px solid var(--pink);padding:1.5rem;">
+      <div class="t-label c-pink" style="margin-bottom:0.6rem;">Version one</div>
+      <p style="font-size:0.9rem;color:#333;line-height:1.6;margin:0 0 0.8rem;">A smart filter system — 23 parameters, AI-ranked results, hyper-personalised. We were proud of it. Technically impressive. Users said:</p>
+      <p style="font-size:0.95rem;font-style:italic;color:var(--pink);border-left:3px solid var(--pink);padding-left:0.8rem;margin:0;">"This is just… more listings."</p>
+    </div>
+    <div>
+      <div class="t-label c-blue" style="margin-bottom:0.8rem;">What testing showed us</div>
+      <ul class="steps">
+        <li><div class="sn sn-pink">!</div><div>Users skipped all 23 filters and went straight to photos</div></li>
+        <li><div class="sn sn-pink">!</div><div>More parameters increased anxiety, not confidence</div></li>
+        <li><div class="sn sn-pink">!</div><div>The one thing they lingered on? A resident quote we'd added as throwaway filler text</div></li>
+      </ul>
+      <div style="margin-top:1.2rem;background:var(--blue);padding:1rem 1.2rem;width:100%;box-sizing:border-box;">
+        <p style="font-size:0.9rem;color:white;margin:0;line-height:1.6;">We killed six weeks of work and pivoted to <strong>human signals over algorithmic ranking.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  10 · THE PIVOT — SHOW THE TWO UIs
+  Two phone screens side by side.
+  No paragraph needed — the contrast speaks.
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black pad">
+  <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:center;height:100%;padding:3rem 5rem;">
+
+    <!-- Left phone: the wrong version -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+      <div class="t-label" style="color:rgba(255,255,255,0.3);">What we built</div>
+      <div class="phone phone-sm" style="width:190px;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="app-bar"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="app-nav">
+            <div style="font-size:9px;color:#888;">← Back</div>
+            <div class="app-nav-title" style="font-size:11px;">Filters</div>
+            <div style="font-size:9px;color:var(--blue);font-weight:700;">Done</div>
+          </div>
+          <div style="flex:1;background:#fff;overflow:hidden;">
+            <div class="filter-row">
+              <div class="filter-item">
+                <div class="filter-label">Price Range</div>
+                <div class="filter-slider"><div class="filter-thumb" style="left:55%;"></div></div>
+                <div class="filter-vals"><span>$500</span><span>$1,800</span><span>$3,500</span></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Square Footage</div>
+                <div class="filter-slider"><div class="filter-thumb" style="left:40%;"></div></div>
+                <div class="filter-vals"><span>300sqft</span><span>620sqft</span><span>1,400sqft</span></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Floor Level</div>
+                <div class="filter-segs"><div class="filter-seg">1</div><div class="filter-seg on">2</div><div class="filter-seg">3</div><div class="filter-seg">4</div><div class="filter-seg">5+</div></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Neighbourhood Vibe</div>
+                <div class="filter-tags-row"><div class="filter-tag on">Quiet</div><div class="filter-tag">Trendy</div><div class="filter-tag">Artsy</div><div class="filter-tag">Family</div></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Natural Light</div>
+                <div class="filter-segs"><div class="filter-seg on">Any</div><div class="filter-seg">Morning</div><div class="filter-seg">All day</div></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Commute Time</div>
+                <div class="filter-slider"><div class="filter-thumb" style="left:30%;"></div></div>
+                <div class="filter-vals"><span>5 min</span><span>20 min</span><span>60 min</span></div>
+              </div>
+              <div class="filter-item">
+                <div class="filter-label">Pet Policy</div>
+                <div class="filter-tags-row"><div class="filter-tag on">Dogs</div><div class="filter-tag on">Cats</div><div class="filter-tag">No pets</div></div>
+              </div>
+            </div>
+            <div class="filter-apply">Apply 23 Filters</div>
+            <div class="filter-count">1,847 results match</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.3);font-family:'Space Mono',monospace;text-align:center;max-width:180px;line-height:1.4;">Users skipped this entirely</div>
+    </div>
+
+    <!-- VS divider -->
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+      <div style="width:1px;height:100px;background:rgba(255,255,255,0.1);"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:rgba(255,255,255,0.2);">VS</div>
+      <div style="width:1px;height:100px;background:rgba(255,255,255,0.1);"></div>
+    </div>
+
+    <!-- Right phone: what actually worked -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.5rem;">
+      <div class="t-label c-blue">What they responded to</div>
+      <div class="phone phone-sm" style="width:190px;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="app-bar"><span>9:41</span><span>▪▪▪</span></div>
+          <div class="app-nav">
+            <div style="font-size:9px;color:#888;">← 14E Linden</div>
+            <div class="app-nav-title" style="font-size:10px;">Apt 2F</div>
+            <div style="font-size:9px;">♡</div>
+          </div>
+          <div style="flex:1;background:#F5F3F0;padding:10px;overflow:hidden;">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:#888;letter-spacing:0.1em;margin-bottom:6px;">FROM A CURRENT RESIDENT</div>
+            <!-- Big resident story card -->
+            <div style="background:white;border-radius:8px;padding:12px;border-left:3px solid var(--blue);">
+              <div style="font-size:28px;color:var(--blue);font-family:'DM Sans',sans-serif;line-height:1;margin-bottom:4px;">"</div>
+              <div style="font-size:9px;color:#1A1A1A;line-height:1.6;font-style:italic;">The landlord fixed my heating within 2 hours. First time that's ever happened to me anywhere I've lived.</div>
+              <div style="margin-top:6px;padding-top:6px;border-top:1px solid #F0EDE8;display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-size:6px;color:#888;font-family:'Space Mono',monospace;">Verified resident · 8 months</div>
+                <div style="background:#F0EDE8;font-size:6px;padding:1px 4px;border-radius:2px;color:#555;font-family:'Space Mono',monospace;">MAINTENANCE</div>
+              </div>
+            </div>
+            <div style="background:white;border-radius:8px;padding:10px;margin-top:6px;">
+              <div style="font-size:28px;color:var(--green);font-family:'DM Sans',sans-serif;line-height:1;margin-bottom:3px;">"</div>
+              <div style="font-size:9px;color:#1A1A1A;line-height:1.5;font-style:italic;">Sunday there's a farmers market two blocks away. It's the reason I renewed.</div>
+              <div style="margin-top:5px;font-size:6px;color:#888;font-family:'Space Mono',monospace;">Verified resident · 1.5 years</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);font-family:'Space Mono',monospace;text-align:center;max-width:180px;line-height:1.4;">They stopped scrolling and read every word</div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  SECTION BREAK · WHAT WE MADE
+════════════════════════════════════ -->
+<section>
+<div class="s bg-yellow" style="padding:0;overflow:hidden;">
+  <div style="position:absolute;bottom:-0.15em;right:-0.03em;font-family:'Bebas Neue',sans-serif;font-size:28rem;color:rgba(0,0,0,0.07);pointer-events:none;line-height:0.85;letter-spacing:-0.04em;">→</div>
+  <div class="pad" style="position:relative;z-index:1;">
+    <div class="t-label c-black" style="opacity:0.45;margin-bottom:1rem;">Three features. One purpose.</div>
+    <div class="t-display c-black">WHAT WE<br>MADE.</div>
+    <div style="width:60px;height:4px;background:var(--black);margin:1.5rem 0;opacity:0.3;"></div>
+    <p style="font-size:1.1rem;color:rgba(0,0,0,0.5);max-width:500px;line-height:1.6;">Not more information. Not smarter filters. A completely different kind of confidence.</p>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  11 · RESIDENT STORIES
+════════════════════════════════════ -->
+<section>
+<div class="s" style="background:var(--white);padding:0;">
+  <div style="display:grid;grid-template-columns:55fr 45fr;height:100%;">
+    <div class="col pad">
+      <div class="t-label c-blue" style="margin-bottom:0.6rem;">01 of 03</div>
+      <div style="width:40px;height:4px;background:var(--blue);margin-bottom:1.2rem;"></div>
+      <h2 class="t-h1" style="margin-bottom:1rem;">Resident<br>Stories.</h2>
+      <p class="t-body" style="margin-bottom:1rem;color:#333;">Short, anonymous audio and text from verified current residents. Not reviews — real moments.</p>
+      <div class="q-block c-blue" style="margin-bottom:1.5rem;width:100%;">
+        <div class="t-quote" style="font-size:1rem;color:var(--ink);">"It felt like texting a friend who already lives there."</div>
+        <cite>— Pilot participant, week 2</cite>
+      </div>
+      <div style="margin-bottom:1.5rem;"><span class="tag" style="color:var(--blue);border-color:var(--blue);opacity:1;">verified residents</span><span class="tag" style="color:var(--blue);border-color:var(--blue);opacity:1;">audio + text</span><span class="tag" style="color:var(--blue);border-color:var(--blue);opacity:1;">anonymous</span></div>
+      <a class="btn btn-blue" href="https://figma.com/proto/finding-home-v2-2024" target="_blank">View prototype ↗</a>
+    </div>
+    <div class="col" style="background:var(--blue);align-items:center;justify-content:center;position:relative;">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+      <div class="phone" style="position:relative;z-index:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="app-bar"><span>9:41</span><span>▪▪▪ ⬤</span></div>
+          <div class="app-nav"><div style="font-size:9px;color:#888;">← 14E Linden Ave</div><div class="app-nav-title" style="font-size:11px;">Apt 2F</div><div>♡</div></div>
+          <div style="background:linear-gradient(135deg,#9B8B7A,#6A5A4A);height:70px;display:flex;align-items:flex-end;padding:5px 8px;flex-shrink:0;"><div style="background:#fff;font-size:7px;font-weight:800;font-family:'Space Grotesk',sans-serif;padding:2px 6px;border-radius:1px;">$1,750/mo · 1 bed · 620 sqft</div></div>
+          <div class="s-tabs"><div class="s-tab">Details</div><div class="s-tab on">Stories ✦</div><div class="s-tab">Photos</div></div>
+          <div style="background:#F5F3F0;flex:1;overflow:hidden;padding:8px;">
+            <div style="font-family:'Space Mono',monospace;font-size:6px;color:#888;letter-spacing:0.1em;margin-bottom:5px;">3 RESIDENTS SHARED</div>
+            <div class="s-card"><div class="s-meta">SAFETY · 2 DAYS AGO</div><div class="s-body">"Package theft has never been an issue. 40+ deliveries, never lost one."</div><div class="s-badge">Verified · 8 months</div></div>
+            <div class="s-card"><div class="s-meta">COMMUNITY · 1 WEEK AGO</div><div class="s-body">"First building where people learn your name and say hi."</div><div class="s-badge">Verified · 1.5 years</div></div>
+            <div style="background:#fff;border-radius:5px;border:1px solid #EEE;padding:7px;text-align:center;"><div style="font-size:7px;color:#888;">🎙 "The Sunday market..." · <span style="color:var(--blue);font-weight:700;">▶ 0:42</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  12 · TOUR CAPTURE
+════════════════════════════════════ -->
+<section>
+<div class="s" style="background:var(--white);padding:0;">
+  <div style="display:grid;grid-template-columns:45fr 55fr;height:100%;">
+    <div class="col" style="background:var(--pink);align-items:center;justify-content:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.08);"></div>
+      <div class="phone" style="position:relative;z-index:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner">
+          <div class="app-bar"><span>11:23</span><span>▪▪▪ ⬤</span></div>
+          <div class="tour-bar"><div class="tour-rec">● TOUR CAPTURE</div><div class="tour-time">4:17</div></div>
+          <div style="background:#F5F3F0;padding:5px 10px;font-size:7px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#080808;flex-shrink:0;">14E Linden Ave, Apt 2F</div>
+          <div style="flex:1;background:#F5F3F0;overflow:hidden;padding:8px;">
+            <div class="tour-note"><div class="tour-note-lbl">Quick note</div><div class="tour-note-txt">Great morning light · Closet smaller than photos · Street noise? Checking...</div></div>
+            <div style="font-size:6px;font-family:'Space Mono',monospace;color:#888;letter-spacing:0.1em;margin-bottom:4px;">HOW ARE YOU FEELING?</div>
+            <div class="emoji-row"><div class="emoji-btn">😐</div><div class="emoji-btn sel">😊</div><div class="emoji-btn">😍</div></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:5px;">
+              <div style="background:var(--pink);border-radius:3px;padding:5px;text-align:center;font-size:7px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:white;">🎙 Voice</div>
+              <div style="background:white;border-radius:3px;border:1px solid #DDD;padding:5px;text-align:center;font-size:7px;font-family:'Space Grotesk',sans-serif;font-weight:700;color:#080808;">📸 Photo</div>
+            </div>
+            <div style="background:#E8F5F0;border-radius:3px;padding:4px 6px;font-size:7px;color:var(--green);">✓ Auto-saved to comparison board</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col pad">
+      <div class="t-label c-pink" style="margin-bottom:0.6rem;">02 of 03</div>
+      <div style="width:40px;height:4px;background:var(--pink);margin-bottom:1.2rem;"></div>
+      <h2 class="t-h1" style="margin-bottom:1rem;">Tour<br>Capture.</h2>
+      <p class="t-body" style="margin-bottom:1rem;color:#333;">Guided in-tour mode — voice notes, photos, emoji gut-ratings, all in real time. Syncs to a comparison board after.</p>
+      <p class="t-body" style="margin-bottom:1.5rem;color:#333;">By the 4th apartment, the day blurs. The one you <em style="color:var(--pink);">remember most</em> isn't always the one you <em style="color:var(--pink);">felt best</em> in.</p>
+      <div style="padding:1rem 1.2rem;background:var(--gray);border-left:4px solid var(--pink);margin-bottom:1.5rem;width:100%;box-sizing:border-box;">
+        <p style="font-size:0.9rem;margin:0;line-height:1.6;">Users who used Tour Capture rated their final decision confidence <strong>+2.4 points</strong> vs. those who didn't (scale of 10).</p>
+      </div>
+      <a class="btn btn-outline-black" href="https://figma.com/proto/finding-home-v2-2024" target="_blank">View prototype ↗</a>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  13 · READINESS SIGNAL
+════════════════════════════════════ -->
+<section>
+<div class="s" style="background:var(--white);padding:0;">
+  <div style="display:grid;grid-template-columns:55fr 45fr;height:100%;">
+    <div class="col pad">
+      <div class="t-label c-green" style="margin-bottom:0.6rem;">03 of 03</div>
+      <div style="width:40px;height:4px;background:var(--green);margin-bottom:1.2rem;"></div>
+      <h2 class="t-h1" style="margin-bottom:1rem;">The Readiness<br>Signal.</h2>
+      <p class="t-body" style="margin-bottom:1rem;color:#333;">As users progress, the app surfaces a moment: <em style="color:var(--green);">"Based on what you've seen, you have enough to decide."</em></p>
+      <p class="t-body" style="margin-bottom:1.5rem;color:#333;">Not a countdown. Not a push. Permission to stop.</p>
+      <div class="q-block c-green" style="margin-bottom:1.5rem;width:100%;">
+        <div class="t-quote" style="font-size:0.95rem;color:var(--ink);">"I didn't know I was waiting for someone to tell me I'd done enough. That message made me cry a bit."</div>
+        <cite>— Pilot participant, post-move interview</cite>
+      </div>
+      <a class="btn btn-outline-black" href="https://figma.com/proto/finding-home-v2-2024" target="_blank">View prototype ↗</a>
+    </div>
+    <div class="col" style="background:#0A2E22;align-items:center;justify-content:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;bottom:-80px;left:-80px;width:250px;height:250px;border-radius:50%;background:var(--green);opacity:0.12;"></div>
+      <div class="phone" style="position:relative;z-index:1;">
+        <div class="phone-notch"></div>
+        <div class="phone-inner" style="position:relative;">
+          <div class="app-bar"><span>9:41</span><span>▪▪▪ ⬤</span></div>
+          <div class="app-nav"><div class="app-nav-title">My Comparison</div><div style="font-size:7px;color:#888;font-family:'Space Mono',monospace;">3 PLACES</div></div>
+          <div style="flex:1;background:#F5F3F0;overflow:hidden;padding:8px;position:relative;">
+            <div class="cmp-row"><div class="cmp-img" style="background:linear-gradient(135deg,#9B8B7A,#6A5A4A);"></div><div><div class="cmp-name">14E Linden Ave 2F</div><div class="cmp-addr">$1,750 · Toured Mon</div><div class="cmp-dots"><div class="d d-b"></div><div class="d d-g"></div><div class="d d-g"></div><div class="d d-g"></div><div class="d d-e"></div><div style="font-size:6px;color:#888;margin-left:2px;font-family:'Space Mono',monospace;">4.2/5</div></div></div></div>
+            <div class="cmp-row"><div class="cmp-img" style="background:linear-gradient(135deg,#A09080,#706050);"></div><div><div class="cmp-name">220 Myrtle St 4B</div><div class="cmp-addr">$1,820 · Toured Tue</div><div class="cmp-dots"><div class="d d-b"></div><div class="d d-b"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div style="font-size:6px;color:#888;margin-left:2px;font-family:'Space Mono',monospace;">2.5/5</div></div></div></div>
+            <div class="cmp-row"><div class="cmp-img" style="background:linear-gradient(135deg,#8A9888,#5A6858);"></div><div><div class="cmp-name">88 Clinton Hill Pl</div><div class="cmp-addr">$1,690 · Toured Wed</div><div class="cmp-dots"><div class="d d-p"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div class="d d-e"></div><div style="font-size:6px;color:#888;margin-left:2px;font-family:'Space Mono',monospace;">1.8/5</div></div></div></div>
+            <div class="ready-overlay">
+              <div class="ready-icon">✓</div>
+              <div class="ready-title">You're ready to decide.</div>
+              <div class="ready-body">You've toured 4 places. Your gut score for Linden Ave is clear. Most renters like you decided after 3–4 tours.</div>
+              <div class="ready-cta">Go with 14E Linden Ave →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  14 · WHAT CHANGED
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black pad">
+  <div class="t-label" style="color:rgba(255,255,255,0.3);margin-bottom:2rem;">Pilot · 8-week study · n=94 active renters</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid rgba(255,255,255,0.08);width:100%;">
+    <div class="im" style="border-color:var(--blue);border-right:1px solid rgba(255,255,255,0.08);"><div class="im-num c-blue">↓41%</div><div class="im-desc c-white">faster time to shortlist (8.4 → 4.9 days)</div></div>
+    <div class="im" style="border-color:var(--pink);"><div class="im-num c-pink">+2.8</div><div class="im-desc c-white">points increase in post-decision confidence (out of 10)</div></div>
+    <div class="im" style="border-color:var(--yellow);border-right:1px solid rgba(255,255,255,0.08);border-top:1px solid rgba(255,255,255,0.08);"><div class="im-num c-yellow">↓34%</div><div class="im-desc c-white">lower anxiety at the 2-week mark of search</div></div>
+    <div class="im" style="border-color:var(--green);border-top:1px solid rgba(255,255,255,0.08);"><div class="im-num c-green">89%</div><div class="im-desc c-white">would recommend · vs 31% for leading competitor</div></div>
+  </div>
+  <p style="font-size:0.9rem;color:rgba(255,255,255,0.3);margin-top:1.5rem;">Six months post-move: pilot users scored <span class="c-white">+1.4 points</span> on "are you happy where you live?"</p>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  15 · SIX MONTHS LATER
+  Show: image placeholder of resolution.
+  The contrast with slide 02 is the story.
+════════════════════════════════════ -->
+<section>
+<div class="s" style="padding:0;background:var(--black);">
+  <div style="display:grid;grid-template-columns:60fr 40fr;height:100%;">
+
+    <!-- Left: image placeholder — warm, sunny, joyful -->
+    <div class="img-ph" style="position:relative;">
+      <div style="position:absolute;top:0;right:0;width:4px;height:100%;background:var(--green);"></div>
+      <div class="img-ph-inner">
+        <span class="img-ph-icon">📸</span>
+        <span class="img-ph-label">Emotional Impact</span>
+        <span class="img-ph-note">Sunny morning · farmers market · warm light<br>Same person — completely different energy</span>
+      </div>
+      <!-- Intentional contrast with the dark 12:47 AM image on slide 02 -->
+      <div style="position:absolute;bottom:1.5rem;left:1.5rem;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.65rem;color:rgba(255,255,255,0.2);letter-spacing:0.1em;">CONTRAST WITH SLIDE 02 →</div>
+      </div>
+    </div>
+
+    <!-- Right: text -->
+    <div class="col pad" style="background:var(--black);">
+      <div class="t-label c-green" style="margin-bottom:1rem;">Six months later</div>
+      <h2 class="t-h2 c-white" style="margin-bottom:1.5rem;">We went back<br>to find Maya.</h2>
+      <p style="font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.65;margin-bottom:1.5rem;">She found a one-bedroom in Brooklyn. Moved in before her job started. That first night — she cried from relief, not overwhelm.</p>
+      <div class="q-block" style="border-color:var(--green);">
+        <div class="t-quote c-white" style="font-size:1rem;">"Someone left a story about the farmers market two blocks away. I went my first Sunday. I go every week now."</div>
+        <cite class="c-muted">— Maya, 6-month post-move</cite>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  16 · WHAT WE LEARNED
+════════════════════════════════════ -->
+<section>
+<div class="s bg-white pad">
+  <div class="t-label c-blue" style="margin-bottom:0.6rem;">What we'd carry into every project after this</div>
+  <div style="width:40px;height:4px;background:var(--blue);margin-bottom:1.5rem;"></div>
+  <div style="display:grid;gap:1rem;max-width:820px;width:100%;">
+    <div class="learn"><div class="learn-icon">🔍</div><div><h4>The real problem is almost never the stated problem.</h4><p>Users asked for "better search". They needed confidence. Stay curious about why, not just what.</p></div></div>
+    <div style="width:100%;height:1px;background:var(--gray2);"></div>
+    <div class="learn"><div class="learn-icon">💔</div><div><h4>Throwing away 6 weeks of work was the bravest design decision we made.</h4><p>The sunk cost pressure was real. Honouring what users told us built something worth making.</p></div></div>
+    <div style="width:100%;height:1px;background:var(--gray2);"></div>
+    <div class="learn"><div class="learn-icon">🧠</div><div><h4>Emotion is not soft data. It is primary data.</h4><p>Maya's 12:47 AM wasn't a detail. It was the brief. Treat emotion as signal, never noise.</p></div></div>
+    <div style="width:100%;height:1px;background:var(--gray2);"></div>
+    <div class="learn"><div class="learn-icon">📐</div><div><h4>Simple beats sophisticated every time.</h4><p>23-parameter AI filter vs. one human voice saying "I've lived here 8 months and I feel safe." The voice won.</p></div></div>
+  </div>
+</div>
+</section>
+
+
+<!-- ════════════════════════════════════
+  17 · CALL TO ACTION
+════════════════════════════════════ -->
+<section>
+<div class="s bg-black" style="padding:0;">
+  <div style="position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(to right,var(--blue),var(--pink),var(--yellow),var(--green));z-index:10;"></div>
+  <div class="split">
+    <div class="col pad" style="background:var(--blue);position:relative;overflow:hidden;">
+      <div style="position:absolute;bottom:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+      <div style="position:relative;z-index:1;">
+        <div class="t-label c-white" style="opacity:0.6;margin-bottom:1rem;">Try it yourself</div>
+        <div class="t-hero c-white" style="margin-bottom:1.5rem;">OPEN THE<br>PROTOTYPE.</div>
+        <p style="font-size:0.9rem;color:rgba(255,255,255,0.65);margin-bottom:2.5rem;line-height:1.65;max-width:360px;">Walk Maya's full journey — from that 12:47 AM search to the Readiness Signal.</p>
+        <div style="display:flex;flex-direction:column;gap:0.8rem;">
+          <a class="btn btn-yellow" href="https://figma.com/proto/finding-home-v2-2024" target="_blank" style="font-size:1rem;padding:1rem 2.2rem;">Open prototype ↗</a>
+          <a class="btn btn-outline-white" href="https://figma.com/proto/finding-home-v2-2024" target="_blank">Download case study PDF</a>
+        </div>
+      </div>
+    </div>
+    <div class="col pad" style="background:var(--black);gap:0;">
+      <div class="t-label" style="color:rgba(255,255,255,0.3);margin-bottom:2rem;">The results</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;flex:1;width:100%;">
+        <div style="padding:1.5rem 1.5rem 1.5rem 0;border-bottom:1px solid rgba(255,255,255,0.07);border-right:1px solid rgba(255,255,255,0.07);">
+          <div class="bebas c-blue" style="font-size:3.5rem;line-height:0.9;">↓41%</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.4rem;line-height:1.4;">faster time<br>to shortlist</div>
+        </div>
+        <div style="padding:1.5rem 0 1.5rem 1.5rem;border-bottom:1px solid rgba(255,255,255,0.07);">
+          <div class="bebas c-pink" style="font-size:3.5rem;line-height:0.9;">+2.8</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.4rem;line-height:1.4;">decision<br>confidence</div>
+        </div>
+        <div style="padding:1.5rem 1.5rem 1.5rem 0;border-right:1px solid rgba(255,255,255,0.07);">
+          <div class="bebas c-yellow" style="font-size:3.5rem;line-height:0.9;">89%</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.4rem;line-height:1.4;">would<br>recommend</div>
+        </div>
+        <div style="padding:1.5rem 0 1.5rem 1.5rem;">
+          <div class="bebas c-green" style="font-size:3.5rem;line-height:0.9;">+1.4</div>
+          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.4rem;line-height:1.4;">happiness<br>6 months on</div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:1.2rem;margin-top:0;">
+        <div class="t-label" style="color:rgba(255,255,255,0.2);">Questions &amp; discussion</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash:true, transition:'slide', transitionSpeed:'default',
+  backgroundTransition:'fade', controls:true, progress:true,
+  slideNumber:'c/t', width:1280, height:720, margin:0,
+  minScale:0.2, maxScale:2.0,
+});
+</script>
+</body>
+</html>
